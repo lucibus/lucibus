@@ -7,6 +7,7 @@ Initial structure based off of [`react-starter`](https://github.com/webpack/reac
 
 1. Install [Docker](https://get.docker.com/)
 2. Install [Docker Compose](https://docs.docker.com/compose/)
+
 #### For a mac install
 Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
 project to get proper watch events. Install everything by it's commands
@@ -43,3 +44,10 @@ The configuration is `webpack-production.config.js`.
 The server is at `lib/server.js`
 
 The production setting builds two configurations: one for the client (`build/public`) and one for the serverside prerendering (`build/prerender`).
+
+#### Git Hooks
+In order to commit, run:
+
+```
+npm install npm-sort -g
+```

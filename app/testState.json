@@ -1,0 +1,57 @@
+{
+    "patch": {
+        "1": {
+            "fixture_type": "generic/dimmer",
+            "tags": ["US", "platform", "practical", "_channel1"],
+            "address": 1
+        },
+        "2": {
+            "fixture_type": "magic crap",
+            "tags": ["US"],
+            "address": 2
+        }
+    },
+    "state": {
+        "level": 89,
+        "systems": [
+            {
+                "type": "filter",
+                "level": 100,
+                "specifiers": {
+                    "tags": ["practical"],
+                    "fixture_type": "generic/dimmer"
+                }
+            },
+            {
+                "type": "look",
+                "level": 50,
+                "id": 1
+            },
+            {
+                "type": "cue",
+                "level": 30,
+                "id": 2
+            }
+        ]
+    },
+    "looks": {
+        "1": {
+            "name": "Indoor",
+            "systems": [
+                {
+                    "type": "filter",
+                    "level": 100,
+                    "specifiers": {
+                        "address": 1
+                    }
+                }
+            ]
+        }
+    },
+    "cues": {
+        "1": {
+            "name": "Preshow",
+            "systems": []
+        }
+    }
+}

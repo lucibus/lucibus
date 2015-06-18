@@ -5,7 +5,7 @@ var loadersByExtension = require("./config/loadersByExtension");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = function(options) {
-	var entry = ["./config/mainApp"];
+	var entry = ["./app/mainApp"];
 	var loaders = {
 		"jsx": options.hotComponents ? ["react-hot", "babel-loader?stage=0"] : "babel-loader?stage=0",
 		"js": {
