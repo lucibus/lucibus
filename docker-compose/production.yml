@@ -1,9 +1,9 @@
-build:
+web:
   extends:
     file: common.yml
     service: web
   command: npm run build -- --watch
-web:
+server:
   image: httpd:2.4
   volumes:
     - ../dist/:/usr/local/apache2/htdocs/

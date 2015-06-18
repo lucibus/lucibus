@@ -24,6 +24,18 @@ for examples.
 1. Install [Docker](https://get.docker.com/)
 2. Install [Docker Compose](https://docs.docker.com/compose/)
 
+#### Rebuilding
+
+When you change a dependency in `package.json` you need to rebuild
+
+```
+docker-compose -f docker-compose/common.yml build web
+
+# sometimes you need to remove all the old docker containers after, if it doesn't
+# pick up the new changes
+docker rm -f $(docker ps -a -q)
+```
+
 #### For a mac install
 Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
 project to get proper watch events. Install everything by it's commands
