@@ -1,0 +1,11 @@
+build:
+  extends:
+    file: common.yml
+    service: web
+  command: npm run build -- --watch
+web:
+  image: httpd:2.4
+  volumes:
+    - ../dist/:/usr/local/apache2/htdocs/
+  ports:
+    - "8000:80"

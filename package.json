@@ -5,11 +5,8 @@
   "main": "app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --port 2992 --inline",
-    "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --port 2992 --inline",
-    "build": "webpack --config webpack-production.config.js --progress --profile --colors",
-    "start-dev": "node lib/server-development",
-    "start": "node lib/server-production"
+    "dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --colors --progress --hot",
+    "build": "webpack --config webpack-production.config.js --progress --profile --colors"
   },
   "keywords": [
     "webpack",
@@ -18,38 +15,31 @@
     "boilerplate",
     "hot"
   ],
-  "author": "Tobias Koppers @sokra",
   "license": "MIT",
   "dependencies": {
-    "async": "^1.2.0",
-    "babel-core": "^5.0.12",
-    "babel-loader": "^5.0.0",
-    "body-parser": "^1.9.3",
-    "css-loader": "^0.14.0",
-    "express": "^4.7.2",
-    "extract-text-webpack-plugin": "^0.8.0",
-    "file-loader": "^0.8.1",
+    "async": "^1.2.1",
+    "babel-core": "^5.5.8",
+    "babel-loader": "^5.1.4",
+    "css-loader": "^0.14.5",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
+    "html-webpack-plugin": "^1.5.2",
     "items-store": "^0.7.0",
-    "less": "^2.1.2",
-    "less-loader": "^2.0.0",
     "markdown-loader": "^0.1.2",
-    "null-loader": "^0.1.0",
-    "react": "^0.13.1",
-    "react-hot-loader": "^1.0.0",
-    "react-proxy-loader": "^0.3.1",
-    "react-router": "^0.13.2",
-    "stats-webpack-plugin": "^0.1.2",
-    "style-loader": "^0.12.0",
-    "superagent": "^1.1.0",
-    "url-loader": "^0.5.5",
-    "uuid": "^2.0.1",
-    "webpack": "^1.8.5",
-    "webpack-dev-server": "^1.4.7"
+    "react": "^0.13.3",
+    "react-hot-loader": "^1.2.7",
+    "react-router": "^0.13.3",
+    "source-map-loader": "^0.1.5",
+    "style-loader": "^0.12.3",
+    "superagent": "^1.2.0",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.9.11",
+    "webpack-dev-server": "^1.9.0"
   },
   "devDependencies": {
-    "babel-eslint": "^3.0.1",
-    "eslint": "^0.22.0",
-    "eslint-plugin-react": "^2.2.0"
+    "babel-eslint": "^3.1.16",
+    "eslint": "^0.23.0",
+    "eslint-plugin-react": "^2.5.2"
   }
 }
