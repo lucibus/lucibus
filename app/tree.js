@@ -1,4 +1,4 @@
 import Baobab from "baobab";
-import testState from "./testState.json";
+import sample from "./sample.json";
 
-module.exports = new Baobab(testState);
+module.exports = new Baobab(sample);
