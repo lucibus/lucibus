@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import {branch} from "baobab-react/decorators";
 
+import styles from "./StateList.css";
+
+
 @branch({
   cursors: {
     state: ["state"],
@@ -9,12 +12,12 @@ import {branch} from "baobab-react/decorators";
 class StateList extends Component {
   render() {
     return (
-      <span>
+      <span className={styles.stateList}>
         We are currently at level {this.props.state.level}
       </span>
     );
+
   }
 }
 
-
-module.exports = StateList;
+export default StateList;

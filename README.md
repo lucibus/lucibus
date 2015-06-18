@@ -1,7 +1,23 @@
 # caido
 
+
 ## Development
+
+## Design
 Initial structure based off of [`react-starter`](https://github.com/webpack/react-starter/tree/48cecfcd3a528ceefdd3d68b4e0f05fffbedac8e)
+
+We are using [webpack](https://github.com/webpack/webpack) to bundle up everything
+and compile. So if you wanna add a stylesheet don't slap some `<link href="">...`
+crap in a HTML file somewhere. Instead just import it in your componenent
+which uses it, after installing with `npm`.
+
+```
+import "bootstrap/dist/css/bootstrap.css";
+```
+
+Also all custom styles should be completely local. Check out
+[this demo/instruction site](https://css-modules.github.io/webpack-demo/)
+for examples.
 
 ### Requirements
 

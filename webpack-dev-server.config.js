@@ -1,5 +1,5 @@
 module.exports = require("./make-webpack-config")({
-	devServer: true,
+  devServer: true,
     devtool: "eval-source-map",
-	debug: true
+  debug: true
 });
