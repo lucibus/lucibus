@@ -1,6 +1,14 @@
+machine:
+  services:
+    - docker
+  python:
+    version: 2.7.6
 dependencies:
+  pre:
+    - docker info
+    - docker --version
   override:
-    - sudo pip install docker-compose
+    - pip install docker-compose
     - docker-compose -f docker-compose/production.yml pull
     - docker-compose -f docker-compose/production.yml build web
 machine:
