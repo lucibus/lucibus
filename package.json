@@ -5,8 +5,8 @@
   "main": "app/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true webpack-dev-server --config webpack-dev-server.config.js --colors --progress --hot",
-    "build": "env WEBPACK_DEV_MINIMIZE=true webpack --config webpack-production.config.js --progress --profile --colors"
+    "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true webpack-dev-server --colors --progress --hot",
+    "build": "env WEBPACK_DEV_MINIMIZE=true webpack --progress --profile --colors"
   },
   "keywords": [
     "webpack",
