@@ -4,7 +4,7 @@
   "description": "",
   "main": "app/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "eslint --ext .jsx,.js .",
     "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true webpack-dev-server --colors --progress --hot",
     "build": "env WEBPACK_DEV_MINIMIZE=true webpack --progress --profile --colors"
   },

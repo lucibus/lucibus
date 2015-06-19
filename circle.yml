@@ -1,0 +1,12 @@
+dependencies:
+  override:
+    - pip install -U docker-compose
+    - docker-compose -f docker-compose/production.yml pull
+    - docker-compose -f docker-compose/production.yml build web
+machine:
+  services:
+    - docker
+test:
+  override:
+    - docker-compose -f docker-compose/production.yml run web npm run test
+    - docker-compose -f docker-compose/production.yml run web npm run build
