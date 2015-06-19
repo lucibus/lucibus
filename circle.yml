@@ -1,6 +1,6 @@
 dependencies:
   override:
-    - pip install -U docker-compose
+    - sudo pip install -U docker-compose
     - docker-compose -f docker-compose/production.yml pull
     - docker-compose -f docker-compose/production.yml build web
 machine:
