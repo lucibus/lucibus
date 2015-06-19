@@ -1,39 +1,18 @@
 # caido
 
-## Development
 
-### Install
+## Install
 
 1. Install [Docker](https://get.docker.com/)
 2. Install [Docker Compose](https://docs.docker.com/compose/)
 
-#### For a mac install
+### For a mac install
 Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
 project to get proper watch events. Install everything by it's commands
 
 Then run `docker-osx-dev` from the root directory of this project
 
-
-## Testing
-
-### Linting
-All `.js[x]` files should pass `eslint`. To run the linter run:
-
-```
-docker-compose -f docker-compose/common.yml run web npm run test
-```
-
-Then to make sure production stuff build correctly run:
-
-```
-docker-compose -f docker-compose/production.yml run web npm run build
-```
-
-Both of these are checked on CircleCI after every push: [![Circle CI](https://circleci.com/gh/lucibus/caido.svg?style=svg)](https://circleci.com/gh/lucibus/caido)
-
-
 ## Building
-
 
 ### Development server
 
@@ -66,7 +45,26 @@ docker-compose -f docker-compose/common.yml build web
 docker rm -f $(docker ps -a -q)
 ```
 
-### Design
+
+## Testing
+
+### Linting
+All `.js[x]` files should pass `eslint`. To run the linter run:
+
+```
+docker-compose -f docker-compose/common.yml run web npm run test
+```
+
+Then to make sure production stuff build correctly run:
+
+```
+docker-compose -f docker-compose/production.yml run web npm run build
+```
+
+Both of these are checked on CircleCI after every push: [![Circle CI](https://circleci.com/gh/lucibus/caido.svg?style=svg)](https://circleci.com/gh/lucibus/caido)
+
+
+## Design
 
 #### Structure
 
