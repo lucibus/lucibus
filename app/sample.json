@@ -11,7 +11,7 @@
       "address": 2
     }
   },
-  "state": {
+  "live": {
     "level": 89,
     "systems": [{
       "type": "filter",

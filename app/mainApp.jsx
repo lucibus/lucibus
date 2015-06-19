@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-theme.css";
 
 import Tree from "./tree";
-import StateList from "./components/StateList";
+import LiveList from "./components/LiveList";
 
 
 @root(Tree)
@@ -13,7 +13,7 @@ class Application extends React.Component {
   render() {
     return (
       <div className="container">
-        <StateList></StateList>
+        <LiveList></LiveList>
       </div>
     );
   }
