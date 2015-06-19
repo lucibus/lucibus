@@ -97,3 +97,13 @@ backend.
 
 We are using the decorator style for baobab-react. [Check out their documentation](https://github.com/Yomguithereal/baobab-react#decorators)
 for some nice examples.
+
+
+## Editors
+
+I currently use sublime text.
+
+If you also use it, I highly reccomend a few packages. The first is
+[babel-sublime](https://github.com/babel/babel-sublime) to get jsx syntax
+highlighting. The other is [sublimelinter-eslint](https://github.com/roadhump/SublimeLinter-eslint)
+for linting.
