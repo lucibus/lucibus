@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap-theme.css";
 
 import Tree from "./tree";
 import LiveList from "./components/LiveList";
+import LiveLevel from "./components/LiveLevel";
 
 
 @root(Tree)
@@ -14,6 +15,7 @@ class Application extends React.Component {
     return (
       <div className="container">
         <LiveList></LiveList>
+        <LiveLevel></LiveLevel>
       </div>
     );
   }
