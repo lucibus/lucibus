@@ -1,5 +1,19 @@
 # caido
 
+## Development
+
+## Requirements
+
+1. Install [Docker](https://get.docker.com/)
+2. Install [Docker Compose](https://docs.docker.com/compose/)
+
+### For a mac install
+Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
+project to get proper watch events. Install everything by it's commands
+
+Then run `docker-osx-dev` from the root directory of this project
+
+
 ## Testing
 
 ### Linting
@@ -17,30 +31,30 @@ docker-compose -f docker-compose/production.yml run web npm run build
 
 Both of these are checked on CircleCI after every push: [![Circle CI](https://circleci.com/gh/lucibus/caido.svg?style=svg)](https://circleci.com/gh/lucibus/caido)
 
-## Development
 
-## Design
-Initial structure based off of [`react-starter`](https://github.com/webpack/react-starter/tree/48cecfcd3a528ceefdd3d68b4e0f05fffbedac8e)
+## Building
 
-We are using [webpack](https://github.com/webpack/webpack) to bundle up everything
-and compile. So if you wanna add a stylesheet don't slap some `<link href="">...`
-crap in a HTML file somewhere. Instead just import it in your componenent
-which uses it, after installing with `npm`.
+
+### Development server
+
+This has hot reloading enabled.
 
 ```
-import "bootstrap/dist/css/bootstrap.css";
+docker-compose -f docker-compose/dev-server.yml up
+open http://dockerhost:8080/webpack-dev-server/
 ```
 
-Also all custom styles should be completely local. Check out
-[this demo/instruction site](https://css-modules.github.io/webpack-demo/)
-for examples.
+### Production Server
 
-### Requirements
+This builds the full client bundle and starts an nginx server to serve it.
 
-1. Install [Docker](https://get.docker.com/)
-2. Install [Docker Compose](https://docs.docker.com/compose/)
+```
+docker-compose -f docker-compose/production.yml up
+open http://dockerhost:8000
+```
 
-#### Rebuilding
+
+### Packages
 
 When you change a dependency in `package.json` you need to rebuild
 
@@ -52,39 +66,36 @@ docker-compose -f docker-compose/common.yml build web
 docker rm -f $(docker ps -a -q)
 ```
 
-#### For a mac install
-Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
-project to get proper watch events. Install everything by it's commands
+### Design
 
-Then run `docker-osx-dev` from the root directory of this project
+#### Structure
 
-### Development server
+Initial structure based off of [`react-starter`](https://github.com/webpack/react-starter/tree/48cecfcd3a528ceefdd3d68b4e0f05fffbedac8e)
+
+#### Compilation
+
+We are using [webpack](https://github.com/webpack/webpack) to bundle up everything
+and compile. So if you wanna add a stylesheet don't slap some `<link href="">...`
+crap in a HTML file somewhere. Instead just import it in your componenent
+which uses it, after installing with `npm`.
 
 ```
-docker-compose -f docker-compose/dev-server.yml up
-open http://dockerhost:8080/webpack-dev-server/
+import "bootstrap/dist/css/bootstrap.css";
 ```
 
-The configuration is `webpack-dev-server.config.js`.
+#### Styles
 
-It automatically recompiles when files are changed. When a hot-replacement-enabled file is changed (i. e. stylesheets or React components) the module is hot-replaced. If Hot Replacement is not possible the page is refreshed.
+Also all custom styles should be completely local. Check out
+[this demo/instruction site](https://css-modules.github.io/webpack-demo/)
+for examples.
 
-Hot Module Replacement has a performance impact on compilation.
+#### State
+We use [react](http://facebook.github.io/react/) for the view layer and
+[baobab](https://github.com/Yomguithereal/baobab) (using [baobab-react](https://github.com/Yomguithereal/baobab-react))
+for the state. We chose baobab over a classic Flux solution because it minimizes
+the amount of code we have to write for state changes and supports having one
+global state, which is helpful initially, so that we can sync it easily to the
+backend.
 
-Also check the [webpack-dev-server documentation](http://webpack.github.io/docs/webpack-dev-server.html).
-
-### Production compilation and server
-
-``` text
-# build the client bundle and the prerendering bundle
-# and then start an nginx server to serve it
-docker-compose -f docker-compose/production.yml up
-
-open http://dockerhost:8000
-```
-
-The configuration is `webpack-production.config.js`.
-
-The server is at `lib/server.js`
-
-The production setting builds two configurations: one for the client (`build/public`) and one for the serverside prerendering (`build/prerender`).
+We are using the decorator style for baobab-react. [Check out their documentation](https://github.com/Yomguithereal/baobab-react#decorators)
+for some nice examples.
