@@ -88,10 +88,3 @@ The configuration is `webpack-production.config.js`.
 The server is at `lib/server.js`
 
 The production setting builds two configurations: one for the client (`build/public`) and one for the serverside prerendering (`build/prerender`).
-
-#### Git Hooks
-In order to commit, run:
-
-```
-npm install npm-sort -g
-```
