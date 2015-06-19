@@ -1,5 +1,21 @@
 # caido
 
+## Testing
+
+### Linting
+All `.js[x]` files should pass `eslint`. To run the linter run:
+
+```
+docker-compose -f docker-compose/common.yml run web npm run test
+```
+
+Then to make sure production stuff build correctly run:
+
+```
+docker-compose -f docker-compose/production.yml run web npm run build
+```
+
+Both of these are checked on CircleCI after every push: [![Circle CI](https://circleci.com/gh/lucibus/caido.svg?style=svg)](https://circleci.com/gh/lucibus/caido)
 
 ## Development
 
