@@ -24,11 +24,11 @@
       "type": "look",
       "level": 50,
       "id": 1
-    }, {
-      "type": "cue",
+    }],
+    "cue": {
       "level": 30,
       "id": 2
-    }]
+    }
   },
   "looks": {
     "1": {
