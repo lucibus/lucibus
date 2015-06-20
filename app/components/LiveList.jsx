@@ -13,7 +13,7 @@ import SystemItem from "./SystemItem"
 class LiveList extends Component {
   render() {
     return (
-      <div className={styles.level}>
+      <div>
         <p className={styles.level}>
           We are currently at level {this.props.live.level}
         </p>
