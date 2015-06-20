@@ -1,16 +1,16 @@
 {
-  "patch": {
-    "1": {
+  "patch": [
+    {
       "fixture_type": "generic/dimmer",
       "tags": ["US", "platform", "practical", "_channel1"],
       "address": 1
     },
-    "2": {
+    {
       "fixture_type": "magic crap",
       "tags": ["US"],
       "address": 2
     }
-  },
+  ],
   "live": {
     "level": 89,
     "systems": [{
@@ -26,7 +26,7 @@
       "id": 1
     }],
     "cue": {
-      "level": 30,
+      "level": 100,
       "id": 1
     }
   },
@@ -45,7 +45,13 @@
   "cues": {
     "1": {
       "name": "Preshow",
-      "systems": []
+      "systems": [],
+      "prewait":2,
+      "upfade": 2,
+    },
+    "1": {
+      "name": "Preshow",
+      "systems": [crap]
     }
   }
 }
