@@ -1,12 +1,12 @@
 {
   "patch": [
     {
-      "fixture_type": "generic/dimmer",
+      "fixtureType": "generic/dimmer",
       "tags": ["US", "platform", "practical", "_channel1"],
       "address": 1
     },
     {
-      "fixture_type": "magic crap",
+      "fixtureType": "magic crap",
       "tags": ["US"],
       "address": 2
     }
@@ -18,7 +18,7 @@
       "level": 100,
       "specifiers": {
         "tags": ["practical"],
-        "fixture_type": "generic/dimmer"
+        "fixtureType": "generic/dimmer"
       }
     }, {
       "type": "look",
