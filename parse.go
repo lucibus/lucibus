@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/imdario/mergo"
-	"github.com/smartystreets/goconvey/convey"
 )
 
 // Output is a mapping for DMX output
@@ -136,7 +135,6 @@ func (cs *CombinedSystem) Output(s State) (o Output, e error) {
 	// (from http://stackoverflow.com/a/13191474/907060), so that the lowest
 	// presedence comes first
 	o = Output{}
-	convey.Printf("%+v", s)
 	for i := len(cs.Systems) - 1; i >= 0; i-- {
 		sq := cs.Systems[i]
 		var co Output
@@ -144,8 +142,6 @@ func (cs *CombinedSystem) Output(s State) (o Output, e error) {
 		case "filter":
 			co = s.Patch.Filter(sq.Specifiers)
 		case "look":
-			convey.Printf("%+v", s)
-
 			co, e = s.Looks.Find(sq.ID, s)
 		}
 		if e != nil {
