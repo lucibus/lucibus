@@ -8,8 +8,8 @@ First install the library
 go install github.com/lucibus/subicul
 ```
 
-# Running
+# Testing
 
 ```
-subicul
+goconvey
 ```
