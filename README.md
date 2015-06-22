@@ -1,5 +1,7 @@
 # Subicul
 
+[![Circle CI](https://circleci.com/gh/lucibus/subicul.svg?style=svg)](https://circleci.com/gh/lucibus/subicul)
+
 # Installing
 
 First install the library
