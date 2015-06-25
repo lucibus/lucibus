@@ -33,8 +33,11 @@ func (o Output) AddOnTop(higherPriority Output) error {
 	return mergo.MergeWithOverwrite(&o, higherPriority)
 }
 
+// Full is the highest level of dimmer we can output
 const Full byte = 255
 
+// Level describes what output a certain instrument, or groups of instruments
+// is set to
 type Level float32
 
 type PatchItem struct {
@@ -65,9 +68,46 @@ func (p Patch) Filter(pi PatchItem) (o Output) {
 
 }
 
+type CombinedSystem struct {
+	Level   Level
+	Systems []struct {
+		Type       string
+		Level      Level
+		ID         int `json:"id"`
+		Specifiers PatchItem
+	}
+}
+
+// Output gives you the total address outputs for this system, by merging all
+// the outputs of the subsystems at their correct levels
+func (cs *CombinedSystem) Output(s State) (o Output, e error) {
+	// the systems in the current state are ordered with the highest presedence
+	// first. so we want to iterate through them in reverse
+	// (from http://stackoverflow.com/a/13191474/907060), so that the lowest
+	// presedence comes first
+	o = Output{}
+	for i := len(cs.Systems) - 1; i >= 0; i-- {
+		sq := cs.Systems[i]
+		var co Output
+		switch sq.Type {
+		case "filter":
+			co = s.Patch.Filter(sq.Specifiers)
+		case "look":
+			co, e = s.Looks.Find(sq.ID, s)
+		}
+		if e != nil {
+			return
+		}
+		co.MultiplyBy(sq.Level)
+		if e = o.AddOnTop(co); e != nil {
+			return
+		}
+	}
+	return
+}
+
 // we point to a reference of the struct instead of the actual struct
 // so that we can deference it later (http://stackoverflow.com/a/13101613/907060)
-
 type Looks map[string]*struct {
 	CombinedSystem
 	Name string
@@ -115,44 +155,6 @@ func (l *Live) Output(s State) (o Output, e error) {
 
 	return
 
-}
-
-type CombinedSystem struct {
-	Level   Level
-	Systems []struct {
-		Type       string
-		Level      Level
-		ID         int `json:"id"`
-		Specifiers PatchItem
-	}
-}
-
-// Output gives you the total address outputs for this system, by merging all
-// the outputs of the subsystems at their correct levels
-func (cs *CombinedSystem) Output(s State) (o Output, e error) {
-	// the systems in the current state are ordered with the highest presedence
-	// first. so we want to iterate through them in reverse
-	// (from http://stackoverflow.com/a/13191474/907060), so that the lowest
-	// presedence comes first
-	o = Output{}
-	for i := len(cs.Systems) - 1; i >= 0; i-- {
-		sq := cs.Systems[i]
-		var co Output
-		switch sq.Type {
-		case "filter":
-			co = s.Patch.Filter(sq.Specifiers)
-		case "look":
-			co, e = s.Looks.Find(sq.ID, s)
-		}
-		if e != nil {
-			return
-		}
-		co.MultiplyBy(sq.Level)
-		if e = o.AddOnTop(co); e != nil {
-			return
-		}
-	}
-	return
 }
 
 type State struct {
