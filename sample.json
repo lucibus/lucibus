@@ -1,0 +1,104 @@
+{
+  "patch": [{
+    "fixtureType": "generic/dimmer",
+    "tags": ["US", "platform", "practical", "_channel1"],
+    "address": 4
+  }, {
+    "fixtureType": "magic",
+    "tags": ["US"],
+    "address": 2
+  }],
+  "live": {
+    "level": 0.89,
+    "systems": [{
+      "type": "filter",
+      "level": {
+        "intensity": 1
+      },
+      "specifiers": {
+        "tags": ["practical"],
+        "fixtureType": "generic/dimmer"
+      }
+    }, {
+      "type": "look",
+      "level": 0.5,
+      "id": 1
+    }],
+    "cue": {
+      "level": 1,
+      "id": 1
+    }
+  },
+  "looks": {
+    "1": {
+      "name": "Indoor",
+      "systems": [{
+        "type": "filter",
+        "level": {
+          "intensity": 1
+        },
+        "specifiers": {
+          "address": 1
+        }
+      }]
+    }
+  },
+  "cues": {
+    "1": {
+      "name": "Preshow",
+      "systems": [],
+      "prewait": 2,
+      "upfade": 2
+    },
+    "1": {
+      "name": "Show",
+      "systems": [{
+        "type": "filter",
+        "level": {
+          "intensity": 0.5,
+          "color": "green"
+        },
+        "specifiers": {
+          "fixtureType": "magic"
+        }
+      }]
+    }
+  },
+  "fixtureTypes": {
+    "generic/dimmer": [
+      "intensity"
+    ],
+    "magics": {
+      "intensity": {
+        "type": "continious"
+      },
+      "color": {
+        "type": "rd"
+      }
+    },
+    "pale scroller": {
+      "color": {
+        "type": "discrete",
+        "values": {
+          "blue": 0.1,
+          "orange": 0.2
+        }
+      }
+    },
+    "led": {
+      "red": {
+        "type": "continious"
+      },
+      "green": {
+        "type": "continious"
+      },
+      "blue": {
+        "type": "continious"
+      },
+      "amber": {
+        "type": "continious"
+      }
+    }
+  }
+}
+
