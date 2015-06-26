@@ -26,9 +26,7 @@ func shouldGet(conn *websocket.Conn, message []byte) {
 func TestServer(t *testing.T) {
 	Convey("when i start the server", t, func() {
 		port := 9001
-		s := CreateServer(port)
-
-		err := s.Serve()
+		cancelF, err := CreateServer(port)
 		So(err, ShouldBeNil)
 		url := fmt.Sprintf("ws://localhost:%v/", port)
 		d := websocket.Dialer{}
@@ -83,7 +81,7 @@ func TestServer(t *testing.T) {
 		})
 
 		Reset(func() {
-			So(s.Stop(), ShouldBeNil)
+			cancelF()
 			time.Sleep(time.Nanosecond)
 		})
 

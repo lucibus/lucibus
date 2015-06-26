@@ -2,67 +2,33 @@ package main
 
 import (
 	"log"
-	"net"
-	"net/http"
 
+	"golang.org/x/net/context"
+
+	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	"github.com/lucibus/subicul/contextutils"
+	"github.com/lucibus/subicul/websocketserver"
 )
 
-// Server holds information for the websockets connection as well as the JSON
-// state for the lights.
-type Server struct {
-	// State is a chunk of JSON as bytes, which is the current state of the
-	// lighting system. It is updated by connected clients and then
-	// parsed and rendered out continuiously
-	State    []byte
-	port     int
-	listener *net.TCPListener
-	// use map as a set https://groups.google.com/forum/#!msg/golang-nuts/lb4xLHq7wug/MhrSLkyS4F8J
-	// conns holds all the current websocket connections. This is used
-	// to send updates to clients when the state changes
-	conns map[*websocket.Conn]struct{}
-}
-
-// CreateServer initializes a server with a default State
-func CreateServer(port int) Server {
-	return Server{
-		State: []byte(`{}`),
-		port:  port,
-		conns: map[*websocket.Conn]struct{}{},
-	}
-}
-
-// ServeHTTP is called for every client that connects. It will upgrade the
-// connection to websockets. Then it will send the initial state and recieve
-// any updated states. It will also send updated states back to this client
-// if another client send an update to the server.
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	upgrader := websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool { return true },
-	}
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	// start tracking this connection. We are using a map data structure to store
-	// the list of clients. so it doesn't matter what the value is that we set
-	// the connection to, we only care about the key
-	s.conns[conn] = struct{}{}
-	defer func() {
-		// after there is some error in the connection, remove this client from
-		// the list of clients we maintain
-		delete(s.conns, conn)
-	}()
-
+func serveWebsockets(ctx context.Context, conn *websocket.Conn, conns websocketserver.Conns) {
+	s := contextutils.GetState(ctx)
 	// send current state when first connected
-	if err = conn.WriteMessage(websocket.TextMessage, s.State); err != nil {
+	if err := conn.WriteMessage(websocket.TextMessage, s); err != nil {
 		log.Println(err)
 		return
 	}
 
 	for {
+		// check if someone tried to cancel this server. If so, just return
+		// and stop processing
+		select {
+		case <-ctx.Done():
+			return
+		default:
+		}
+
+		// otherwise block on trying to read a message from the server
 		messageType, p, err := conn.ReadMessage()
 		if messageType != websocket.TextMessage {
 			log.Println("someone tried to send a binary websocket")
@@ -71,11 +37,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 			return
 		}
-		s.State = p
-		// now send the state out to everyone else
-		for otherConn := range s.conns {
+		contextutils.SetState(ctx, p)
+		// once you have read one, send that out to all other connections
+		for _, otherConn := range conns.List() {
 			if otherConn != conn {
-				if err = otherConn.WriteMessage(websocket.TextMessage, s.State); err != nil {
+				if err = otherConn.WriteMessage(websocket.TextMessage, p); err != nil {
 					log.Println(err)
 				}
 			}
@@ -84,24 +50,19 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) Serve() error {
-	l, err := net.ListenTCP("tcp", &net.TCPAddr{Port: s.port})
-	if err != nil {
-		return err
-	}
-	s.listener = l
-	go func() {
-		if err := http.Serve(l, s); err != nil {
-			log.Println("Error in serving:", err)
-		}
-	}()
-	return nil
-}
-
-func (s *Server) Stop() error {
-	if s.listener != nil {
-		return s.listener.Close()
-
-	}
-	return nil
+// CreateServer starts up a new server and populates the initial state.
+// To stop it, call the returned cancel function.
+func CreateServer(port int) (context.CancelFunc, error) {
+	state := []byte(`{}`)
+	ctx, cancelFunc := context.WithCancel(
+		contextutils.WithLogger(
+			contextutils.WithState(context.Background(), state),
+			logrus.New(),
+		),
+	)
+	return cancelFunc, websocketserver.CreateWebsocketServer(
+		ctx,
+		port,
+		serveWebsockets,
+	)
 }

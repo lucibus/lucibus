@@ -1,14 +1,18 @@
 package main
 
-import "runtime"
+import (
+	"fmt"
+	"runtime"
+)
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	server := CreateServer(9001)
-	server.Serve()
+	cf, err := CreateServer(9001)
+	fmt.Println(err)
 	_ = "breakpoint"
-	server.Stop()
-	server.Serve()
-	_ = "breakpoint"
-	_ = "hi"
+	cf()
+	cf, err = CreateServer(9001)
+	fmt.Println(err)
+	cf()
+	_ = "breakpoi"
 }

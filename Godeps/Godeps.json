@@ -1,7 +1,15 @@
 {
 	"ImportPath": "github.com/lucibus/subicul",
 	"GoVersion": "go1.4.2",
+	"Packages": [
+		"./..."
+	],
 	"Deps": [
+		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.8.2-10-g21d4508",
+			"Rev": "21d4508646ae56d79244bd9046c1df63a5fa8c37"
+		},
 		{
 			"ImportPath": "github.com/gorilla/websocket",
 			"Rev": "a3ec486e6a7a41858210b0fc5d7b5df593b3c4a3"
