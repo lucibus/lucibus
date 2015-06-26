@@ -1,0 +1,25 @@
+{
+  "patch": [{
+    "fixtureType": "mirror",
+    "tags": [],
+    "address": 1
+  }],
+  "live": {
+    "level": 1,
+    "systems": [{
+      "type": "filter",
+      "levels": {
+        "x": 0.5,
+        "y": 0.8
+      },
+      "specifiers": {
+        "fixtureType": "mirror"
+      }
+    }]
+  },
+  "fixtureTypes": {
+    "mirror": ["x", "y"]
+  }
+
+}
+

@@ -1,0 +1,23 @@
+{
+  "patch": [],
+  "live": {
+    "level": 1,
+    "systems": [{
+      "type": "look",
+      "id": 1,
+      "level": 1
+    }]
+  },
+  "looks": {
+    "1": {
+      "systems": [{
+        "type": "filter",
+        "level": 1,
+        "specifiers": {
+          "address": 1
+        }
+      }]
+    }
+  }
+}
+

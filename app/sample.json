@@ -1,13 +1,4 @@
 {
-  "patch": [{
-    "fixtureType": "generic/dimmer",
-    "tags": ["US", "platform", "practical", "_channel1"],
-    "address": 1
-  }, {
-    "fixtureType": "magic",
-    "tags": ["US"],
-    "address": 2
-  }],
   "live": {
     "level": 0.89,
     "systems": [{
@@ -17,7 +8,7 @@
       },
       "specifiers": {
         "tags": ["practical"],
-        "fixtureType": "generic/dimmer"
+        "fixtureType": 1
       }
     }, {
       "type": "look",
@@ -28,48 +19,6 @@
       "level": 1,
       "id": 1
     }
-  },
-  "looks": {
-    "1": {
-      "name": "Indoor",
-      "systems": [{
-        "type": "filter",
-        "level": 1,
-        "specifiers": {
-          "address": 1
-        }
-      }]
-    }
-  },
-  "cues": {
-    "1": {
-      "name": "Preshow",
-      "systems": [],
-      "prewait": 2,
-      "upfade": 2
-    },
-    "1": {
-      "name": "Show",
-      "systems": [{
-        "type": "filter",
-        "level": {
-          "intensity": 0.5,
-          "color": "10/180"
-        },
-        "specifiers": {
-          "fixtureType": "magic"
-        }
-      }]
-    }
-  },
-  "fixtureTypes": {
-    "generic/dimmer": [
-      "intensity"
-    ],
-    "magic": [
-      "intensity",
-      "color"
-    ]
   }
 }
 

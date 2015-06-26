@@ -22,7 +22,7 @@ class LiveLevel extends Component {
   render() {
     return (
       <p>
-        <input type="range" min="0" max="255" value={this.props.level} onChange={this.onChange.bind(this)} />
+        <input type="range" min="0" max="1" step="0.01" value={this.props.level} onChange={this.onChange.bind(this)} />
       </p>
     );
 
