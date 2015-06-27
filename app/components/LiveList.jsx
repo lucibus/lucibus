@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {branch} from "baobab-react/decorators";
 
 import styles from "./LiveList.css";
-import SystemItem from "./SystemItem"
+import SystemItem from "./SystemItem";
+import AddAddressOne from "./AddAddressOne";
 
 
 @branch({
@@ -22,6 +23,7 @@ class LiveList extends Component {
             return <li><SystemItem {...system}></SystemItem></li>;
           })}
         </ol>
+        <AddAddressOne></AddAddressOne>
       </div>
     );
 

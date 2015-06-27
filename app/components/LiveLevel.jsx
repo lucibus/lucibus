@@ -14,7 +14,7 @@ class LiveLevel extends Component {
   }
 
   onChange(e) {
-    var newValue = e.target.value;
+    var newValue = parseFloat(e.target.value);
     this.context.cursors.level.set(newValue);
     this.context.tree.commit();
   }

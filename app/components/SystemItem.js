@@ -8,7 +8,6 @@ class SystemItem extends Component {
         This is a {this.props.type} curretly at level {this.props.level}
       </p>
     );
-
   }
 }
 
