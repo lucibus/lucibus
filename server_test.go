@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"testing"
 	"time"
@@ -11,6 +12,23 @@ import (
 
 	. "github.com/smartystreets/goconvey/convey"
 )
+
+var stateOneDimmer = []byte(`
+	{
+		"live": {
+			"level": 1,
+			"systems": [{
+				"type": "filter",
+				"level": 1,
+				"specifiers": {
+					"address": 1
+				}
+			}]
+		}
+	}
+`)
+
+var stateNoDimmers = []byte(`{}`)
 
 func shouldSend(conn *websocket.Conn, message []byte) {
 	err := conn.WriteMessage(websocket.TextMessage, message)
@@ -45,23 +63,10 @@ func TestServer(t *testing.T) {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
 			Convey("it should return a default state", func() {
-				shouldGet(conn, []byte(`{}`))
+				shouldGet(conn, stateNoDimmers)
 
 				Convey("it should take an updated state", func() {
-					newState := []byte(`
-	                    {
-	                        "live": {
-	                            "level": 1,
-	                            "systems": [{
-	                                "type": "filter",
-	                                "level": 1,
-	                                "specifiers": {
-	                                    "address": 1
-	                                }
-	                            }]
-	                        }
-	                    }
-					`)
+					newState := stateOneDimmer
 					shouldSend(conn, newState)
 
 					Convey("and it should output the new state", func() {
@@ -114,11 +119,51 @@ func TestServer(t *testing.T) {
 
 		Reset(func() {
 			cancelF()
-			Println("killing server")
-
 			time.Sleep(time.Millisecond)
 		})
 
 	})
 
+}
+
+func BenchmarkServer(b *testing.B) {
+	port := 9001
+	od := testOutputDevice{}
+	cancelF, err := CreateServer(port, &od)
+	if err != nil {
+		log.Panicln("error in create server", err)
+	}
+	url := fmt.Sprintf("ws://localhost:%v/", port)
+	d := websocket.Dialer{}
+	conn, _, err := d.Dial(url, http.Header{})
+	if err != nil {
+		log.Panicln("error in dial", err)
+	}
+	conn.ReadMessage()
+
+	toggleSendOneDimmer := true
+	var message []byte
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		b.StopTimer()
+		prevLength := len(od.output)
+		if toggleSendOneDimmer {
+			message = stateOneDimmer
+		} else {
+			message = stateNoDimmers
+		}
+		toggleSendOneDimmer = !toggleSendOneDimmer
+		b.StartTimer()
+		conn.WriteMessage(websocket.TextMessage, message)
+		for {
+			time.Sleep(time.Nanosecond)
+			if len(od.output) != prevLength {
+				break
+			}
+		}
+	}
+	b.StopTimer()
+	conn.Close()
+	cancelF()
+	time.Sleep(time.Nanosecond)
 }
