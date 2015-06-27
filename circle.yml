@@ -11,3 +11,6 @@ test:
   override:
     - docker-compose -f docker-compose/production.yml run web npm run test
     - docker-compose -f docker-compose/production.yml run web npm run build
+general:
+  artifacts:
+    - "dist"
