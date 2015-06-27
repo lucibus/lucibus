@@ -5,7 +5,9 @@ machine:
 dependencies:
   override:
     - sudo pip install docker-compose
+    - docker-compose -f docker-compose/production.yml pull
+    - docker-compose -f docker-compose/production.yml build web
 test:
   override:
-    - docker-compose
-    - docker ps
+    - docker-compose -f docker-compose/production.yml run web npm run test
+    - docker-compose -f docker-compose/production.yml run web npm run build
