@@ -12,7 +12,7 @@
     "level": 0.89,
     "systems": [{
       "type": "filter",
-      "level": {
+      "levels": {
         "intensity": 1
       },
       "specifiers": {
