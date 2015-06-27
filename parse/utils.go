@@ -1,4 +1,4 @@
-package main
+package parse
 
 // from http://stackoverflow.com/a/18879994/907060
 // subset returns true if the first array is completely

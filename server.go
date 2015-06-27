@@ -7,7 +7,9 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	lige "github.com/lucibus/lige/output"
 	"github.com/lucibus/subicul/contextutils"
+	"github.com/lucibus/subicul/output"
 	"github.com/lucibus/subicul/websocketserver"
 )
 
@@ -52,17 +54,26 @@ func serveWebsockets(ctx context.Context, conn *websocket.Conn, conns websockets
 
 // CreateServer starts up a new server and populates the initial state.
 // To stop it, call the returned cancel function.
-func CreateServer(port int) (context.CancelFunc, error) {
+func CreateServer(port int, od lige.OutputDevice) (context.CancelFunc, error) {
 	state := []byte(`{}`)
 	ctx, cancelFunc := context.WithCancel(
-		contextutils.WithLogger(
-			contextutils.WithState(context.Background(), state),
-			logrus.New(),
+		contextutils.WithOutputDevice(
+			contextutils.WithLogger(
+				contextutils.WithState(context.Background(), state),
+				logrus.New(),
+			),
+			od,
 		),
 	)
-	return cancelFunc, websocketserver.CreateWebsocketServer(
+	websocketServerErr := websocketserver.CreateWebsocketServer(
 		ctx,
 		port,
 		serveWebsockets,
 	)
+	if websocketServerErr != nil {
+		return cancelFunc, websocketServerErr
+	}
+
+	go output.Output(ctx)
+	return cancelFunc, nil
 }

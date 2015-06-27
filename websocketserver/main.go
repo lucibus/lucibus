@@ -161,13 +161,18 @@ func (s websocketServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *websocketServer) cancel() {
+	s.logE.Info("Canceling server")
 	// close the listener
 	err := s.listener.Close()
 	if err != nil {
 		s.logE.WithField("err", err).Error("listener didn't close properly")
 	}
 	// cancel all connections
-	for _, cancelFunc := range s.conns.connToCancelFunc {
+	for conn, cancelFunc := range s.conns.connToCancelFunc {
+		err = conn.Close()
+		if err != nil {
+			s.logE.WithField("err", err).Error("connection didn't close properly")
+		}
 		cancelFunc()
 	}
 }

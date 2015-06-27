@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	lige "github.com/lucibus/lige/output"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -23,10 +24,20 @@ func shouldGet(conn *websocket.Conn, message []byte) {
 	So(p, ShouldResemble, message)
 }
 
+type testOutputDevice struct {
+	output lige.State
+}
+
+func (od *testOutputDevice) Set(s lige.State) error {
+	od.output = s
+	return nil
+}
+
 func TestServer(t *testing.T) {
 	Convey("when i start the server", t, func() {
 		port := 9001
-		cancelF, err := CreateServer(port)
+		od := testOutputDevice{}
+		cancelF, err := CreateServer(port, &od)
 		So(err, ShouldBeNil)
 		url := fmt.Sprintf("ws://localhost:%v/", port)
 		d := websocket.Dialer{}
@@ -37,8 +48,26 @@ func TestServer(t *testing.T) {
 				shouldGet(conn, []byte(`{}`))
 
 				Convey("it should take an updated state", func() {
-					newState := []byte(`{"test": "hi"}`)
+					newState := []byte(`
+	                    {
+	                        "live": {
+	                            "level": 1,
+	                            "systems": [{
+	                                "type": "filter",
+	                                "level": 1,
+	                                "specifiers": {
+	                                    "address": 1
+	                                }
+	                            }]
+	                        }
+	                    }
+					`)
 					shouldSend(conn, newState)
+
+					Convey("and it should output the new state", func() {
+						time.Sleep(time.Second / 2)
+						So(od.output, ShouldResemble, lige.State{1: 255})
+					})
 
 					Convey("and reconnect", func() {
 						conn.Close()
@@ -74,6 +103,9 @@ func TestServer(t *testing.T) {
 				})
 			})
 
+			Convey("output should be blank", func() {
+				So(od.output, ShouldResemble, lige.State{})
+			})
 			Reset(func() {
 				So(conn.Close(), ShouldBeNil)
 			})
@@ -82,7 +114,9 @@ func TestServer(t *testing.T) {
 
 		Reset(func() {
 			cancelF()
-			time.Sleep(time.Nanosecond)
+			Println("killing server")
+
+			time.Sleep(time.Millisecond)
 		})
 
 	})
