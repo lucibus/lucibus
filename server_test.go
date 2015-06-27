@@ -28,7 +28,7 @@ var stateOneDimmer = []byte(`
 	}
 `)
 
-var stateNoDimmers = []byte(`{}`)
+var stateNoDimmers = InitialState
 
 func shouldSend(conn *websocket.Conn, message []byte) {
 	err := conn.WriteMessage(websocket.TextMessage, message)

@@ -13,6 +13,20 @@ import (
 	"github.com/lucibus/subicul/websocketserver"
 )
 
+// InitialState is the json the server sends to the client when it first
+// starts up
+var InitialState = []byte(`
+{
+	"patch": [],
+	"live": {
+		"level": 1,
+		"systems": [],
+		"cue": {}
+	},
+	"looks": {},
+	"cues": {}
+}`)
+
 func serveWebsockets(ctx context.Context, conn *websocket.Conn, conns websocketserver.Conns) {
 	s := contextutils.GetState(ctx)
 	// send current state when first connected
@@ -55,21 +69,11 @@ func serveWebsockets(ctx context.Context, conn *websocket.Conn, conns websockets
 // CreateServer starts up a new server and populates the initial state.
 // To stop it, call the returned cancel function.
 func CreateServer(port int, od lige.OutputDevice) (context.CancelFunc, error) {
-	initialState := []byte(`
-		{
-		  "patch": [],
-		  "live": {
-		    "level": 1,
-		    "systems": [],
-		    "cue": {}
-		  },
-		  "looks": {},
-		  "cues": {}
-		}`)
+
 	ctx, cancelFunc := context.WithCancel(
 		contextutils.WithOutputDevice(
 			contextutils.WithLogger(
-				contextutils.WithState(context.Background(), initialState),
+				contextutils.WithState(context.Background(), InitialState),
 				logrus.New(),
 			),
 			od,
