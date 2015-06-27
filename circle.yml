@@ -4,7 +4,8 @@ machine:
 
 dependencies:
   override:
-    - pip install docker-compose
+    - sudo pip install docker-compose
 test:
   override:
-    - exit 0
+    - docker-compose
+    - docker ps
