@@ -5,6 +5,7 @@ machine:
 dependencies:
   override:
     - sudo pip install "docker-compose<1.3" "requests>=2.5.2,<2.6"
+  post:
     - docker-compose -f docker-compose/production.yml pull
     - docker-compose -f docker-compose/production.yml build web
 test:
