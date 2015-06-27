@@ -3,14 +3,8 @@
 
 ## Install
 
-1. Install [Docker](https://get.docker.com/)
-2. Install [Docker Compose](https://docs.docker.com/compose/)
-
-### For a mac install
-Use the [docker-osx-dev](https://github.com/brikis98/docker-osx-dev)
-project to get proper watch events. Install everything by it's commands
-
-Then run `docker-osx-dev` from the root directory of this project
+1. Install Node 0.12.x
+2. Install dependencies (`npm install`)
 
 ## Building
 
@@ -19,8 +13,8 @@ Then run `docker-osx-dev` from the root directory of this project
 This has hot reloading enabled.
 
 ```
-docker-compose -f docker-compose/dev-server.yml up
-open http://dockerhost:8080/webpack-dev-server/
+npm run dev-server
+open http://localhost:8080/webpack-dev-server/
 ```
 
 ### Production Server
@@ -28,23 +22,9 @@ open http://dockerhost:8080/webpack-dev-server/
 This builds the full client bundle and starts an nginx server to serve it.
 
 ```
-docker-compose -f docker-compose/production.yml up
-open http://dockerhost:8000
+npm run build -- --watch
+open ./dist/index.html
 ```
-
-
-### Packages
-
-When you change a dependency in `package.json` you need to rebuild
-
-```
-docker-compose -f docker-compose/common.yml build web
-
-# sometimes you need to remove all the old docker containers after, if it doesn't
-# pick up the new changes
-docker rm -f $(docker ps -a -q)
-```
-
 
 ## Testing
 
@@ -52,16 +32,16 @@ docker rm -f $(docker ps -a -q)
 All `.js[x]` files should pass `eslint`. To run the linter run:
 
 ```
-docker-compose -f docker-compose/common.yml run web npm run test
+npm run test
 ```
 
 Then to make sure production stuff build correctly run:
 
 ```
-docker-compose -f docker-compose/production.yml run web npm run build
+npm run build
 ```
 
-Both of these are checked on CircleCI after every push: [![Circle CI](https://circleci.com/gh/lucibus/caido.svg?style=svg)](https://circleci.com/gh/lucibus/caido)
+Both of these are checked on Travis CI after every push: [![Build Status](https://travis-ci.org/lucibus/caido.svg?branch=master)](https://travis-ci.org/lucibus/caido)
 
 
 ## Design

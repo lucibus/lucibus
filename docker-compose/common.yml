@@ -1,5 +1,0 @@
-web:
-  build: ..
-  working_dir: /caido
-  volumes:
-    - ..:/caido
