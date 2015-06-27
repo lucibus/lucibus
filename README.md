@@ -4,7 +4,7 @@
 ## Install
 
 1. Install Node 0.12.x
-2. Install dependencies (`npm install`)
+2. Install dependencies (`npm install --dev`)
 
 ## Building
 
