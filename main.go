@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"runtime"
-	"time"
 
 	lige "github.com/lucibus/lige/output"
 )
@@ -13,14 +12,9 @@ func main() {
 	od := lige.ENTTECUSBProOutputDevice{
 		COMPort: "/dev/tty.usbserial-EN158833",
 	}
+	// od := lige.DummyOutputDevice{}
 
-	cf, err := CreateServer(9001, &od)
+	_, err := CreateServer(9001, &od)
+	fmt.Println(err)
 	select {}
-	fmt.Println(err)
-	cf()
-	fmt.Println("done closing")
-	time.Sleep(time.Millisecond)
-	cf, err = CreateServer(9001, &od)
-	fmt.Println(err)
-	cf()
 }
