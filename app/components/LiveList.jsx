@@ -20,10 +20,10 @@ class LiveList extends Component {
         </p>
         <ol>
           {this.props.live.systems.map(function(system) {
-            return <li><SystemItem {...system}></SystemItem></li>;
+            return <li><SystemItem {...system} /></li>;
           })}
         </ol>
-        <AddAddressOne></AddAddressOne>
+        <AddAddressOne />
       </div>
     );
 

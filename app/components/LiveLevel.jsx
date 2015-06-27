@@ -4,7 +4,7 @@ import PropTypes from "baobab-react/prop-types";
 
 @branch({
   cursors: {
-    level: ["live", "level"],
+    level: ["live", "level"]
   }
 })
 class LiveLevel extends Component {

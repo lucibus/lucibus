@@ -4,7 +4,7 @@ import PropTypes from "baobab-react/prop-types";
 
 @branch({
   cursors: {
-    systems: ["live", "systems"],
+    systems: ["live", "systems"]
   }
 })
 class AddDimmer extends Component {
@@ -13,7 +13,7 @@ class AddDimmer extends Component {
     cursors: PropTypes.cursors
   }
 
-  handleClick(e) {
+  handleClick() {
     this.context.cursors.systems.push({
       "type": "filter",
       "level": 1,
