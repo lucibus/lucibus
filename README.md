@@ -1,6 +1,6 @@
 # Subicul
 
-[![Circle CI](https://circleci.com/gh/lucibus/subicul.svg?style=svg)](https://circleci.com/gh/lucibus/subicul)
+[![Build Status](https://travis-ci.org/lucibus/subicul.svg)](https://travis-ci.org/lucibus/subicul)
 
 # Installing
 
