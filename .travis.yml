@@ -9,7 +9,7 @@ script:
 before_deploy:
 - go get github.com/laher/goxc
 - goxc -t
-- goxc -pv=$TRAVIS_BRANCH -d=~/dist/
+- 'goxc -pv=$TRAVIS_BRANCH -bc="linux windows darwin,amd64" -d=./dist/ -o="{{.Dest}}{{.PS}}{{.ExeName}}_{{.Version}}_{{.Os}}_{{.Arch}}{{.Ext}}" xc'
 deploy:
   provider: releases
   api_key:
