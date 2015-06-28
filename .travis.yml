@@ -9,12 +9,12 @@ script:
 before_deploy:
 - go get github.com/laher/goxc
 - goxc -t
-- goxc -pv=$TRAVIS_BRANCH -d=/dist/
+- goxc -pv=$TRAVIS_BRANCH -d=~/dist/
 deploy:
   provider: releases
   api_key:
     secure: UdXkJy1HROgiZYQbFFqMipeFPI8Niqnk2Ek0IeHILvAhyGuzUAzvy08ogULJmnoaykNqXwvqplkQisDttz6pm9DRf1uV0RpIk6erX1ttSh/IXa8Q64B7+NobSDWciFeVRt0/ggaCKDHqJFPpnlKZ19sg0Bj/ubgC3NKZRyurkSpV5kXU/SRcL8wTTNhhnar53WZ534IpFJBWTReSki6wowgvg60tXLGf0ot4RUGW9dbzE775kR9oei1brI4DYmSgp2ggyNXsf8P7mfn9OrxZH6TfHpJHgbbm6YhYA5AaRKq6iJfnXk3TVOHq0qbdBIIzFaSChBEXOA+7UwKPyPL8SVLiozQ1FhxkTpFaUsajWajPqZltLRLjVcl6OQUxfCyo0v0fjJ34R/PFeV0yqWu0mx7J47hm+/tCngT6tXDrN+QBuWQ25wcuT5FciWfJcjfr7JKFX8YvWoAS0Bt0cUX8AEz7CS+9qoQV5IOCIcFE8cBrBxWS661fLHmSprV4+A5T1cawA0xpTTm4JXw0C8VWPCqHVfL4DdIaaS7uBtKgTmHZPiewrSwlhpk1TyQukOUcTxepkwrLhtSDJokeN7ualt/sTbexIEcgwrbemjNPqusSIcu1h+pO2aF7TQTOEsVh7dLyYhU/lGODnYRNRu83ry5kLmHqbHFr32stDN4GulE=
-  file: /dist/*/*
+  file: ~/dist/*/*
   file_glob: true
   skip_cleanup: true
   on:
