@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"encoding/json"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -11,7 +12,7 @@ func TestParse(t *testing.T) {
 	Convey("it should parse correctly when we have valid json with", t, func() {
 		Convey("no current systems", func() {
 			b := []byte(`{"live": {"systems": []}}`)
-			o, e := Parse(b)
+			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{})
 		})
@@ -32,7 +33,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255})
 			})
@@ -65,7 +66,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
 			})
@@ -101,7 +102,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
 			})
@@ -121,7 +122,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 51})
 			})
@@ -143,7 +144,7 @@ func TestParse(t *testing.T) {
                         }]
                     }
                 }`)
-			o, e := Parse(b)
+			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 51})
 		})
@@ -171,7 +172,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
 			})
@@ -197,7 +198,7 @@ func TestParse(t *testing.T) {
                             }]
                         }
                     }`)
-				o, e := Parse(b)
+				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255})
 			})
@@ -228,7 +229,7 @@ func TestParse(t *testing.T) {
                         }
                     }
                 }`)
-			o, e := Parse(b)
+			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 255})
 		})
@@ -257,62 +258,38 @@ func TestParse(t *testing.T) {
 						}
 					}
 				}`)
-			o, e := Parse(b)
+			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 255})
 		})
 
 	})
-	//
-	// 	Convey("it should give a descriptive error message when", t, func() {
-	//
-	// 		Convey("the live key isn't there", nil)
-	//
-	// 		Convey("the level key isn't there", nil)
-	//
-	// 		Convey("the system key isn't there", nil)
-	//
-	// 		Convey("there is a filter", func() {
-	//
-	// 			Convey("and the patch key isn't there", nil)
-	//
-	// 			Convey("the the filter points to an incorrect patch key", nil)
-	//
-	// 			Convey("the patch doesnt contain", func() {
-	//
-	// 				Convey("a fixture type", nil)
-	//
-	// 				Convey("tags", nil)
-	//
-	// 				Convey("an address", nil)
-	//
-	// 			})
-	//
-	// 			Convey("the filter doesn't contain", func() {
-	//
-	// 				Convey("a level", nil)
-	//
-	// 				Convey("specifiers", nil)
-	//
-	// 			})
-	//
-	// 			Convey("the specifier points to an invalid key", nil)
-	//
-	// 		})
-	//
-	// 		Convey("there is a look", func() {
-	//
-	// 			Convey("it doesnt contain a level", nil)
-	//
-	// 			Convey("it doesnt contain an id", nil)
-	//
-	// 			Convey("it points to an invalid id", nil)
-	//
-	// 			Convey("the looks key doesnt exist", nil)
-	//
-	// 			Convey("the looks key is not a mapping of numbers to dicts", nil)
-	//
-	// 		})
-	//
-	// 	})
+}
+
+var oneSystemStateBytes = []byte(`
+	{
+		"live": {
+			"level": 1,
+			"systems": [{
+				"type": "filter",
+				"level": 1,
+				"specifiers": {
+					"address": 1
+				}
+			}]
+		}
+	}`)
+
+func BenchmarkParse(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Parse(oneSystemStateBytes)
+	}
+}
+
+func BenchmarkUnmarshal(b *testing.B) {
+	var s State
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		json.Unmarshal(oneSystemStateBytes, &s)
+	}
 }

@@ -164,16 +164,24 @@ type State struct {
 	Cues  Cues
 }
 
-// Parse takes a state json and return a mapping of addresses to levels, from
-// that state
-func Parse(b []byte) (o Output, e error) {
-	var s State
-	if e = json.Unmarshal(b, &s); e != nil {
-		return
-	}
-	if o, e = s.Live.Output(s); e != nil {
+func (s *State) Output() (o Output, e error) {
+	if o, e = s.Live.Output(*s); e != nil {
 		return
 	}
 	o.MultiplyBy(s.Live.Level)
 	return
+}
+
+// Parse takes a state json and returns the state for it
+func Parse(b []byte) (*State, error) {
+	var s State
+	return &s, json.Unmarshal(b, &s)
+}
+
+func ParseAndOutput(b []byte) (Output, error) {
+	s, err := Parse(b)
+	if err != nil {
+		return nil, err
+	}
+	return s.Output()
 }

@@ -7,7 +7,6 @@ package websocketserver
 import (
 	"net"
 	"net/http"
-	"sync"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
@@ -16,57 +15,11 @@ import (
 	"golang.org/x/net/context"
 )
 
-func createConns() Conns {
-	return Conns{
-		connToCancelFunc: map[*websocket.Conn]context.CancelFunc{},
-		m:                &sync.Mutex{},
-	}
-}
+// onOpen is called when a websocket connection is opened
+type onOpen func(ctx context.Context, reply, broadcast func([]byte))
 
-// Conns is the set of current connections. It includes the current connection
-// as well
-type Conns struct {
-	connToCancelFunc map[*websocket.Conn]context.CancelFunc
-	m                *sync.Mutex
-}
-
-// Size returns the number of open connections
-func (c *Conns) Size() int {
-	c.m.Lock()
-	defer c.m.Unlock()
-	return len(c.connToCancelFunc)
-}
-
-// List returns a slice of all the connections
-func (c *Conns) List() []*websocket.Conn {
-	slice := []*websocket.Conn{}
-	c.m.Lock()
-	for conn := range c.connToCancelFunc {
-		slice = append(slice, conn)
-	}
-	c.m.Unlock()
-	return slice
-}
-
-// Has looks for the existance of the passed connection.
-func (c *Conns) Has(conn *websocket.Conn) bool {
-	c.m.Lock()
-	_, ok := c.connToCancelFunc[conn]
-	c.m.Unlock()
-	return ok
-}
-
-func (c *Conns) add(conn *websocket.Conn, cf context.CancelFunc) {
-	c.m.Lock()
-	c.connToCancelFunc[conn] = cf
-	c.m.Unlock()
-}
-
-func (c *Conns) remove(conn *websocket.Conn) {
-	c.m.Lock()
-	delete(c.connToCancelFunc, conn)
-	c.m.Unlock()
-}
+// onRecieve is called when the websocket connection recieves a text message
+type onRecieve func(ctx context.Context, message []byte, reply, broadcast func([]byte))
 
 // CreateWebsocketServer starts a TCP server that responds to websocket requests.
 // The `WebsocketServerWebsockets` function is
@@ -94,28 +47,33 @@ func (c *Conns) remove(conn *websocket.Conn) {
 // The `ctx` will be passed into each ServeWebsockets call.
 // To stop the server send something on the ctx.Done channel.
 // When it returns, the connection will be closed.
-func CreateWebsocketServer(ctx context.Context, port int, serveWebsockets func(context.Context, *websocket.Conn, Conns)) error {
+func CreateWebsocketServer(
+	ctx context.Context,
+	port int,
+	onOpen onOpen,
+	onRecieve onRecieve,
+) error {
 	l, err := net.ListenTCP("tcp", &net.TCPAddr{Port: port})
 	if err != nil {
 		return err
 	}
 	s := websocketServer{
-		serveWebsockets: serveWebsockets,
-		listener:        l,
-		conns:           createConns(),
-		ctx:             ctx,
-		logE:            contextutils.GetLogger(ctx).WithField("package", "websocketserver"),
+		onOpen:    onOpen,
+		onRecieve: onRecieve,
+		listener:  l,
+		ctx:       ctx,
+		log:       *contextutils.GetLogger(ctx, "websocketserver"),
+		hub:       makeHub(),
 	}
 
+	go s.hub.run(ctx)
 	// start up the server
 	go func() {
 		err := http.Serve(l, s)
 		if err != nil {
-			s.logE.WithField("err", err).Error("http.Serve errored")
+			s.log.WithField("err", err).Error("http.Serve errored")
 		}
 	}()
-	// then start a function in the background that wait for someone to stop
-	// this, which will then
 	go func() {
 		select {
 		case <-ctx.Done():
@@ -126,53 +84,38 @@ func CreateWebsocketServer(ctx context.Context, port int, serveWebsockets func(c
 }
 
 type websocketServer struct {
-	serveWebsockets func(context.Context, *websocket.Conn, Conns)
-	listener        *net.TCPListener
-	conns           Conns
-	ctx             context.Context
-	logE            *logrus.Entry
+	onOpen    onOpen
+	onRecieve onRecieve
+	listener  *net.TCPListener
+	ctx       context.Context
+	log       logrus.Entry
+	hub       *hub
 }
 
 // ServeHTTP is called for every client that connects. It will upgrade the
-// connection to websockets. Then it will send the initial state and recieve
-// any updated states. It will also send updated states back to this client
-// if another client send an update to the WebsocketServer.
+// connection to websockets.
 func (s websocketServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// checking for GET logic is from https://github.com/gorilla/websocket/blob/a3ec486e6a7a41858210b0fc5d7b5df593b3c4a3/examples/chat/conn.go#L93-L96
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", 405)
+		return
+	}
 	upgrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },
 	}
-	conn, err := upgrader.Upgrade(w, r, nil)
+	wsConn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		s.logE.WithField("err", err).Error("Cant upgrade connection")
+		s.log.WithField("err", err).Error("Cant upgrade connection")
 		return
 	}
-
-	// start tracking this connection. Save its cancel function with it,
-	// so we can access it if we have to propogate a cancel down the tree.
-	ctx, cancelFunc := context.WithCancel(s.ctx)
-	s.conns.add(conn, cancelFunc)
-	defer func() {
-		// after there is some error in the connection, remove this client from
-		// the list of clients we maintain
-		s.conns.remove(conn)
-	}()
-
-	s.serveWebsockets(ctx, conn, s.conns)
+	makeConnection(s.ctx, s.hub, wsConn, s.onOpen, s.onRecieve)
 }
 
 func (s *websocketServer) cancel() {
-	s.logE.Info("Canceling server")
+	var err error
 	// close the listener
-	err := s.listener.Close()
+	err = s.listener.Close()
 	if err != nil {
-		s.logE.WithField("err", err).Error("listener didn't close properly")
-	}
-	// cancel all connections
-	for conn, cancelFunc := range s.conns.connToCancelFunc {
-		err = conn.Close()
-		if err != nil {
-			s.logE.WithField("err", err).Error("connection didn't close properly")
-		}
-		cancelFunc()
+		s.log.WithField("err", err).Error("listener didn't close properly")
 	}
 }

@@ -1,9 +1,14 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
+	"runtime/pprof"
+	"sync"
 	"testing"
 	"time"
 
@@ -28,7 +33,7 @@ var stateOneDimmer = []byte(`
 	}
 `)
 
-var stateNoDimmers = InitialState
+var stateNoDimmers = InitialStateBytes
 
 func shouldSend(conn *websocket.Conn, message []byte) {
 	err := conn.WriteMessage(websocket.TextMessage, message)
@@ -42,13 +47,49 @@ func shouldGet(conn *websocket.Conn, message []byte) {
 	So(p, ShouldResemble, message)
 }
 
+func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
+	conn := actual.(*websocket.Conn)
+	err := conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+	if err != nil {
+		return "Websocket connection didn't close properly: " + err.Error()
+	}
+	return ""
+}
+
+func shouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
+	module := actual.(string)
+	var b bytes.Buffer
+	pprof.Lookup("goroutine").WriteTo(&b, 1)
+	scanner := bufio.NewScanner(&b)
+	for scanner.Scan() {
+		t := scanner.Text()
+		runningInModule := regexp.MustCompile(module).MatchString(t)
+		runningTest := regexp.MustCompile("_test").MatchString(t)
+		runningOtherFileInModule := runningInModule && !runningTest
+		if runningOtherFileInModule {
+			pprof.Lookup("goroutine").WriteTo(&b, 2)
+			return "Was running other goroutines: " + b.String()
+		}
+	}
+	return ""
+}
+
 type testOutputDevice struct {
 	output lige.State
+	sync.Mutex
 }
 
 func (od *testOutputDevice) Set(s lige.State) error {
+	od.Lock()
 	od.output = s
+	od.Unlock()
 	return nil
+}
+
+func (od *testOutputDevice) get() lige.State {
+	od.Lock()
+	defer od.Unlock()
+	return od.output
 }
 
 func TestServer(t *testing.T) {
@@ -71,11 +112,11 @@ func TestServer(t *testing.T) {
 
 					Convey("and it should output the new state", func() {
 						time.Sleep(time.Second / 2)
-						So(od.output, ShouldResemble, lige.State{1: 255})
+						So(od.get(), ShouldResemble, lige.State{1: 255})
 					})
 
 					Convey("and reconnect", func() {
-						conn.Close()
+						shouldCloseConnection(conn)
 						conn, _, err = d.Dial(url, http.Header{})
 						So(err, ShouldBeNil)
 
@@ -109,10 +150,10 @@ func TestServer(t *testing.T) {
 			})
 
 			Convey("output should be blank", func() {
-				So(od.output, ShouldResemble, lige.State{})
+				So(od.get(), ShouldResemble, lige.State{})
 			})
 			Reset(func() {
-				So(conn.Close(), ShouldBeNil)
+				shouldCloseConnection(conn)
 			})
 
 		})
@@ -120,6 +161,7 @@ func TestServer(t *testing.T) {
 		Reset(func() {
 			cancelF()
 			time.Sleep(time.Millisecond)
+			So("subicul", shouldNotBeRunningGoroutines)
 		})
 
 	})
@@ -127,6 +169,7 @@ func TestServer(t *testing.T) {
 }
 
 func BenchmarkServer(b *testing.B) {
+	//	runtime.GOMAXPROCS(runtime.NumCPU())
 	port := 9001
 	od := testOutputDevice{}
 	cancelF, err := CreateServer(port, &od)
@@ -163,7 +206,7 @@ func BenchmarkServer(b *testing.B) {
 		}
 	}
 	b.StopTimer()
-	conn.Close()
+	shouldCloseConnection(conn)
 	cancelF()
 	time.Sleep(time.Nanosecond)
 }

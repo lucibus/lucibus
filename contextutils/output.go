@@ -13,10 +13,11 @@ const outputKey = "outputDevice"
 func GetOutputDevice(ctx context.Context) lige.OutputDevice {
 	od, ok := ctx.Value(outputKey).(lige.OutputDevice)
 	if ok != true {
-		logrus.WithFields(logrus.Fields{
+		log := GetLogger(ctx, "contextutils.output")
+		log.WithFields(logrus.Fields{
 			"ctx": ctx,
 			"key": outputKey,
-		}).Error("context: cant get OutputDevice")
+		}).Error("cant get OutputDevice")
 		return nil
 	}
 	return od

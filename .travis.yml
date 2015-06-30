@@ -4,8 +4,13 @@ before_install:
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
   - go get golang.org/x/tools/cmd/cover
+  - go get github.com/modocache/gover
 script:
-    - goveralls -service=travis-ci
+  - go test -coverprofile=parse.coverprofile -race -v ./parse
+  - go test -coverprofile=main.coverprofile -race -v
+after_script:
+  - gover
+  - goveralls -coverprofile=gover.coverprofile -service=travis-ci
 before_deploy:
 - go get github.com/laher/goxc
 - goxc -t

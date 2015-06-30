@@ -1,12 +1,9 @@
 package main
 
 import (
-	"log"
-
 	"golang.org/x/net/context"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/gorilla/websocket"
 	lige "github.com/lucibus/lige/output"
 	"github.com/lucibus/subicul/contextutils"
 	"github.com/lucibus/subicul/output"
@@ -15,7 +12,7 @@ import (
 
 // InitialState is the json the server sends to the client when it first
 // starts up
-var InitialState = []byte(`
+var InitialStateBytes = []byte(`
 {
 	"patch": [],
 	"live": {
@@ -27,53 +24,37 @@ var InitialState = []byte(`
 	"cues": {}
 }`)
 
-func serveWebsockets(ctx context.Context, conn *websocket.Conn, conns websocketserver.Conns) {
-	s := contextutils.GetState(ctx)
-	// send current state when first connected
-	if err := conn.WriteMessage(websocket.TextMessage, s); err != nil {
-		log.Println(err)
+func onOpen(ctx context.Context, reply, broadcast func([]byte)) {
+	sb := contextutils.GetStateBytes(ctx)
+	reply(sb)
+}
+
+func onRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
+	err := contextutils.SetStateBytes(ctx, message)
+	if err != nil {
+		log := contextutils.GetLogger(ctx, "server.onRecieve")
+		log.WithFields(logrus.Fields{"err": err, "message": message}).Error("Recieved invalid state")
+
+		// since we got a bad state, we will just send our current state
+		// back to this client, so it doesn't try to send this bad state again
+		sb := contextutils.GetStateBytes(ctx)
+		reply(sb)
 		return
 	}
-
-	for {
-		// check if someone tried to cancel this server. If so, just return
-		// and stop processing
-		select {
-		case <-ctx.Done():
-			return
-		default:
-		}
-
-		// otherwise block on trying to read a message from the server
-		messageType, p, err := conn.ReadMessage()
-		if messageType != websocket.TextMessage {
-			log.Println("someone tried to send a binary websocket")
-		}
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		contextutils.SetState(ctx, p)
-		// once you have read one, send that out to all other connections
-		for _, otherConn := range conns.List() {
-			if otherConn != conn {
-				if err = otherConn.WriteMessage(websocket.TextMessage, p); err != nil {
-					log.Println(err)
-				}
-			}
-		}
-
-	}
+	broadcast(message)
 }
 
 // CreateServer starts up a new server and populates the initial state.
 // To stop it, call the returned cancel function.
 func CreateServer(port int, od lige.OutputDevice) (context.CancelFunc, error) {
-
+	ctxWithState, err := contextutils.WithState(context.Background(), InitialStateBytes)
+	if err != nil {
+		return nil, err
+	}
 	ctx, cancelFunc := context.WithCancel(
 		contextutils.WithOutputDevice(
 			contextutils.WithLogger(
-				contextutils.WithState(context.Background(), InitialState),
+				ctxWithState,
 				logrus.New(),
 			),
 			od,
@@ -82,7 +63,8 @@ func CreateServer(port int, od lige.OutputDevice) (context.CancelFunc, error) {
 	websocketServerErr := websocketserver.CreateWebsocketServer(
 		ctx,
 		port,
-		serveWebsockets,
+		onOpen,
+		onRecieve,
 	)
 	if websocketServerErr != nil {
 		return cancelFunc, websocketServerErr
