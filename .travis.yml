@@ -8,7 +8,7 @@ before_install:
 script:
   - go test -coverprofile=parse.coverprofile -race -v ./parse
   - go test -coverprofile=main.coverprofile -race -v
-after_script:
+after_success:
   - gover
   - goveralls -coverprofile=gover.coverprofile -service=travis-ci
 before_deploy:
