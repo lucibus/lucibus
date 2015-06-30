@@ -6,8 +6,8 @@ before_install:
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/modocache/gover
 script:
-  - go test -coverprofile=parse.coverprofile -race -v ./parse
-  - go test -coverprofile=main.coverprofile -race -v
+  - go test -coverprofile=parse.coverprofile -v ./parse
+  - go test -coverprofile=main.coverprofile -v
 after_success:
   - gover
   - goveralls -coverprofile=gover.coverprofile -service=travis-ci
