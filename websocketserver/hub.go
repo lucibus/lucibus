@@ -43,7 +43,6 @@ func makeHub() *hub {
 }
 
 func (h *hub) run(ctx context.Context) {
-	log := contextutils.GetLogger(ctx, "websocketserver.hub")
 	for {
 		select {
 		case <-ctx.Done():
@@ -51,6 +50,7 @@ func (h *hub) run(ctx context.Context) {
 				close(c.send)
 				err := c.ws.Close()
 				if err != nil {
+					log := contextutils.GetLogger(ctx, "websocketserver.hub")
 					log.WithField("err", err).Error("connection didn't close properly")
 				}
 			}

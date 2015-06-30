@@ -36,13 +36,20 @@ func getGlobal(ctx context.Context) *global {
 // GetState returns the current state from the context. If none is set,
 // an error will be logged and nil will be returned.
 func GetState(ctx context.Context) *parse.State {
-	return getGlobal(ctx).state
+	g := getGlobal(ctx)
+	g.Lock()
+	defer g.Unlock()
+	return g.state
 }
 
 // GetStateBytes returns the bytes that make up the JSON of the current state.
 // if none is set, an error will be logged and nil will be returned
 func GetStateBytes(ctx context.Context) []byte {
-	return getGlobal(ctx).stateBytes
+
+	g := getGlobal(ctx)
+	g.Lock()
+	defer g.Unlock()
+	return g.stateBytes
 }
 
 // WithState returns a new context with the updated state

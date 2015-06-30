@@ -22,31 +22,6 @@ type onOpen func(ctx context.Context, reply, broadcast func([]byte))
 type onRecieve func(ctx context.Context, message []byte, reply, broadcast func([]byte))
 
 // CreateWebsocketServer starts a TCP server that responds to websocket requests.
-// The `WebsocketServerWebsockets` function is
-// called whenever there is an incoming websockets connection.
-// A simpler server that just echoed back every incoming request would have a
-// `serveWebsockets` function like this this:
-//
-// func serveWebsockets(ctx context.Context, conn websocket.Conn, conns WebsocketServer.Conns) {
-// 	for {
-//		select {
-//		case <- ctx.Done():
-//			return
-//		default:
-//		}
-// 		messageType, p, err := conn.ReadMessage()
-// 		if err != nil {
-// 			return
-// 		}
-// 		if err = conn.WriteMessage(messageType, p); err != nil {
-// 			return
-// 		}
-// 	}
-// }
-//
-// The `ctx` will be passed into each ServeWebsockets call.
-// To stop the server send something on the ctx.Done channel.
-// When it returns, the connection will be closed.
 func CreateWebsocketServer(
 	ctx context.Context,
 	port int,
