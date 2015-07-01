@@ -65,10 +65,11 @@ func shouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
 		t := scanner.Text()
 		runningInModule := regexp.MustCompile(module).MatchString(t)
 		runningTest := regexp.MustCompile("_test").MatchString(t)
-		runningOtherFileInModule := runningInModule && !runningTest
+		runningExternal := regexp.MustCompile("Godeps").MatchString(t)
+		runningOtherFileInModule := runningInModule && !runningTest && !runningExternal
 		if runningOtherFileInModule {
 			pprof.Lookup("goroutine").WriteTo(&b, 2)
-			return "Was running other goroutines: " + b.String()
+			return "Was running other goroutines: " + t + b.String()
 		}
 	}
 	return ""
