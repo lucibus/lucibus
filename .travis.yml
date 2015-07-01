@@ -17,18 +17,15 @@ before_deploy:
 # - gox -osarch="darwin/amd64" -build-toolchain
 # - gox -osarch="darwin/amd64" -cgo -verbose -output="dist/subicul-{{.OS}}-{{.Arch}}"
 - gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -build-toolchain
-- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="~/dist/subicul-{{.OS}}-{{.Arch}}"
+- mkdir -p  dist
+- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="dist/subicul-{{.OS}}-{{.Arch}}"
+- ls dist/*
 deploy:
   provider: releases
   api_key:
     secure: KY67mDBMrY/FZJ9pGNqAR0tVA3O+ntkR6m8k1dv1MDkGLcoMwO8Tl3ZkZTvGb8GNPv4iUS8adNvqv5nIP719Z/9bdtnornveJF0Ygi7H6ojRpoiR48lOs7aWElVZrpA923v2JW82q8b2bL7b6g1ZT7FfWFfRg51rGXYLioU0TrySkaDqO78b3IwfAP5ODqWVRCzDzALQt6gSnAbf6s62aOAPZ0PmtfHz81nBXj2IKG+WS0YFa/oVyT1Np3bOSJgk8prVer2+8a8I9byGLaYjxxLfcNIAj2v1IVOZVn7VI3Gkq5/iZvoHpQ0dMavUw60Pm0xYopF9kscBMoqrafqyhYi7bON56FJi1hLJB4paBnrPqW8ZZt870qnoXccqwHn7NVLaFVxStjuk2VCdgf7d+hGkPw6jSbfiNxTbhAKsJoidO8VEI52LxJjGJdvKfZnpwi2SR3gBVVZX+wMQSuNogV9xG1yvc7B6UT0lz40pSCE2FgvrJoAW75TGkHuDXQBEN2deAMhkPcIj/TPssXClNmnNnp/3Cc7IBswMY6B1yp+l9t9kDYDCgBjj99MrEJXwDmNoCdHotdZTQQQoIkpa2xWif70EmgqHIInd+37Ux2sFjP+hXc60HWhWtcc4cpryE3wxppLVuLejcB/EIz1544/dbcWs7AjjOH3v0V+RXNM=
-  file:
-    - ~/dist/subicul-darwin-amd64
-    - ~/dist/subicul-linux-386
-    - ~/dist/subicul-linux-amd64
-    - ~/dist/subicul-linux-arm
-    - ~/dist/subicul-windows-386.exe
-    - ~/dist/subicul-windows-amd64.exe
+  file: dist/*
+  file_glob: true
   skip_cleanup: true
   on:
     tags: true
