@@ -1,0 +1,24 @@
+caido_build:
+  extends:
+    file: production.yml
+    service: caido_build
+serve:
+  extends:
+    file: production.yml
+    service: serve
+  ports:
+    - 80
+selenium-chrome:
+  image: selenium/standalone-chrome:2.46.0
+subicul:
+  image: lucibus/subicul:0.0.1
+  command: -port 80 -output-device debugger
+caido_test:
+  extends:
+    file: common.yml
+    service: caido
+  command: npm run test-docker -- --watch
+  links:
+    - selenium-chrome
+    - serve
+    - subicul
