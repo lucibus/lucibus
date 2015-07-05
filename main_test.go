@@ -22,10 +22,10 @@ func TestMainCLI(t *testing.T) {
 
 		app := makeCliApp(ctx)
 		go app.Run([]string{"<executable path>", "--port", strconv.Itoa(port)})
-		//time.Sleep(time.Millisecond)
+		time.Sleep(time.Millisecond)
+
 		url := fmt.Sprintf("ws://localhost:%v/", port)
 		d := websocket.Dialer{}
-
 		Convey("and connect", func() {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
