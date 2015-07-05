@@ -11,6 +11,11 @@
 			"Rev": "21d4508646ae56d79244bd9046c1df63a5fa8c37"
 		},
 		{
+			"ImportPath": "github.com/codegangsta/cli",
+			"Comment": "1.2.0-135-gf998261",
+			"Rev": "f9982619ccace7df963bb7f6d1de3a6f014ff709"
+		},
+		{
 			"ImportPath": "github.com/gorilla/websocket",
 			"Rev": "a3ec486e6a7a41858210b0fc5d7b5df593b3c4a3"
 		},

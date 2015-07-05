@@ -1,19 +1,18 @@
-package main
+package websocketserver
 
 import (
-	"bufio"
-	"bytes"
 	"fmt"
 	"log"
 	"net/http"
-	"regexp"
-	"runtime/pprof"
 	"sync"
 	"testing"
 	"time"
 
+	"golang.org/x/net/context"
+
 	"github.com/gorilla/websocket"
 	lige "github.com/lucibus/lige/output"
+	"github.com/lucibus/subicul/testutils"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -56,25 +55,6 @@ func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
 	return ""
 }
 
-func shouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
-	module := actual.(string)
-	var b bytes.Buffer
-	pprof.Lookup("goroutine").WriteTo(&b, 1)
-	scanner := bufio.NewScanner(&b)
-	for scanner.Scan() {
-		t := scanner.Text()
-		runningInModule := regexp.MustCompile(module).MatchString(t)
-		runningTest := regexp.MustCompile("_test").MatchString(t)
-		runningExternal := regexp.MustCompile("Godeps").MatchString(t)
-		runningOtherFileInModule := runningInModule && !runningTest && !runningExternal
-		if runningOtherFileInModule {
-			pprof.Lookup("goroutine").WriteTo(&b, 2)
-			return "Was running other goroutines: " + t + b.String()
-		}
-	}
-	return ""
-}
-
 type testOutputDevice struct {
 	output lige.State
 	sync.Mutex
@@ -97,7 +77,8 @@ func TestServer(t *testing.T) {
 	Convey("when i start the server", t, func() {
 		port := 9001
 		od := testOutputDevice{}
-		cancelF, err := CreateServer(port, &od)
+		ctx, cancelF := context.WithCancel(context.Background())
+		err := MakeStateServer(ctx, port, &od)
 		So(err, ShouldBeNil)
 		url := fmt.Sprintf("ws://localhost:%v/", port)
 		d := websocket.Dialer{}
@@ -162,7 +143,7 @@ func TestServer(t *testing.T) {
 		Reset(func() {
 			cancelF()
 			time.Sleep(time.Millisecond)
-			So("subicul", shouldNotBeRunningGoroutines)
+			So("subicul", testutils.ShouldNotBeRunningGoroutines)
 		})
 
 	})
@@ -173,7 +154,8 @@ func BenchmarkServer(b *testing.B) {
 	//	runtime.GOMAXPROCS(runtime.NumCPU())
 	port := 9001
 	od := testOutputDevice{}
-	cancelF, err := CreateServer(port, &od)
+	ctx, cancelF := context.WithCancel(context.Background())
+	err := MakeStateServer(ctx, port, &od)
 	if err != nil {
 		log.Panicln("error in create server", err)
 	}

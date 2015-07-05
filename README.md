@@ -3,6 +3,26 @@
 [![Build Status](https://travis-ci.org/lucibus/subicul.svg)](https://travis-ci.org/lucibus/subicul)
 [![Coverage Status](https://coveralls.io/repos/lucibus/subicul/badge.svg)](https://coveralls.io/r/lucibus/subicul)
 
+```shell
+$ subicul --help
+NAME:
+   subicul - lighting server
+
+USAGE:
+   subicul [global options] command [command options] [arguments...]
+
+VERSION:
+   0.0.0
+
+COMMANDS:
+   help, h	Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --port "8080"	TCP port to listen on [$SUBICUL_PORT]
+   --help, -h		show help
+   --version, -v	print the version
+```
+
 
 # Installing
 
@@ -15,13 +35,13 @@ go install github.com/lucibus/subicul
 # Testing
 
 ```
-goconvey
+env GOPATH=`godep path`:$GOPATH goconvey
 ```
 
 This won't test for race conditions. To do that run:
 
 ```
-go test -race -v ./...
+env GOPATH=`godep path`:$GOPATH go test -race -v ./...
 ```
 
 
