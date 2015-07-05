@@ -7,6 +7,7 @@ before_install:
 - go get golang.org/x/tools/cmd/cover
 - go get github.com/modocache/gover
 script:
+- go test -coverprofile=websocketserver.coverprofile -v ./websocketserver
 - go test -coverprofile=parse.coverprofile -v ./parse
 - go test -coverprofile=main.coverprofile -v
 after_success:
