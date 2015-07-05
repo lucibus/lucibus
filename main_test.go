@@ -34,7 +34,7 @@ func TestMainCLI(t *testing.T) {
 
 		Reset(func() {
 			cancelFunc()
-			time.Sleep(time.Millisecond)
+			time.Sleep(5 * time.Millisecond)
 			So("subicul", testutils.ShouldNotBeRunningGoroutines)
 		})
 
