@@ -1,82 +1,14 @@
 {
-  "patch": [{
-    "fixtureType": 1,
-    "tags": ["US", "platform", "practical", "_channel1"],
-    "address": 4
-  }, {
-    "fixtureType": 2,
-    "tags": ["US"],
-    "address": 2
-  }],
   "live": {
     "level": 0.89,
     "systems": [{
-      "type": "filter",
-      "levels": {
-        "intensity": 1
-      },
-      "specifiers": {
-        "tags": ["practical"],
-        "fixtureType": 1
-      }
-    }, {
-      "type": "look",
+      "type": "dimmer",
       "level": 0.5,
-      "id": 1
-    }],
-    "cue": {
-      "level": 1,
-      "id": 1
-    }
-  },
-  "looks": {
-    "1": {
-      "name": "Indoor",
-      "systems": [{
-        "type": "filter",
-        "levels": {
-          "intensity": 1
-        },
-        "specifiers": {
-          "address": 1
-        }
-      }]
-    }
-  },
-  "cues": {
-    "1": {
-      "name": "Preshow",
-      "systems": [],
-      "prewait": 2,
-      "upfade": 2
-    },
-    "1": {
-      "name": "Show",
-      "systems": [{
-        "type": "filter",
-        "levels": {
-          "intensity": 0.5,
-          "color": 0.8
-        },
-        "specifiers": {
-          "fixtureType": 2
-        }
-      }]
-    }
-  },
-  "fixtureTypes": {
-    "1": {
-      "name": "dimmer",
-      "parameters": [
-        "intensity"
-      ]
-    },
-    "2": {
-      "name": "magic",
-      "parameters": [
-        "intensity",
-        "color"
-      ]
-    }
+      "address": 1
+    }, {
+      "type": "dimmer",
+      "level": 0.7,
+      "address": 2
+    }]
   }
 }
