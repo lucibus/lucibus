@@ -15,8 +15,6 @@ after_success:
 - goveralls -coverprofile=gover.coverprofile -service=travis-ci
 before_deploy:
 - go get github.com/mitchellh/gox
-# - gox -osarch="darwin/amd64" -build-toolchain
-# - gox -osarch="darwin/amd64" -cgo -verbose -output="dist/subicul-{{.OS}}-{{.Arch}}"
 - gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -build-toolchain
 - mkdir -p  dist
 - gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="dist/subicul-{{.OS}}-{{.Arch}}"
@@ -32,5 +30,5 @@ deploy:
     tags: true
 notifications:
   slack:
-    secure: Dtj0nWI/qtofy5NLW0XALWjxuEW4nV+IAv9PE+Yv7kZP0e2qKOqa2EurSSnYsnHWjjYIcZDr/EYZrcU/BwNRXj+KCnZ1BetvaZQFYnnFRkdu3Ys4QjzmYsJGkf4XHQKEEU7x5zvqiWeWctu2VcDt3JlGAKGPxLe+NVphbNhD/M4yJuLU6pR0JVUwCTrhkZHiHq501KzlzqSsQE3Qq9BqMV0+uT6YtFmYxfAp1n7x+NMZcw2xcig7ipw3O5MKfoRKrs02UHRo2WXuZI8UCvsCjAB6VuRKP/jpjx3KP65iqCRgGyZrOdGOPIsRsbKgWJnLytVXRNbXOO/tbQ63DzvSaduQbR71I5RQA84AZOb4QWv5obk8H4A2U+OF7CkX/K9yJFdQ23ef2oldACUFHGdvizD4HdWGxMnwCOZ9VjJtkTpiZlNAhkJYJD12QmbV0AMy3wK8mgDETMyXWQwz3GlTR+/aURUmn4o77ne5nCAnIcp/H1/MJHH5VmDa1A/aBE4HSkU9TOwRH4fLm34yDcColiRI5YYpG8eyZAXlohXF2ryC6yRMJArNTa3zdADMSqJV9aCrBgWO1W5v8s8tE1fveATqS6WzwZmZ4fZdKZ0Va9bTJWVPXTPT82FpClUwOVHoGyfW4fZTcdzhH1+C/7E4/N5z6LfXgolfAN30v5xd0kc=
+    secure: h2S0zXBwleC/XrdQAQpD9JbgybaCSpbqK2UPHQTuKKhdFVrFyK3oFwWQw8U4vb+Br7P965cjn+k+88bPg6ZTEswZiHod9Is0LWKz4jVrRazBwu5qUM2Obwd3RIAiAypz3mJh0HarriszSFMlbwOre+9y4ImuDpEraUizzsiE/vCEuE6PVoHMv+5nz8Ji1ZHrQzn0hduI2DxPZSl0g7fXsAJ5R60xABZFr5Uhd03w9PJ6EP9V15tTSSbX1tiQioaWI2Jb8n2y6TAyPj81FONIrnElowU5GOTAKhVdgqaJqBBL5mGpJUhSYkY130kqk5WQV05+JuKx4RRa7e3ocSCa3IR0jWdYtC43l2ks6TPTdFUOFk6Lb/t4LPHMfQAJK5nzZ47NdIi1IAs0yljkPV1pIbP2ByPgWerhxzb1pr+757pMMnITr7ftAIrEd2so+hwVXc/kUWUecIgVyPdNZRjCVffHLy570msKTeZnEduucBkhRQwaHN4QvsKctxL+YkhhWjTLbAOmoyeV9KjI4V5wnYMCUOVeLT/BWEJiIyAZvYmR3CwXCccs+PIKxQAJ6vDcBlHfAhN0jjSNrtNjeD/8G2oDBml1GcVZMNu+EaLY3Tomwt/whSTTYVO7s9NYabLdVbqO9uoCkhDqw1xT1Il0fhciLCjCReQgah7h3h+qaVs=
   email: false
