@@ -2,6 +2,11 @@
 
 *Modern stage lighting control system*
 
+[![Circle CI](https://circleci.com/gh/lucibus/design.svg?style=svg)](https://circleci.com/gh/lucibus/design)
+[![Schema/API Docs](https://img.shields.io/badge/schema%2Fapi-docs-blue.svg)](http://lbovet.github.io/docson/index.html#https://rawgit.com/lucibus/design/master/schema.json)
+
+[schema docs](http://lbovet.github.io/docson/index.html#/docson/examples/example.json)
+
 This repository stores the API/data structure schema and a sample of it.
 
 The schema is in the form of [JSON Schema](http://json-schema.org/).
