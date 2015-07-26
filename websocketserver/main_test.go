@@ -19,16 +19,16 @@ import (
 
 var stateOneDimmer = []byte(`
 	{
-		"live": {
-			"level": 1,
-			"systems": [{
-				"type": "filter",
-				"level": 1,
-				"specifiers": {
-					"address": 1
-				}
-			}]
-		}
+			"live": {
+					"level": 1,
+					"systems": [{
+							"level": 1,
+							"address": 1
+					}, {
+							"level": 0,
+							"address": 1
+					}]
+			}
 	}
 `)
 

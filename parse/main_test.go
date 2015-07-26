@@ -17,161 +17,74 @@ func TestParse(t *testing.T) {
 			So(o, ShouldResemble, Output{})
 		})
 
-		Convey("a filter", func() {
-
-			Convey("with an address", func() {
-				b := []byte(`
+		Convey("an address", func() {
+			b := []byte(`
                     {
                         "live": {
                             "level": 1,
                             "systems": [{
-                                "type": "filter",
                                 "level": 1,
-                                "specifiers": {
-                                    "address": 1
-                                }
+                                "address": 1
                             }]
                         }
                     }`)
-				o, e := ParseAndOutput(b)
-				So(e, ShouldBeNil)
-				So(o, ShouldResemble, Output{1: 255})
-			})
+			o, e := ParseAndOutput(b)
+			So(e, ShouldBeNil)
+			So(o, ShouldResemble, Output{1: 255})
 
-			Convey("with tags", func() {
+			Convey("two addresses", func() {
 				b := []byte(`
                     {
-                        "patch": [
-                            {
-                                "tags": ["front"],
-                                "address": 1
-                            },
-                            {
-                                "tags": ["front"],
-                                "address": 2
-                            },
-                            {
-                                "tags": [],
-                                "address": 3
-                            }
-                        ],
-                        "live": {
-                            "level": 1,
-                            "systems": [{
-                                "type": "filter",
-                                "level": 1,
-                                "specifiers": {
-                                    "tags": ["front"]
-                                }
-                            }]
-                        }
+                      "live": {
+                          "level": 1,
+                          "systems": [{
+                              "level": 1,
+                              "address": 2
+                          }, {
+                              "level": 1,
+                              "address": 1
+                          }]
+                      }
                     }`)
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
-			})
-
-			Convey("with a fixture type", func() {
-				b := []byte(`
-                    {
-                        "patch": [
-                            {
-                                "fixtureType": "magic crap",
-                                "tags": [],
-                                "address": 1
-                            },
-                            {
-                                "fixtureType": "magic crap",
-                                "tags": [],
-                                "address": 2
-                            },
-                            {
-                                "fixtureType": "not magic crap",
-                                "tags": [],
-                                "address": 3
-                            }
-                        ],
-                        "live": {
-                            "level": 1,
-                            "systems": [{
-                                "type": "filter",
-                                "level": 1,
-                                "specifiers": {
-                                    "fixtureType": "magic crap"
-                                }
-                            }]
-                        }
-                    }`)
-				o, e := ParseAndOutput(b)
-				So(e, ShouldBeNil)
-				So(o, ShouldResemble, Output{1: 255, 2: 255})
-			})
-
-			Convey("a different level", func() {
-				b := []byte(`
-                    {
-                        "patch": [],
-                        "live": {
-                            "level": 1,
-                            "systems": [{
-                                "type": "filter",
-                                "level": 0.2,
-                                "specifiers": {
-                                    "address": 1
-                                }
-                            }]
-                        }
-                    }`)
-				o, e := ParseAndOutput(b)
-				So(e, ShouldBeNil)
-				So(o, ShouldResemble, Output{1: 51})
 			})
 
 		})
 
 		Convey("a different grandmaster level", func() {
 			b := []byte(`
-                {
-                    "patch": [],
+                	{
                     "live": {
                         "level": 0.2,
                         "systems": [{
-                            "type": "filter",
                             "level": 1,
-                            "specifiers": {
-                                "address": 1
-                            }
+														"address": 1
                         }]
                     }
-                }`)
+                	}`)
 			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 51})
 		})
 
-		Convey("two filters", func() {
+		Convey("two addresses", func() {
 
 			Convey("combine", func() {
 				b := []byte(`
-                    {
-                        "patch": [],
-                        "live": {
-                            "level": 1,
-                            "systems": [{
-                                "type": "filter",
-                                "level": 1,
-                                "specifiers": {
-                                    "address": 1
-                                }
-                            }, {
-                                "type": "filter",
-                                "level": 1,
-                                "specifiers": {
-                                    "address": 2
-                                }
-                            }]
-                        }
-                    }`)
+										{
+												"live": {
+														"level": 1,
+														"systems": [{
+																"level": 1,
+																"address": 2
+														}, {
+																"level": 1,
+																"address": 1
+														}]
+												}
+										}`)
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
@@ -179,91 +92,26 @@ func TestParse(t *testing.T) {
 
 			Convey("override", func() {
 				b := []byte(`
-                    {
-                        "patch": [],
-                        "live": {
-                            "level": 100,
-                            "systems": [{
-                                "type": "filter",
-                                "level": 100,
-                                "specifiers": {
-                                    "address": 1
-                                }
-                            }, {
-                                "type": "filter",
-                                "level": 10,
-                                "specifiers": {
-                                    "address": 1
-                                }
-                            }]
-                        }
-                    }`)
+										{
+												"live": {
+														"level": 1,
+														"systems": [{
+																"level": 1,
+																"address": 1
+														}, {
+																"level": 0,
+																"address": 1
+														}]
+												}
+										}`)
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255})
 			})
 
 		})
-
-		Convey("a cue", func() {
-			b := []byte(`
-                {
-                    "patch": [],
-                    "live": {
-                        "level": 100,
-                        "systems": [],
-                        "cue": {
-                            "id": 1,
-                            "level": 255
-                        }
-                    },
-                    "cues": {
-                        "1": {
-                            "systems": [{
-                                "type": "filter",
-                                "level": 100,
-                                "specifiers": {
-                                    "address": 1
-                                }
-                            }]
-                        }
-                    }
-                }`)
-			o, e := ParseAndOutput(b)
-			So(e, ShouldBeNil)
-			So(o, ShouldResemble, Output{1: 255})
-		})
-
-		Convey("a look", func() {
-			b := []byte(`
-				{
-					"patch": [],
-					"live": {
-						"level": 1,
-						"systems": [{
-							"type": "look",
-							"id": 1,
-							"level": 1
-						}]
-					},
-					"looks": {
-						"1": {
-							"systems": [{
-								"type": "filter",
-								"level": 1,
-								"specifiers": {
-									"address": 1
-								}
-							}]
-						}
-					}
-				}`)
-			o, e := ParseAndOutput(b)
-			So(e, ShouldBeNil)
-			So(o, ShouldResemble, Output{1: 255})
-		})
-
 	})
+
 }
 
 var oneSystemStateBytes = []byte(`
@@ -271,11 +119,8 @@ var oneSystemStateBytes = []byte(`
 		"live": {
 			"level": 1,
 			"systems": [{
-				"type": "filter",
 				"level": 1,
-				"specifiers": {
-					"address": 1
-				}
+				"address": 1
 			}]
 		}
 	}`)
