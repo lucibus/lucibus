@@ -1,4 +1,4 @@
-FROM node:12.7
+FROM node:0.12.7
 RUN npm install jsen@0.6.0
 
 ADD validators/jsen.js /code/jsen.js
