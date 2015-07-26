@@ -2,11 +2,9 @@
   "live": {
     "level": 0.89,
     "systems": [{
-      "type": "dimmer",
       "level": 0.5,
       "address": 1
     }, {
-      "type": "dimmer",
       "level": 0.7,
       "address": 2
     }]

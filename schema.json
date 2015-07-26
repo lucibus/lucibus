@@ -19,13 +19,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "type": {
-                "id": "type",
-                "type": "string",
-                "enum": [
-                  "dimmer"
-                ]
-              },
               "level": {
                 "type": "number",
                 "maximum": 1,
@@ -39,7 +32,6 @@
               }
             },
             "required": [
-              "type",
               "level",
               "address"
             ]
