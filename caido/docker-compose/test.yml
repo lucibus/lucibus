@@ -1,0 +1,20 @@
+caido-build:
+  extends:
+    file: production.yml
+    service: caido-build
+serve:
+  extends:
+    file: production.yml
+    service: serve
+  ports:
+    - 80
+selenium-chrome:
+  image: selenium/standalone-chrome:2.46.0
+caido-test:
+  extends:
+    file: common.yml
+    service: caido
+  command: npm run test-docker -- --watch
+  links:
+    - selenium-chrome
+    - serve

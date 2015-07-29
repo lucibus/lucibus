@@ -1,0 +1,9 @@
+{
+  "live": {
+    "level": 0.89,
+    "systems": [{
+      "level": 1,
+      "address": 1
+    }]
+  }
+}
