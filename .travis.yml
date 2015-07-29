@@ -5,10 +5,8 @@ install:
 - cd $TESTFOLDER
 - ./test_bin/install
 script:
-- cd $TESTFOLDER
 - ./test_bin/script
 after_success:
-- cd $TESTFOLDER
 - ./test_bin/after_success
 # before_deploy:
 # - go get github.com/mitchellh/gox
