@@ -15,7 +15,7 @@ class LiveList extends Component {
   componentDidMount () {
     var listNode = React.findDOMNode(this).children[0]
     this.drake = dragula([listNode])
-    this.drake.on('drop', function(a, b, c){console.log(a, b, c)})
+    this.drake.on('drop', function (a, b, c) {console.log(a, b, c)})
   }
 
   // componentDidUpdate () {

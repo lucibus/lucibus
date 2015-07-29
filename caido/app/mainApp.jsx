@@ -16,7 +16,6 @@ tree.on('update', function (e) {
   Storage.store(newData)
 })
 
-
 Storage.onMessage(function (data) {
   tree.set(data)
 })
