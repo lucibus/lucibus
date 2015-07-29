@@ -1,10 +1,13 @@
-import React, {Component} from "react";
-import {branch} from "baobab-react/decorators";
-import PropTypes from "baobab-react/prop-types";
+import React, {Component} from 'react'
+import {branch} from 'baobab-react/decorators'
+import PropTypes from 'baobab-react/prop-types'
 
-@branch({
+import Level from '../elements/Level'
+import ModifyLevel from './ModifyLevel'
+
+export default @branch({
   cursors: {
-    level: ["live", "level"]
+    level: ['live', 'level']
   }
 })
 class LiveLevel extends Component {
@@ -13,20 +16,25 @@ class LiveLevel extends Component {
     cursors: PropTypes.cursors
   }
 
-  onChange(e) {
-    var newValue = parseFloat(e.target.value);
-    this.context.cursors.level.set(newValue);
-    this.context.tree.commit();
+  onChange (newValue) {
+    this.context.cursors.level.set(newValue)
+    this.context.tree.commit()
   }
 
-  render() {
+  render () {
     return (
-      <p>
-        <input type="range" min="0" max="1" step="0.01" value={this.props.level} onChange={this.onChange.bind(this)} />
-      </p>
-    );
+      <div className='well'>
+        <Level description='Grandmaster' level={this.props.level} className='col-lg-2 control-label'/>
+        <div className='col-lg-10'>
+          <ModifyLevel level={this.props.level} onChange={this.onChange.bind(this)}/>
+        </div>
+      </div>
+    )
 
   }
 }
 
-export default LiveLevel;
+LiveLevel.propTypes = {
+  level: React.PropTypes.number
+}
+

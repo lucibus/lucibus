@@ -1,4 +1,4 @@
-caido_dev_server:
+caido-dev-server:
   extends:
     file: common.yml
     service: caido

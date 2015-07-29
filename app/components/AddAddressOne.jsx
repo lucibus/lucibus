@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {branch} from "baobab-react/decorators";
-import PropTypes from "baobab-react/prop-types";
+import React, {Component} from 'react'
+import {branch} from 'baobab-react/decorators'
+import PropTypes from 'baobab-react/prop-types'
 
-@branch({
+export default @branch({
   cursors: {
-    systems: ["live", "systems"]
+    systems: ['live', 'systems']
   }
 })
 class AddDimmer extends Component {
@@ -13,25 +13,19 @@ class AddDimmer extends Component {
     cursors: PropTypes.cursors
   }
 
-  handleClick() {
+  handleClick () {
     this.context.cursors.systems.push({
-      "type": "filter",
-      "level": 1,
-      "specifiers": {
-        "address": 1
-      }
-    });
-    this.context.tree.commit();
+      'level': 0.5,
+      'address': 1
+    })
+    this.context.tree.commit()
   }
 
-  render() {
+  render () {
     return (
       <p onClick={this.handleClick.bind(this)}>
         Click to add address 1 to the stack.
       </p>
-    );
-
+    )
   }
 }
-
-export default AddDimmer;

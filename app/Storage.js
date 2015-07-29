@@ -8,31 +8,31 @@ class Storage {
 
   justSetFromBackend = 0
 
-  constructor(url) {
-    this.socket = new WebSocket(url);
+  constructor (url) {
+    this.socket = new WebSocket(url)
 
-    this.socket.onmessage = function(event) {
-      this.justSetFromBackend++;
+    this.socket.onmessage = function (event) {
+      this.justSetFromBackend++
 
       this.onMessageCallback(
         JSON.parse(event.data)
-      );
-    }.bind(this);
+      )
+    }.bind(this)
   }
 
-  store(data) {
+  store (data) {
     if (this.justSetFromBackend === 0) {
-      this.socket.send(JSON.stringify(data));
+      this.socket.send(JSON.stringify(data))
     } else {
-      this.justSetFromBackend--;
+      this.justSetFromBackend--
     }
   }
 
   // onMessage sets the callback for whenener a websocket message is recieved
-  onMessage(callback) {
-    this.onMessageCallback = callback;
+  onMessage (callback) {
+    this.onMessageCallback = callback
   }
 }
 
-export default new Storage("ws://localhost:9001");
+export default new Storage('ws://localhost:9001')
 

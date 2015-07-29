@@ -1,6 +1,11 @@
 # caido
 
 
+This is the frontend for the lighting console. It communicates via websockets
+to `subicul`. If you aren't running that server, you can append `?debug=true`
+to the URL and it will just create a mock server, so that you can try out the
+UI.
+
 ## Install
 
 1. Install Node 0.12.x
@@ -14,7 +19,7 @@ This has hot reloading enabled.
 
 ```
 npm run dev-server
-open http://localhost:8080/webpack-dev-server/
+open "http://localhost:8080/?debug=true"
 ```
 
 ### Production Server
@@ -28,11 +33,16 @@ open ./dist/index.html
 
 ## Testing
 
-### Linting
-All `.js[x]` files should pass `eslint`. To run the linter run:
+All `.js[x]` files should pass `standard`. To run the linter run:
 
 ```
-npm run test
+npm run lint
+```
+
+Then run the tests
+
+```
+npm run test-docker
 ```
 
 Then to make sure production stuff build correctly run:
@@ -85,5 +95,5 @@ I currently use sublime text.
 
 If you also use it, I highly reccomend a few packages. The first is
 [babel-sublime](https://github.com/babel/babel-sublime) to get jsx syntax
-highlighting. The other is [sublimelinter-eslint](https://github.com/roadhump/SublimeLinter-eslint)
+highlighting. The other is [SublimeLinter-contrib-standard](https://github.com/Flet/SublimeLinter-contrib-standard)
 for linting.

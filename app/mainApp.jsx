@@ -1,42 +1,50 @@
-import React from "react";
-import {root} from "baobab-react/decorators";
+import React from 'react'
+import {root} from 'baobab-react/decorators'
 
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap-theme.css";
+import './bootswatch.less'
 
-import tree from "./tree";
-import Storage from "./Storage";
-import LiveList from "./components/LiveList";
-import LiveLevel from "./components/LiveLevel";
+import tree from './tree'
+import './debug_'
+import Storage from './Storage'
+import LiveList from './components/LiveList'
+import LiveLevel from './components/LiveLevel'
 
-/*eslint-disable no-unused-vars */
-import styles from "./mainApp.css";
-/*eslint-enable no-unused-vars */
+import './mainApp.css'
 
-tree.on("update", function(e) {
-  var newData = e.data.data;
-  Storage.store(newData);
-});
-
-Storage.onMessage(function(data) {
-  tree.set(data);
-});
+tree.on('update', function (e) {
+  var newData = e.data.data
+  Storage.store(newData)
+})
 
 
+Storage.onMessage(function (data) {
+  tree.set(data)
+})
 
 @root(tree)
 class Application extends React.Component {
-  render() {
+  render () {
     return (
-      <div>
-        <LiveList />
-        <LiveLevel />
+      <div className='container'>
+        <div className='row'>
+          <div className='col-lg-12'>
+            <div className='panel panel-primary'>
+              <div className='panel-heading'>Live</div>
+              <div className='panel-body'>
+                <div className='col-lg-10'>
+                  <LiveLevel/>
+                  <LiveList/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    );
+    )
   }
 }
 
 React.render(
-    <Application />,
-    document.getElementById("content")
-);
+  <Application />,
+  document.getElementById('content')
+)

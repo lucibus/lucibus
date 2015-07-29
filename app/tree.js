@@ -1,5 +1,8 @@
-import Baobab from "baobab";
-import sample from "./sample.json";
+import Baobab from 'baobab'
 
-export default new Baobab(sample);
-
+export default new Baobab({
+  "live": {
+    "level": 1,
+    "systems": []
+  }
+})

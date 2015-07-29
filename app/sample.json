@@ -2,23 +2,8 @@
   "live": {
     "level": 0.89,
     "systems": [{
-      "type": "filter",
-      "level": {
-        "intensity": 1
-      },
-      "specifiers": {
-        "tags": ["practical"],
-        "fixtureType": 1
-      }
-    }, {
-      "type": "look",
-      "level": 0.5,
-      "id": 1
-    }],
-    "cue": {
       "level": 1,
-      "id": 1
-    }
+      "address": 1
+    }]
   }
 }
-

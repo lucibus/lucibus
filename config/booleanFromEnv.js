@@ -1,4 +1,4 @@
-module.exports = function booleanFromEnv(key, defaultValue) {
-  return JSON.parse(process.env[key] || defaultValue);
-};
+module.exports = function booleanFromEnv (key, defaultValue) {
+  return JSON.parse(process.env[key] || defaultValue)
+}
 

@@ -1,15 +1,17 @@
-import React, {Component} from "react";
+import React, {Component} from 'react'
 
+import Level from '../elements/Level'
 
-class SystemItem extends Component {
-  render() {
+export default class SystemItem extends Component {
+  render () {
     return (
-      <p>
-        This is a {this.props.type} curretly at level {this.props.level}
-      </p>
-    );
+        <Level description={'Address ' + this.props.address} level={this.props.level} />
+    )
   }
 }
 
-export default SystemItem;
+SystemItem.propTypes = {
+  level: React.PropTypes.number,
+  address: React.PropTypes.number
+}
 

@@ -1,4 +1,10 @@
-:global(html, body){
+/*:global(html, body){
   height:100%;
-  background-color: green;
+  background-color: black;
+}
+*/
+
+.live {
+  color: orange;
+  background-color: lighten(black, 13.5%);
 }

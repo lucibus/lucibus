@@ -1,4 +1,4 @@
-caido_build:
+caido-build:
   extends:
     file: common.yml
     service: caido
