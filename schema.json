@@ -25,15 +25,18 @@
                 "minimum": 0
               },
               "address": {
-                "id": "address",
                 "type": "integer",
                 "maximum": 255,
                 "minimum": 1
+              },
+              "uuid": {
+                "type": "string"
               }
             },
             "required": [
               "level",
-              "address"
+              "address",
+              "uuid"
             ]
           }
         }
