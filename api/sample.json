@@ -1,0 +1,14 @@
+{
+  "live": {
+    "level": 0.89,
+    "systems": [{
+      "level": 0.5,
+      "address": 1,
+      "uuid": "first"
+    }, {
+      "level": 0.7,
+      "address": 2,
+      "uuid": "second"
+    }]
+  }
+}
