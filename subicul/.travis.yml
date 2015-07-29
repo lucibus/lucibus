@@ -1,0 +1,34 @@
+language: go
+go: '1.4'
+compiler: gcc
+before_install:
+- go get github.com/axw/gocov/gocov
+- go get github.com/mattn/goveralls
+- go get golang.org/x/tools/cmd/cover
+- go get github.com/modocache/gover
+script:
+- go test -coverprofile=websocketserver.coverprofile -v ./websocketserver
+- go test -coverprofile=parse.coverprofile -v ./parse
+- go test -coverprofile=main.coverprofile -v
+after_success:
+- gover
+- goveralls -coverprofile=gover.coverprofile -service=travis-ci
+before_deploy:
+- go get github.com/mitchellh/gox
+- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -build-toolchain
+- mkdir -p  dist
+- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="dist/subicul-{{.OS}}-{{.Arch}}"
+- ls dist/*
+deploy:
+  provider: releases
+  api_key:
+    secure: KY67mDBMrY/FZJ9pGNqAR0tVA3O+ntkR6m8k1dv1MDkGLcoMwO8Tl3ZkZTvGb8GNPv4iUS8adNvqv5nIP719Z/9bdtnornveJF0Ygi7H6ojRpoiR48lOs7aWElVZrpA923v2JW82q8b2bL7b6g1ZT7FfWFfRg51rGXYLioU0TrySkaDqO78b3IwfAP5ODqWVRCzDzALQt6gSnAbf6s62aOAPZ0PmtfHz81nBXj2IKG+WS0YFa/oVyT1Np3bOSJgk8prVer2+8a8I9byGLaYjxxLfcNIAj2v1IVOZVn7VI3Gkq5/iZvoHpQ0dMavUw60Pm0xYopF9kscBMoqrafqyhYi7bON56FJi1hLJB4paBnrPqW8ZZt870qnoXccqwHn7NVLaFVxStjuk2VCdgf7d+hGkPw6jSbfiNxTbhAKsJoidO8VEI52LxJjGJdvKfZnpwi2SR3gBVVZX+wMQSuNogV9xG1yvc7B6UT0lz40pSCE2FgvrJoAW75TGkHuDXQBEN2deAMhkPcIj/TPssXClNmnNnp/3Cc7IBswMY6B1yp+l9t9kDYDCgBjj99MrEJXwDmNoCdHotdZTQQQoIkpa2xWif70EmgqHIInd+37Ux2sFjP+hXc60HWhWtcc4cpryE3wxppLVuLejcB/EIz1544/dbcWs7AjjOH3v0V+RXNM=
+  file: dist/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
+notifications:
+  slack:
+    secure: h2S0zXBwleC/XrdQAQpD9JbgybaCSpbqK2UPHQTuKKhdFVrFyK3oFwWQw8U4vb+Br7P965cjn+k+88bPg6ZTEswZiHod9Is0LWKz4jVrRazBwu5qUM2Obwd3RIAiAypz3mJh0HarriszSFMlbwOre+9y4ImuDpEraUizzsiE/vCEuE6PVoHMv+5nz8Ji1ZHrQzn0hduI2DxPZSl0g7fXsAJ5R60xABZFr5Uhd03w9PJ6EP9V15tTSSbX1tiQioaWI2Jb8n2y6TAyPj81FONIrnElowU5GOTAKhVdgqaJqBBL5mGpJUhSYkY130kqk5WQV05+JuKx4RRa7e3ocSCa3IR0jWdYtC43l2ks6TPTdFUOFk6Lb/t4LPHMfQAJK5nzZ47NdIi1IAs0yljkPV1pIbP2ByPgWerhxzb1pr+757pMMnITr7ftAIrEd2so+hwVXc/kUWUecIgVyPdNZRjCVffHLy570msKTeZnEduucBkhRQwaHN4QvsKctxL+YkhhWjTLbAOmoyeV9KjI4V5wnYMCUOVeLT/BWEJiIyAZvYmR3CwXCccs+PIKxQAJ6vDcBlHfAhN0jjSNrtNjeD/8G2oDBml1GcVZMNu+EaLY3Tomwt/whSTTYVO7s9NYabLdVbqO9uoCkhDqw1xT1Il0fhciLCjCReQgah7h3h+qaVs=
+  email: false
