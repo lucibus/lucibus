@@ -2,38 +2,29 @@ language: go
 go: '1.4'
 compiler: gcc
 before_install:
-- go get github.com/axw/gocov/gocov
-- go get github.com/mattn/goveralls
-- go get golang.org/x/tools/cmd/cover
-- go get github.com/modocache/gover
+- cd $TESTFOLDER
+- ./test_bin/before_install
 script:
-- cd subicul
-- go test -coverprofile=websocketserver.coverprofile -v ./websocketserver
-- go test -coverprofile=parse.coverprofile -v ./parse
-- go test -coverprofile=main.coverprofile -v
-- cd caido
-- npm run lint
-- npm run test-selenium
-- npm run build
+- cd $TESTFOLDER
+- ./test_bin/script
 after_success:
-- cd subicul
-- gover
-- goveralls -coverprofile=gover.coverprofile -service=travis-ci
-before_deploy:
-- go get github.com/mitchellh/gox
-- cd subicul
-- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -build-toolchain
-- mkdir -p dist
-- gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="dist/subicul-{{.OS}}-{{.Arch}}"
-deploy:
-  provider: releases
-  api_key:
-    secure: wg+fDCdRBr+2PJUoTCi98kqzYG55HtT0njm6+dTQylmo4S/teyFsLi5RgtkQYQy5ZdUobB1k0Ydze1cYYpW3UgGTI7x07AlAW1h7f6CBpDj/VqZ7O+AGEmpGArTpK/970sY0S591O3d8NlU8x555KLvH0IgxdOVtzGFRvcFZj1ZL63bqXWw2bSx0NwVzjC5e5r2DhQln+9jHvxJBMEE9UyuhpWZDllEnTm9wFUANmRbzD16KjzrTPeBUojdyn2pYq5/sp2ArwigSpcjCPs3ZJLKEG6h0m0OBHnDPn1QRsQz5hymOy+4e4uHKPXm+LveCAX5rGy97q4DqimylS+mDOpzKjgcYRJUEJJBfDQCenp0i0R78ffSFnKD2mWC42j0c0mMxa2FOcR/7U82lg4Go7RRtSantiln46Iah4mnVs06zb+LXOc6bDNq7g/76jFAXqLlrkzzwZmej8RNMVLt9CGWiZW9L3qrr3ogK3ENqaSz9teyye7z0W6+l5GxvQ/cZzCoom1Pqt3XuK+JrGVi0991RxqEXAOvMR7U7UQG9Lcx3bnbL1O7D8vdp8mpTLR6XQqZAoNCIbHJrd5AhHk8EjEt6czoZ0B6lE6gLzhydWCPdPzAueDjnrh20x/LWQeJwUrZIpYwBQ8kLXv8rUXUpfZz4J7mEyWU9S/RxC8xD29s=
-  file: subicul/dist/*
-  file_glob: true
-  skip_cleanup: true
-  on:
-    tags: true
+- cd $TESTFOLDER
+- ./test_bin/after_success
+# before_deploy:
+# - go get github.com/mitchellh/gox
+# - cd subicul
+# - gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -build-toolchain
+# - mkdir -p dist
+# - gox -osarch="linux/386 linux/amd64 linux/arm windows/386 windows/amd64" -output="dist/subicul-{{.OS}}-{{.Arch}}"
+# deploy:
+#   provider: releases
+#   api_key:
+#     secure: wg+fDCdRBr+2PJUoTCi98kqzYG55HtT0njm6+dTQylmo4S/teyFsLi5RgtkQYQy5ZdUobB1k0Ydze1cYYpW3UgGTI7x07AlAW1h7f6CBpDj/VqZ7O+AGEmpGArTpK/970sY0S591O3d8NlU8x555KLvH0IgxdOVtzGFRvcFZj1ZL63bqXWw2bSx0NwVzjC5e5r2DhQln+9jHvxJBMEE9UyuhpWZDllEnTm9wFUANmRbzD16KjzrTPeBUojdyn2pYq5/sp2ArwigSpcjCPs3ZJLKEG6h0m0OBHnDPn1QRsQz5hymOy+4e4uHKPXm+LveCAX5rGy97q4DqimylS+mDOpzKjgcYRJUEJJBfDQCenp0i0R78ffSFnKD2mWC42j0c0mMxa2FOcR/7U82lg4Go7RRtSantiln46Iah4mnVs06zb+LXOc6bDNq7g/76jFAXqLlrkzzwZmej8RNMVLt9CGWiZW9L3qrr3ogK3ENqaSz9teyye7z0W6+l5GxvQ/cZzCoom1Pqt3XuK+JrGVi0991RxqEXAOvMR7U7UQG9Lcx3bnbL1O7D8vdp8mpTLR6XQqZAoNCIbHJrd5AhHk8EjEt6czoZ0B6lE6gLzhydWCPdPzAueDjnrh20x/LWQeJwUrZIpYwBQ8kLXv8rUXUpfZz4J7mEyWU9S/RxC8xD29s=
+#   file: subicul/dist/*
+#   file_glob: true
+#   skip_cleanup: true
+#   on:
+#     tags: true
 notifications:
   slack:
     secure: 08MZEuOb0verBf76HRBCuv+5JQErr02ElNn7y5vWnuT7vMjnB8KkXz5RwyF0kz/QdqznsF32C9Tb3kQdXvwoWgdUpx5xCSJZohqB9lbElmLAZkghbG7Il0ciOOoXerq6/Zlz9iTY/i9o8lCIGijnP4PlSL1JF9lLCejslzWkjo/g75eHJGZ6ISeJbNC+0IdOlWhJKLTRxF59tWfzsblwuHpfcAZFVadSq4dwD0w94ZEjmvPUR1zJuqKd62mMSTj1toHcvYsDeSWvE5mkvKJpgKcm7lN3nemrEcqb3C2HRM1zimLzDblcyZH+9CHPUukMYFJewTO6gNxa3aXNl223ltBoY/99bDZmL3leT2syAEWZ5QhA3w+gDu6HCr6tZCR2Tbs/Xd3mEAsksQ+uBIMLGkyvJkVzEzhbyJ89s3fdz9NXedMEM77FE3oOv2jN+8f9NAj4GgleWoGW1vpc39r7CMRQ77n4bV1tdPeyCemsgsDW5ABUZrMa2RHT/W//1QLZCFLdeQUyKwOqDgQYJgAA/YJsz4lBfhbhp9roYZUI50IlnzHr2A/6lZMybl5wqpp+iAOimRmizJjJi1Jz6heLAud3e5AQsyE9dGE4CMUK0DzIKdMydwwlp+L0s1fh8msKVKXchMs+PLOxmqXIfUlscRQCw5tyUFkIlaK2nhVZYCI=
@@ -42,3 +33,6 @@ env:
   global:
   - secure: 584V+UnAMiVCWbW+l2jJ3G5HzKgBIyfnj8BBblWOyPboOpFBRmA0yR9jQilYd6iZPbJiR1e1rxhQw9CSL5rRQ9J3Y7M8CKNxMf23G4xj4GvJPhx5Z7MtiVs0/0/Jm2IWrHBRAQiMneVFSzS+D47Ua0pFfS7RSg35/uQ6cbnlGsqPbgaaCS3+9fZTuWyRXbKpcAnhRXSoBLsa14XLSW3C5ACLu1nyDXccOZEZ9og5oG1x1zATCOTtsolmIyaG4wqml1ungsXDyWMNzhFyLXiue9/DSrTstlEOiKX2T2l2H048+SXQGUvDlv6HCLmV4uLh75Y/0I4ACaySuGGvUZAz9ucUcPivFoglaF7vK/+nb90Bcu2obP82BEhANvNBMbUHzIzzrSolwL91ZZNloNoOoveTjOes98NNsTelQXYJXGf3PK3iw0lK6Qmw9RNp6bmGxev3cG+8cFnur4Fz6TxUbTuyhBK8xKtI7K0CsgSUchMlK4xiBuupdwrOLi+uhjb52t5esl3EFOCgn6abOeGKmjserrC9LVcNxQONKKT7aUQtmPqftKY6Qg8tWXgHLkVhLvSHU7Mif1tl5CoT9oRneQvSrWlXC5cBKYy333M0d0TkiaQzaLQG+Ndha2lYU+MLFrUROnPwOke3YN3VB32omc0kiue/l06HnYU7UseVd34=
   - secure: hLSdVmgLdJfMiqC76LvRpwebS6jqFoXMNFrihzKFVH/QBoCSfbEgHyEjJCNOFdaioD2reE7tmpUXlnmyFneIYy+UY4jErxkJSzoRw3qdG/dJM2vlRR6nxXW/t2Lt3jUnhZW9mlottNBN8ERGkU9MoDnko+cUkVlcddnsIuvwc63JF6/usSJhKgx3gxQlfMWGPiP6GKWMi+ltYi89LyMZomT028puYGXnjYj5IiBmoaiZJdxf2tFdQHwWLl6Mk3lGkIKo0LzqdikkH8TVLB0E7rS9zLdJo5HKnqTdun54gwyxtJvDN1yGPzb4f7WfR4bFsjCoA2au8Co0WBUte3KtOw87XYTSIdG1vPJUkVz66jCK/FSZdW14YXqAYUz25PYgVIC2MN/+2jZwYoeOKvx0M0ccaFDDKKBij4EZkK1BgQoP1LI1WlrEqvdXmgiHJ8fShjO9cNo2r5iPbkCsyh3C7okDS4pMNXER86fbAURGsQdzueWTHDfg64IKUdkKWsqQ5YJ/1WjT8HZGsLDoNY70g50LqS1vJiRy+4ratStnVxP7F5T9lgQpJWJhb3bXcngfRmOleMVC6O7+/fp0zMKgqJRlZdVALB+jV6Nbv61aNo660GtuDruNI2v+93Gdnd4SKAskmd/nvP7vKPkq1u1bh90wmphoqaAr73Ee1PQC9gc=
+env:
+  - TESTFOLDER=subicul
+  - TESTFOLDER=caido

@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euox pipefail
+
+npm run lint
+npm run test-selenium
+npm run build
