@@ -1,7 +1,6 @@
 # Subicul
 
-[![Build Status](https://travis-ci.org/lucibus/subicul.svg)](https://travis-ci.org/lucibus/subicul)
-[![Coverage Status](https://coveralls.io/repos/lucibus/subicul/badge.svg)](https://coveralls.io/r/lucibus/subicul)
+[![Coverage Status](https://coveralls.io/repos/lucibus/lucibus/badge.svg)](https://coveralls.io/r/lucibus/lucibus)
 
 ```shell
 $ subicul --help

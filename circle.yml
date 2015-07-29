@@ -1,0 +1,13 @@
+dependencies:
+  override:
+    - docker build -t lucibus/api-jsen -f api/validators/jsen.Dockerfile .
+    - docker build -t lucibus/api-ajv -f api/validators/ajv.Dockerfile .
+    - docker build -t lucibus/api-gojsonschema -f api/validators/gojsonschema.Dockerfile .
+machine:
+  services:
+    - docker
+test:
+  override:
+    - docker run lucibus/api-jsen
+    - docker run lucibus/api-ajv
+    - docker run lucibus/api-gojsonschema

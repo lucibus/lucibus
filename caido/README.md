@@ -1,6 +1,5 @@
 # caido
 
-
 This is the frontend for the lighting console. It communicates via websockets
 to `subicul`. If you aren't running that server, you can append `?debug=true`
 to the URL and it will just create a mock server, so that you can try out the
