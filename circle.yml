@@ -1,8 +1,14 @@
 dependencies:
   override:
-    - docker build -t lucibus/api-jsen -f api/validators/jsen.Dockerfile .
-    - docker build -t lucibus/api-ajv -f api/validators/ajv.Dockerfile .
-    - docker build -t lucibus/api-gojsonschema -f api/validators/gojsonschema.Dockerfile .
+    - docker build -t lucibus/api-jsen -f validators/jsen.Dockerfile .:
+        pwd:
+          api
+    - docker build -t lucibus/api-ajv -f validators/ajv.Dockerfile .:
+        pwd:
+          api
+    - docker build -t lucibus/api-gojsonschema -f validators/gojsonschema.Dockerfile .:
+        pwd:
+          api
 machine:
   services:
     - docker
