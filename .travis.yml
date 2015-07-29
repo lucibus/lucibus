@@ -1,9 +1,9 @@
 language: go
 go: '1.4'
 compiler: gcc
-before_install:
+install:
 - cd $TESTFOLDER
-- ./test_bin/before_install
+- ./test_bin/install
 script:
 - cd $TESTFOLDER
 - ./test_bin/script
