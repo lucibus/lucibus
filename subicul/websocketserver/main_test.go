@@ -12,7 +12,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	lige "github.com/lucibus/lige/output"
-	"github.com/lucibus/subicul/testutils"
+	"github.com/lucibus/lucibus/subicul/testutils"
 
 	. "github.com/smartystreets/goconvey/convey"
 )

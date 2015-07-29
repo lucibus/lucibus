@@ -5,8 +5,8 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	lige "github.com/lucibus/lige/output"
-	"github.com/lucibus/subicul/contextutils"
-	"github.com/lucibus/subicul/output"
+	"github.com/lucibus/lucibus/subicul/contextutils"
+	"github.com/lucibus/lucibus/subicul/output"
 )
 
 // InitialState is the json the server sends to the client when it first

@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/lucibus/subicul/parse"
+	"github.com/lucibus/lucibus/subicul/parse"
 	"golang.org/x/net/context"
 )
 

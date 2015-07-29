@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/lucibus/subicul/testutils"
+	"github.com/lucibus/lucibus/subicul/testutils"
 	"golang.org/x/net/context"
 
 	. "github.com/smartystreets/goconvey/convey"

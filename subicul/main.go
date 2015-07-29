@@ -14,7 +14,7 @@ import (
 	"github.com/codegangsta/cli"
 
 	lige "github.com/lucibus/lige/output"
-	"github.com/lucibus/subicul/websocketserver"
+	"github.com/lucibus/lucibus/subicul/websocketserver"
 )
 
 type FileOutputDevice struct {

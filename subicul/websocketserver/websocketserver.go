@@ -10,7 +10,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
-	"github.com/lucibus/subicul/contextutils"
+	"github.com/lucibus/lucibus/subicul/contextutils"
 
 	"golang.org/x/net/context"
 )

@@ -7,7 +7,7 @@
 package websocketserver
 
 import (
-	"github.com/lucibus/subicul/contextutils"
+	"github.com/lucibus/lucibus/subicul/contextutils"
 	"golang.org/x/net/context"
 )
 
