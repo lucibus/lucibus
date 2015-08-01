@@ -35,7 +35,9 @@ var config = {
   // platform configurator. A great tool to configure your capabilities.
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
-  capabilities: [{browserName: 'chrome'}],
+  capabilities: [{
+    browserName: 'phantomjs'
+  }],
   //
   // ===================
   // Test Configurations
@@ -94,37 +96,6 @@ var config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd'
-  },
-
-  //
-  // =====
-  // Hooks
-  // =====
-  // Run functions before or after the test. If one of them return with a promise, WebdriverIO
-  // will wait until that promise got resolved to continue.
-  // see also: http://webdriver.io/guide/testrunner/hooks.html
-  //
-  // Gets executed before all workers get launched.
-  onPrepare: function () {
-    // do something
-  },
-  //
-  // Gets executed before test execution begins. At this point you will have access to all global
-  // variables like `browser`. It is the perfect place to define custom commands.
-  before: function () {
-    // do something
-  },
-  //
-  // Gets executed after all tests are done. You still have access to all global variables from
-  // the test.
-  after: function () {
-    // do something
-  },
-  //
-  // Gets executed after all workers got shut down and the process is about to exit. It is not
-  // possible to defer the end of the process using a promise.
-  onComplete: function () {
-    // do something
   }
 }
 
@@ -139,12 +110,13 @@ if (booleanFromEnv('WDIO_DOCKER', false)) {
   // according to your user and key information. However if you are using a private Selenium
   // backend you should define the host address and port here.
 
-  config.host = 'selenium-chrome'
-  config.port = '4444'
+  config.host = 'phantomjs'
+  config.port = '8910'
 
   // Shorten url command calls by setting a base url. If your url parameter starts with '/'
   // the base url gets prepended.
   config.baseUrl = 'http://serve'
+  console.log('yeah!')
 }
 
 if (booleanFromEnv('WDIO_SAUCELABS', false)) {
@@ -164,6 +136,12 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   // once the test is done. This option is set to `true` per default.
   //
   config.updateJob = true
+
+  // Shorten url command calls by setting a base url. If your url parameter starts with '/'
+  // the base url gets prepended.
+  config.baseUrl = 'http://localhost:8080'
+
+  console.log('no....')
 }
 
 exports.config = config

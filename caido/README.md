@@ -41,9 +41,13 @@ npm run lint
 Then run the integration tests
 
 ```bash
+# bring up the servers in the background
+docker-compose -f docker-compose/test.yml up -d selenium-chrome serve caido-build
+
+# execute the tests
 docker-compose -f docker-compose/test.yml run --rm caido-test
 
-# to rebuild if you change installed packages
+# rebuild if you change installed packages
 docker-compose -f docker-compose/test.yml build caido-test
 ```
 

@@ -7,7 +7,7 @@ describe('my webdriverio tests', function () {
   var client = {}
 
   before(function (done) {
-    client = webdriverio.remote({ desiredCapabilities: {browserName: 'chrome'} })
+    client = webdriverio.remote({ desiredCapabilities: {browserName: 'phantomjs'} })
     client.init(done)
   })
 
