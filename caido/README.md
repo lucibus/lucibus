@@ -38,10 +38,13 @@ All `.js[x]` files should pass `standard`. To run the linter run:
 npm run lint
 ```
 
-Then run the tests
+Then run the integration tests
 
-```
-npm run test-docker
+```bash
+docker-compose -f docker-compose/test.yml run --rm caido-test
+
+# to rebuild if you change installed packages
+docker-compose -f docker-compose/test.yml build caido-test
 ```
 
 Then to make sure production stuff build correctly run:

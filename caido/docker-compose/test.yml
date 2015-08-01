@@ -14,7 +14,7 @@ caido-test:
   extends:
     file: common.yml
     service: caido
-  command: npm run test-docker -- --watch
+  command: npm run test-docker
   links:
     - selenium-chrome
     - serve

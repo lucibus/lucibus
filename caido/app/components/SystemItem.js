@@ -12,6 +12,7 @@ export default class SystemItem extends Component {
 
 SystemItem.propTypes = {
   level: React.PropTypes.number,
-  address: React.PropTypes.number
+  address: React.PropTypes.number,
+  uuid: React.PropTypes.string
 }
 

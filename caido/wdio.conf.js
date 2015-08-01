@@ -1,5 +1,12 @@
 var booleanFromEnv = require('./config/booleanFromEnv')
 
+require('babel/register')({
+  experimental: true,
+  blacklist: [
+    'regenerator'
+  ]
+})
+
 var config = {
   //
   // ==================

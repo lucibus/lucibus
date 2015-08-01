@@ -11,4 +11,8 @@ if (debug) {
   mockServer.on('connection', function (server) {
     server.send(JSON.stringify(sample))
   })
+
+  mockServer.on('message', function incoming (message) {
+     console.log('Sent websocket message: %s', message)
+   })
 }

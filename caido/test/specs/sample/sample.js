@@ -1,10 +1,36 @@
-var assert = require('assert')
+import {assert} from 'chai'
+import webdriverio from 'webdriverio'
 
-describe('Array', function () {
-  describe('#indexOf()', function () {
-    it('should return -1 when the value is not present', function () {
-      assert.equal(-1, [1, 2, 3].indexOf(5))
-      assert.equal(-1, [1, 2, 3].indexOf(0))
-    })
+describe('my webdriverio tests', function () {
+
+  this.timeout(99999999)
+  var client = {}
+
+  before(function (done) {
+    client = webdriverio.remote({ desiredCapabilities: {browserName: 'chrome'} })
+    client.init(done)
+  })
+
+  it('Github test', function (done) {
+    client
+      .url('https://github.com/')
+      .getElementSize('.header-logo-wordmark', function (err, result) {
+        assert.equal(undefined, err)
+        assert.strictEqual(result.height, 26)
+        assert.strictEqual(result.width, 37)
+      })
+      .getTitle(function (err, title) {
+        assert.equal(undefined, err)
+        assert.strictEqual(title, 'GitHub · Build software better, together.')
+      })
+      .getCssProperty('a[href="/plans"]', 'color', function (err, result) {
+        assert.equal(undefined, err)
+        assert.strictEqual(result.value, 'rgba(64,120,192,1)')
+      })
+      .call(done)
+  })
+
+  after(function (done) {
+    client.end(done)
   })
 })

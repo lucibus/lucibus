@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {branch} from 'baobab-react/decorators'
+import PropTypes from 'baobab-react/prop-types'
 import dragula from 'dragula'
 
 import SystemItem from './SystemItem'
@@ -8,14 +9,46 @@ import AddAddressOne from './AddAddressOne'
 
 export default @branch({
   cursors: {
-    live: ['live']
+    systems: ['live', 'systems']
   }
 })
 class LiveList extends Component {
+  static contextTypes = {
+    tree: PropTypes.baobab,
+    cursors: PropTypes.cursors
+  }
+
+  get listNode () {
+    return React.findDOMNode(this.refs.list)
+  }
+
+  // after one of the items is dragged around, the dom is updated.
+  // so then we can look through the dom to see the list of uuid's of the
+  // dom nodes in order, so that we figure out what moved
+  get uuidsFromDom () {
+    return [].map.call(this.listNode.children, this.uuidFromNode)
+  }
+
+  uuidFromNode (node) {
+    return node.getAttribute('data-uuid')
+  }
+
   componentDidMount () {
-    var listNode = React.findDOMNode(this).children[0]
-    this.drake = dragula([listNode])
-    this.drake.on('drop', function (a, b, c) {console.log(a, b, c)})
+    this.drake = dragula([this.listNode])
+    this.drake.on('drop', this.onDrop.bind(this))
+  }
+
+  // `el` was dropped into `container`, and originally came from `source`
+  onDrop (el, container, source) {
+    var uuid = this.uuidFromNode(el)
+
+    // delete this system from its old index and add it to its new one
+    var previousIndex = this.props.systems.map(e => e.uuid).indexOf(uuid)
+    var system = this.props.systems[previousIndex]
+    var newIndex = this.uuidsFromDom.indexOf(uuid)
+    this.context.cursors.systems.splice([[previousIndex, 1], [newIndex, 0, system]])
+    //debugger
+    this.context.tree.commit()
   }
 
   // componentDidUpdate () {
@@ -28,10 +61,10 @@ class LiveList extends Component {
   render () {
     return (
       <div>
-        <ol className='list-group'>
-          {this.props.live.systems.map(function (system, index) {
+        <ol className='list-group' ref='list'>
+          {this.props.systems.map(function (system, index) {
             return (
-              <li className='list-group-item'>
+              <li key={system.uuid} data-uuid={system.uuid} className='list-group-item'>
                 <SystemItem {...system} />
               </li>
             )
@@ -45,10 +78,7 @@ class LiveList extends Component {
 }
 
 LiveList.propTypes = {
-  live: React.PropTypes.shape({
-    level: React.PropTypes.number,
-    systems: React.PropTypes.arrayOf(React.PropTypes.shape(SystemItem.propTypes))
-  })
+  systems: React.PropTypes.arrayOf(React.PropTypes.shape(SystemItem.propTypes))
 }
 
           // <li className='list-group-item'>
