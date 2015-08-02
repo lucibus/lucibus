@@ -9,12 +9,12 @@ const state = {
   },
   'local': {
     'selected': {
-      'uuid': null,
-      '$system': [
-        ['local', 'selected', 'uuid'],
-        ['synced', 'live', 'systems'],
-        (uuid, systems) => systems.find(s => s.uuid === uuid)
-      ]
+      'uuid': null
+      // '$system': [
+      //   ['local', 'selected', 'uuid'],
+      //   ['synced', 'live', 'systems'],
+      //   (uuid, systems) => systems.find(s => s.uuid === uuid)
+      // ]
     }
   }
 }
