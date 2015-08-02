@@ -85,15 +85,14 @@ for examples.
 
 #### State
 We use [react](http://facebook.github.io/react/) for the view layer and
-[baobab](https://github.com/Yomguithereal/baobab) (using [baobab-react](https://github.com/Yomguithereal/baobab-react))
+[cerebral-react-baobab]https://github.com/christianalfoni/cerebral-react-baobab)
 for the state. We chose baobab over a classic Flux solution because it minimizes
 the amount of code we have to write for state changes and supports having one
 global state, which is helpful initially, so that we can sync it easily to the
 backend.
 
-We are using the decorator style for baobab-react. [Check out their documentation](https://github.com/Yomguithereal/baobab-react#decorators)
-for some nice examples.
-
+I reccomend you get the [cerebrum chrome extension](https://chrome.google.com/webstore/detail/cerebral-debugger/ddefoknoniaeoikpgneklcbjlipfedbb?hl=no)
+to help debug stuff.
 
 ## Editors
 
