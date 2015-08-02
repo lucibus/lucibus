@@ -5,7 +5,9 @@ import sample from './sample.json'
 var parsed = queryString.parse(location.search)
 
 var debug = JSON.parse(parsed.debug || 'false')
+
 if (debug) {
+  console.log('Using debug websocket server')
   window.WebSocket = window.MockSocket
   var mockServer = new window.MockServer('ws://localhost:9001')
   mockServer.on('connection', function (server) {

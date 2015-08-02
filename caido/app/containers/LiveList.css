@@ -1,0 +1,14 @@
+.level {
+    color: orange;
+    font-weight: 600px;
+}
+
+.drag-item {
+  transition: opacity 0.4s ease-in-out;
+  cursor: move;
+  cursor: grab;
+}
+
+:global(.gu-unselectable) {
+  cursor: grabbing;
+};

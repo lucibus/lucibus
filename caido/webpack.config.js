@@ -45,8 +45,8 @@ module.exports = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
     'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
     'webpack/hot/dev-server',
-    './app/mainApp'
-  ] : './app/mainApp',
+    './app/main'
+  ] : './app/main',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',

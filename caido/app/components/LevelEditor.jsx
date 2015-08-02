@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
+import Component from '../Component'
 
 export default class LevelEditor extends Component {
   render () {
