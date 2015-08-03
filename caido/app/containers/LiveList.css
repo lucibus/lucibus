@@ -13,3 +13,7 @@
 :global(.gu-mirror) {
   position: fixed;
 }
+
+:global(.gu-transit) {
+  outline: 2px auto grey;
+}
