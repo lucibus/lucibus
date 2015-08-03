@@ -70,7 +70,8 @@ module.exports = {
       'html': 'html-loader',
       'md|markdown': ['html-loader', 'markdown-loader'],
       'css': ExtractTextPlugin.extract('style-loader', 'css-loader?module&importLoaders=1!postcss-loader'),
-      'less': ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
+      'less': ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
+      'styl': ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
 
     }),
     preloaders: loadersByExtension({

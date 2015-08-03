@@ -7,6 +7,7 @@ import Component from '../Component'
 import SystemItem from '../components/SystemItem'
 import AddAddressOne from './AddAddressOne'
 import styles from './LiveList.css'
+import 'dragula/dragula.styl'
 
 export default @Decorator({
   systems: ['synced', 'live', 'systems']

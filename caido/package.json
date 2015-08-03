@@ -44,6 +44,7 @@
     "source-map-loader": "^0.1.5",
     "standard": "^4.5.4",
     "style-loader": "^0.12.3",
+    "stylus-loader": "^1.2.1",
     "superagent": "^1.2.0",
     "url-loader": "^0.5.6",
     "uuid-js": "^0.7.5",
