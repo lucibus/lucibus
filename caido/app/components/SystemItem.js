@@ -6,7 +6,7 @@ import Level from '../elements/Level'
 export default class SystemItem extends Component {
   render () {
     return (
-        <Level description={'Address ' + this.props.address} level={this.props.level} />
+      <Level description={'Address ' + this.props.address} level={this.props.level} />
     )
   }
 }

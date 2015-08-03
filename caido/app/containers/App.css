@@ -8,3 +8,7 @@
   color: orange;
   background-color: lighten(black, 13.5%);
 }
+
+.body {
+  margin-top: 20px
+}

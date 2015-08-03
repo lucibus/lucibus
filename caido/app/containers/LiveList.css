@@ -1,14 +1,15 @@
-.level {
-    color: orange;
-    font-weight: 600px;
+.drag-handle-parent {
+/*  transition: opacity 0.4s ease-in-out;*/
+  position: absolute;
+  left: -0.5em;
+  margin-top: 0.2em;
 }
 
-.drag-item {
-  transition: opacity 0.4s ease-in-out;
+.drag-handle {
   cursor: move;
   cursor: grab;
 }
 
-:global(.gu-unselectable) {
-  cursor: grabbing;
-};
+:global(.gu-mirror) {
+  position: fixed;
+}

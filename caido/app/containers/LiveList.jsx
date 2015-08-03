@@ -28,7 +28,11 @@ class LiveList extends Component {
   }
 
   componentDidMount () {
-    this.drake = dragula([this.listNode])
+    this.drake = dragula([this.listNode], {
+      moves: function (el, container, handle) {
+        return handle.classList.contains(styles['drag-handle'])
+      }
+    })
     this.drake.on('drop', this.onDrop.bind(this))
   }
 
@@ -43,7 +47,10 @@ class LiveList extends Component {
 
   renderSystem (system) {
     return (
-      <li key={system.uuid} data-uuid={system.uuid} className={classNames(styles['drag-item'], 'list-group-item')}>
+      <li key={system.uuid} data-uuid={system.uuid}>
+        <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
+          <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
+        </div>
         <SystemItem {...system} />
       </li>
     )
@@ -53,7 +60,7 @@ class LiveList extends Component {
     console.log('rerendering')
     return (
       <div>
-        <ol className='list-group' ref='list'>
+        <ol className='list-unstyled' ref='list'>
           {this.props.systems.map(this.renderSystem.bind(this))}
         </ol>
         <AddAddressOne />

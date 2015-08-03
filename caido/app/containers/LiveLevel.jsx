@@ -14,11 +14,8 @@ export default @Decorator({
 class LiveLevel extends Component {
   render () {
     return (
-      <div className='well'>
-        <Level description='Grandmaster' level={this.props.level} className='col-lg-2 control-label'/>
-      </div>
+      <Level description='Grandmaster' level={this.props.level} status='primary'/>
     )
-
   }
 }
 
