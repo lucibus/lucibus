@@ -1,13 +1,13 @@
 import React from 'react'
 import {Decorator} from 'cerebral-react-baobab'
-import dragula from 'dragula'
+import dragula from 'react-dragula'
 import classNames from 'classnames'
 
 import Component from '../Component'
 import SystemItem from '../components/SystemItem'
 import AddAddressOne from './AddAddressOne'
 import styles from './LiveList.css'
-import 'dragula/dragula.styl'
+import 'react-dragula/node_modules/dragula/dragula.styl'
 
 export default @Decorator({
   systems: ['synced', 'live', 'systems']
@@ -58,7 +58,6 @@ class LiveList extends Component {
   }
 
   render () {
-    console.log('rerendering')
     return (
       <div>
         <ol className='list-unstyled' ref='list'>
