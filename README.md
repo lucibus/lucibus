@@ -4,3 +4,8 @@
 
 [![Circle CI](https://circleci.com/gh/lucibus/lucibus.svg?style=svg)](https://circleci.com/gh/lucibus/lucibus)
 [![Build Status](https://travis-ci.org/lucibus/lucibus.svg)](https://travis-ci.org/lucibus/lucibus)
+
+
+To build run `make`. This will build the `./subicul` executable. Running
+this will start the HTML server on port 80 and the websocket server on port
+8080.

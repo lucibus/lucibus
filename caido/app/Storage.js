@@ -1,7 +1,10 @@
+import config from './config'
+import './mockWebSocket'
+
 class Storage {
 
   constructor (url) {
-    this.socket = new WebSocket(url)
+    this.socket = new config.WebSocket(url)
 
     this.socket.onmessage = event => {
       this.onMessageCallback(
@@ -20,5 +23,5 @@ class Storage {
   }
 }
 
-export default new Storage('ws://localhost:9001')
+export default new Storage(config.webSocketOrigin)
 

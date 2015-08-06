@@ -18,7 +18,7 @@ This has hot reloading enabled.
 
 ```
 npm run dev-server
-open "http://localhost:8080/?debug=true"
+open "http://localhost:8080/?mock_websocket=true"
 ```
 
 ### Production Server

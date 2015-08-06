@@ -20,7 +20,7 @@ func TestMainCLI(t *testing.T) {
 
 		ctx, cancelFunc := context.WithCancel(context.Background())
 
-		app := makeCliApp(ctx)
+		app := MakeCliApp(ctx)
 		go app.Run([]string{"<executable path>", "--port", strconv.Itoa(port)})
 		time.Sleep(time.Millisecond)
 

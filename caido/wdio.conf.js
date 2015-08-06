@@ -116,7 +116,6 @@ if (booleanFromEnv('WDIO_DOCKER', false)) {
   // Shorten url command calls by setting a base url. If your url parameter starts with '/'
   // the base url gets prepended.
   config.baseUrl = 'http://serve'
-  console.log('yeah!')
 }
 
 if (booleanFromEnv('WDIO_SAUCELABS', false)) {
@@ -140,8 +139,6 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   // Shorten url command calls by setting a base url. If your url parameter starts with '/'
   // the base url gets prepended.
   config.baseUrl = 'http://localhost:8080'
-
-  console.log('no....')
 }
 
 exports.config = config

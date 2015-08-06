@@ -37,7 +37,7 @@ func (fod *FileOutputDevice) Set(s lige.State) error {
 	return nil
 }
 
-func makeCliApp(ctx context.Context) *cli.App {
+func MakeCliApp(ctx context.Context) *cli.App {
 	app := cli.NewApp()
 	app.Name = "subicul"
 	app.Usage = "lighting server"
@@ -68,6 +68,6 @@ func makeCliApp(ctx context.Context) *cli.App {
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
-	app := makeCliApp(context.Background())
+	app := MakeCliApp(context.Background())
 	app.Run(os.Args)
 }

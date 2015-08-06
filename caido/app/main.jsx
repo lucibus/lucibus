@@ -1,7 +1,5 @@
 import React from 'react'
 
-// must be imported before `Storage` so that it mocks the websocket
-import './debug_'
 
 import App from './containers/App'
 import controller from './controller'
