@@ -1,7 +1,11 @@
-function extsToRegExp (exts) {
-  return new RegExp('\\.(' + exts.map(function (ext) {
-    return ext.replace(/\./g, '\\.')
-  }).join('|') + ')(\\?.*)?$')
+var path = require('path')
+
+function useLoader (exts) {
+  return function (absPath) {
+    var ext = path.extname(absPath).slice(1)
+    var matches = exts.indexOf(ext) !== -1
+    return matches
+  }
 }
 
 module.exports = function loadersByExtension (obj) {
@@ -11,7 +15,7 @@ module.exports = function loadersByExtension (obj) {
     var value = obj[key]
     var entry = {
       extensions: exts,
-      test: extsToRegExp(exts)
+      test: useLoader(exts)
     }
     if (Array.isArray(value)) {
       entry.loaders = value

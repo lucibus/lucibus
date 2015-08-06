@@ -28,7 +28,7 @@ GLOBAL OPTIONS:
 First install the library
 
 ```shell
-go install github.com/lucibus/subicul
+go install github.com/lucibus/lucibus
 ```
 
 # Testing
