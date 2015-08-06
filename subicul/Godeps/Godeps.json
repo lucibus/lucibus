@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/lucibus/subicul",
+	"ImportPath": "github.com/lucibus/lucibus/subicul",
 	"GoVersion": "go1.4.2",
 	"Packages": [
 		"./..."
