@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import 'script!mock-socket'
+import 'script!mock-socket/dist/mock-socket.js'
 
 var qSParsed = queryString.parse(location.search)
 
