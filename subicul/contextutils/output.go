@@ -10,8 +10,8 @@ const outputKey = "DMXAdaptor"
 
 // GetDMXAdaptor returns the current DMXAdaptor from the context. If none is set,
 // an error will be logged.
-func GetDMXAdaptor(ctx context.Context) dmx.Adaptor {
-	od, ok := ctx.Value(outputKey).(dmx.Adaptor)
+func GetDMXAdaptor(ctx context.Context) *dmx.Adaptor {
+	od, ok := ctx.Value(outputKey).(*dmx.Adaptor)
 	if ok != true {
 		log := GetLogger(ctx, "contextutils.output")
 		log.WithFields(logrus.Fields{
@@ -25,5 +25,6 @@ func GetDMXAdaptor(ctx context.Context) dmx.Adaptor {
 
 // WithDMXAdaptor returns a new context with the DMXAdaptor value set
 func WithDMXAdaptor(ctx context.Context, DMXAdaptor dmx.Adaptor) context.Context {
-	return context.WithValue(ctx, outputKey, DMXAdaptor)
+	DMXAdaptor.Connect()
+	return context.WithValue(ctx, outputKey, &DMXAdaptor)
 }

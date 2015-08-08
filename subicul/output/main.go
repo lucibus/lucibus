@@ -10,7 +10,7 @@ import (
 // it to an output device
 func Output(ctx context.Context) {
 	log := contextutils.GetLogger(ctx, "output")
-	a := contextutils.GetDMXAdaptor(ctx)
+	a := *contextutils.GetDMXAdaptor(ctx)
 	for {
 		select {
 		case <-ctx.Done():
