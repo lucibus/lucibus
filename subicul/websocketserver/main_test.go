@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sync"
 	"testing"
 	"time"
 
 	"golang.org/x/net/context"
 
 	"github.com/gorilla/websocket"
-	lige "github.com/lucibus/lige/output"
+	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/testutils"
 
 	. "github.com/smartystreets/goconvey/convey"
@@ -32,7 +31,7 @@ var stateOneDimmer = []byte(`
 	}
 `)
 
-var stateNoDimmers = InitialStateBytes
+var stateNaimmers = InitialStateBytes
 
 func shouldSend(conn *websocket.Conn, message []byte) {
 	err := conn.WriteMessage(websocket.TextMessage, message)
@@ -55,30 +54,12 @@ func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
 	return ""
 }
 
-type testOutputDevice struct {
-	output lige.State
-	sync.Mutex
-}
-
-func (od *testOutputDevice) Set(s lige.State) error {
-	od.Lock()
-	od.output = s
-	od.Unlock()
-	return nil
-}
-
-func (od *testOutputDevice) get() lige.State {
-	od.Lock()
-	defer od.Unlock()
-	return od.output
-}
-
 func TestServer(t *testing.T) {
 	Convey("when i start the server", t, func() {
 		port := 9001
-		od := testOutputDevice{}
+		a := dmx.NewDebugAdaptor()
 		ctx, cancelF := context.WithCancel(context.Background())
-		err := MakeStateServer(ctx, port, &od)
+		err := MakeStateServer(ctx, port, a)
 		So(err, ShouldBeNil)
 		url := fmt.Sprintf("ws://localhost:%v/", port)
 		d := websocket.Dialer{}
@@ -86,7 +67,7 @@ func TestServer(t *testing.T) {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
 			Convey("it should return a default state", func() {
-				shouldGet(conn, stateNoDimmers)
+				shouldGet(conn, stateNaimmers)
 
 				Convey("it should take an updated state", func() {
 					newState := stateOneDimmer
@@ -94,7 +75,7 @@ func TestServer(t *testing.T) {
 
 					Convey("and it should output the new state", func() {
 						time.Sleep(time.Second / 2)
-						So(od.get(), ShouldResemble, lige.State{1: 255})
+						So(a.LastOutput, ShouldResemble, map[int]byte{1: 255})
 					})
 
 					Convey("and reconnect", func() {
@@ -132,7 +113,7 @@ func TestServer(t *testing.T) {
 			})
 
 			Convey("output should be blank", func() {
-				So(od.get(), ShouldResemble, lige.State{})
+				So(a.LastOutput, ShouldResemble, map[int]byte{})
 			})
 			Reset(func() {
 				shouldCloseConnection(conn)
@@ -153,9 +134,9 @@ func TestServer(t *testing.T) {
 func BenchmarkServer(b *testing.B) {
 	//	runtime.GOMAXPROCS(runtime.NumCPU())
 	port := 9001
-	od := testOutputDevice{}
+	a := dmx.NewDebugAdaptor()
 	ctx, cancelF := context.WithCancel(context.Background())
-	err := MakeStateServer(ctx, port, &od)
+	err := MakeStateServer(ctx, port, a)
 	if err != nil {
 		log.Panicln("error in create server", err)
 	}
@@ -172,18 +153,18 @@ func BenchmarkServer(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		prevLength := len(od.output)
+		prevLength := len(a.LastOutput)
 		if toggleSendOneDimmer {
 			message = stateOneDimmer
 		} else {
-			message = stateNoDimmers
+			message = stateNaimmers
 		}
 		toggleSendOneDimmer = !toggleSendOneDimmer
 		b.StartTimer()
 		conn.WriteMessage(websocket.TextMessage, message)
 		for {
 			time.Sleep(time.Nanosecond)
-			if len(od.output) != prevLength {
+			if len(a.LastOutput) != prevLength {
 				break
 			}
 		}

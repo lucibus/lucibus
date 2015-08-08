@@ -4,7 +4,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/Sirupsen/logrus"
-	lige "github.com/lucibus/lige/output"
+	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/contextutils"
 	"github.com/lucibus/lucibus/subicul/output"
 )
@@ -39,14 +39,14 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 }
 
 // MakeStateServer starts up a new server and populates the initial state.
-func MakeStateServer(ctx context.Context, port int, od lige.OutputDevice) error {
+func MakeStateServer(ctx context.Context, port int, a dmx.Adaptor) error {
 	ctxWithState, err := contextutils.WithState(ctx, InitialStateBytes)
 	if err != nil {
 		return err
 	}
-	ctx = contextutils.WithOutputDevice(
+	ctx = contextutils.WithDMXAdaptor(
 		contextutils.WithLogger(ctxWithState, logrus.New()),
-		od,
+		a,
 	)
 	websocketServerErr := CreateWebsocketServer(
 		ctx,

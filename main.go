@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/elazarl/go-bindata-assetfs"
@@ -14,7 +15,13 @@ func main() {
 	subiculPort := 8080
 	ctx := context.Background()
 	app := subicul.MakeCliApp(ctx)
-	go app.Run([]string{"<executable path>", "--port", strconv.Itoa(subiculPort)})
+	var path string
+	if len(os.Args) == 2 {
+		path = os.Args[1]
+	} else {
+		path = ""
+	}
+	go app.Run([]string{"<executable path>", "--port", strconv.Itoa(subiculPort), "--path", path})
 	staticPort := 80
 	http.Handle("/", http.FileServer(
 		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "caido/dist"},

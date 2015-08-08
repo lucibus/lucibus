@@ -2,7 +2,6 @@ package output
 
 import (
 	"github.com/Sirupsen/logrus"
-	lige "github.com/lucibus/lige/output"
 	"github.com/lucibus/lucibus/subicul/contextutils"
 	"golang.org/x/net/context"
 )
@@ -11,7 +10,7 @@ import (
 // it to an output device
 func Output(ctx context.Context) {
 	log := contextutils.GetLogger(ctx, "output")
-	od := contextutils.GetOutputDevice(ctx)
+	a := contextutils.GetDMXAdaptor(ctx)
 	for {
 		select {
 		case <-ctx.Done():
@@ -27,12 +26,12 @@ func Output(ctx context.Context) {
 			}).Error("can't get output for state")
 			continue
 		}
-		err = od.Set(lige.State(o))
+		err = a.OutputDMX(o, 512)
 		if err != nil {
 			log.WithFields(logrus.Fields{
-				"output device": od,
-				"err":           err,
-				"output":        o,
+				"DMX adaptor": a,
+				"err":         err,
+				"output":      o,
 			}).Error("can't output dimmers")
 		}
 
