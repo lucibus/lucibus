@@ -4,10 +4,10 @@ import dragula from 'react-dragula'
 import classNames from 'classnames'
 
 import Component from '../Component'
-import SystemItem from '../components/SystemItem'
 import AddAddressOne from './AddAddressOne'
 import styles from './LiveList.css'
 import 'react-dragula/node_modules/dragula/dragula.styl'
+import Level from '../elements/Level'
 
 @Decorator({
   systems: ['synced', 'live', 'systems']
@@ -31,6 +31,7 @@ class LiveList extends Component {
   componentDidMount () {
     this.drake = dragula([this.listNode], {
       moves: function (el, container, handle) {
+        console.log(handle.classList, styles['drag-handle'])
         return handle.classList.contains(styles['drag-handle'])
       }
     })
@@ -52,7 +53,7 @@ class LiveList extends Component {
         <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
-        <SystemItem {...system} />
+        <Level description={'Address ' + system.address} level={system.level} uuid={system.uuid}/>
       </li>
     )
   }
@@ -71,7 +72,7 @@ class LiveList extends Component {
 }
 
 LiveList.propTypes = {
-  systems: React.PropTypes.arrayOf(React.PropTypes.shape(SystemItem.propTypes)),
+  systems: React.PropTypes.arrayOf(React.PropTypes.shape(Level.propTypes)),
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
 

@@ -9,11 +9,18 @@ const state = {
   },
   'local': {
     'selected': {
-      'uuid': null
+      'uuid': 'live'
       // '$system': [
       //   ['local', 'selected', 'uuid'],
       //   ['synced', 'live', 'systems'],
-      //   (uuid, systems) => systems.find(s => s.uuid === uuid)
+      //   ['synced', 'live'],
+      //   (uuid, systems, live) => {
+      //     if (uuid === 'live') {
+      //       console.log(live)
+      //       return live
+      //     }
+      //     return systems.find(s => s.uuid === uuid)
+      //   }
       // ]
     }
   }

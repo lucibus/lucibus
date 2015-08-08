@@ -14,7 +14,7 @@ import Level from '../elements/Level'
 class LiveLevel extends Component {
   render () {
     return (
-      <Level description='Grandmaster' level={this.props.level} status='primary'/>
+      <Level description='Grandmaster' level={this.props.level} status='primary' uuid='live'/>
     )
   }
 }

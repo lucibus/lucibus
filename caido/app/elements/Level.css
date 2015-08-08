@@ -1,74 +1,13 @@
-body {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-:global(.horizontal-slider) {
-    width: 100%;
-    max-width: 500px;
-    height: 50px;
-    border: 1px solid grey;
-}
-
-:global(.vertical-slider) {
-    height: 380px;
-    width: 50px;
-    border: 1px solid grey;
-}
-
-:global(.handle) {
-    font-size: 0.9em;
-    text-align: center;
-    background-color: black;
-    color: white;
+.level {
+    padding-top: .1em;
+    padding-bottom: .4em;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    display: inline-block; /* make this as small as possible, so that border doesn't extend past */
+    border-radius: .3em;
     cursor: pointer;
 }
 
-:global(.handle.active) {
-    background-color: grey;
-}
-
-:global(.bar) {
-    position: relative;
-    background: #ddd;
-}
-
-:global(.bar.bar-1) {
-    background: #f00;
-}
-
-:global(.bar.bar-2) {
-    background: #0f0;
-}
-
-:global(.horizontal-slider .bar) {
-    top: 20px;
-    height: 10px;
-}
-
-:global(.horizontal-slider .handle) {
-    top: 1px;
-    width: 50px;
-    height: 48px;
-    line-height: 48px;
-}
-
-:global(.vertical-slider .handle) {
-    left: 1px;
-    width: 48px;
-    line-height: 50px;
-}
-
-:global(.vertical-slider .bar) {
-    left: 20px;
-    width: 10px;
-}
-
-:global(#horizontal-0,
-#horizontal-1, #horizontal-2, #horizontal-3,
-#vertical) {
-    margin: 20px 10px;
-}
-
-:global(#horizontal-2 .bar.bar-2) {
-    background: #ddd;
+.selected {
+    background-color: #3A3A3A;
 }
