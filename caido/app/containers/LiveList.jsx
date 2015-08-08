@@ -39,7 +39,7 @@ class LiveList extends Component {
 
   // `el` was dropped into `container`, and originally came from `source`
   onDrop (el, container, source) {
-    //[].map.call(container.children, e => e.removeAttribute('data-reactid'))
+    // [].map.call(container.children, e => e.removeAttribute('data-reactid'))
 
     var uuid = this.uuidFromNode(el)
     var newIndex = this.uuidsFromDom.indexOf(uuid)

@@ -9,6 +9,6 @@ if (config.mockWebSocket) {
   })
 
   mockServer.on('message', function incoming (message) {
-     console.log('Sent websocket message: %s', message)
-   })
+    console.log('Sent websocket message: %s', message)
+  })
 }
