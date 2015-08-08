@@ -4,7 +4,7 @@ import {Decorator} from 'cerebral-react-baobab'
 import Component from '../Component'
 import Level from '../elements/Level'
 
-export default @Decorator({
+@Decorator({
   level: [
     'synced',
     'live',
@@ -23,3 +23,4 @@ LiveLevel.propTypes = {
   level: React.PropTypes.number
 }
 
+export default LiveLevel

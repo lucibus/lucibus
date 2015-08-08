@@ -4,7 +4,7 @@ import {Decorator} from 'cerebral-react-baobab'
 import Component from '../Component'
 
 @Decorator()
-export default class CommandInput extends Component {
+class CommandInput extends Component {
   render () {
     return (
       <p onClick={() => this.props.signals.clickedAddAddressOne()}>
@@ -18,3 +18,4 @@ CommandInput.propTypes = {
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
 
+export default CommandInput

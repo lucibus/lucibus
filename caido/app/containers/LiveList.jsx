@@ -9,7 +9,7 @@ import AddAddressOne from './AddAddressOne'
 import styles from './LiveList.css'
 import 'react-dragula/node_modules/dragula/dragula.styl'
 
-export default @Decorator({
+@Decorator({
   systems: ['synced', 'live', 'systems']
 })
 class LiveList extends Component {
@@ -74,3 +74,5 @@ LiveList.propTypes = {
   systems: React.PropTypes.arrayOf(React.PropTypes.shape(SystemItem.propTypes)),
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
+
+export default LiveList

@@ -2,7 +2,7 @@ import React from 'react'
 
 import Component from '../Component'
 
-export default class ModifyLevel extends Component {
+class ModifyLevel extends Component {
   onChange (e) {
     var newValue = parseFloat(e.target.value)
     this.props.onChange(newValue)
@@ -23,3 +23,4 @@ ModifyLevel.propTypes = {
   onChange: React.PropTypes.func
 }
 
+export default ModifyLevel

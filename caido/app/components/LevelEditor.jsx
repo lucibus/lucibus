@@ -1,7 +1,7 @@
 import React from 'react'
 import Component from '../Component'
 
-export default class LevelEditor extends Component {
+class LevelEditor extends Component {
   render () {
     return (
       <div>
@@ -17,3 +17,4 @@ LevelEditor.propTypes = {
   onChange: React.PropTypes.func
 }
 
+export default LevelEditor

@@ -4,7 +4,7 @@ import {Decorator} from 'cerebral-react-baobab'
 import Component from '../Component'
 
 @Decorator()
-export default class AddAddressOne extends Component {
+class AddAddressOne extends Component {
   render () {
     return (
       <p onClick={() => this.props.signals.clickedAddAddressOne()}>
@@ -18,3 +18,4 @@ AddAddressOne.propTypes = {
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
 
+export default AddAddressOne

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 import Component from '../Component'
 
-export default class Level extends Component {
+class Level extends Component {
   render () {
     return (
       <p>
@@ -21,3 +21,5 @@ Level.propTypes = {
 }
 
 Level.defaultProps = { status: 'success' }
+
+export default Level
