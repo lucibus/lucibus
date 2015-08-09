@@ -35,6 +35,7 @@ if (booleanFromEnv('WEBPACK_MINIMIZE_DEV', false)) {
   )
 }
 
+var loadersJS = ['autopolyfiller', 'babel-loader?stage=0']
 
 module.exports = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
@@ -50,10 +51,11 @@ module.exports = {
   },
   module: {
     loaders: loadersByExtension({
-      'jsx': booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot', 'babel-loader?stage=0'] : 'babel-loader?stage=0',
+      'jsx': booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(loadersJS) : loadersJS,
       'js': {
-        loader: 'babel-loader?stage=0',
-        include: path.join(__dirname, 'app')
+        loaders: loadersJS,
+        include: path.join(__dirname, 'app'),
+        exclude: /-loader/
       },
       'json': 'json-loader',
       'json5': 'json5-loader',
