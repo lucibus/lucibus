@@ -46,7 +46,7 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     sourceMapFilename: '[name].map',
-    pathinfo: process.env.WEBPACK_PATH_INFO
+    pathinfo: process.env.WEBPACK_DEBUG
   },
   module: {
     loaders: loadersByExtension({
