@@ -38,6 +38,7 @@
     "mocha": "^2.2.5",
     "mock-socket": "^0.6.0",
     "postcss-loader": "^0.5.1",
+    "purifycss-loader": "^1.0.0",
     "query-string": "^2.4.0",
     "react": "^0.13.3",
     "react-dragula": "^1.0.2",
@@ -66,6 +67,7 @@
     ]
   },
   "devDependencies": {
-    "dependency-check": "^2.5.0"
+    "dependency-check": "^2.5.0",
+    "purifycss-loader": "git+ssh://git@github.com/iam4x/purifycss-webpack-plugin.git#patch-1"
   }
 }

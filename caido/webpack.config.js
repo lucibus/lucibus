@@ -5,7 +5,9 @@ var loadersByExtension = require('./config/loadersByExtension')
 var booleanFromEnv = require('./config/booleanFromEnv')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var AutoprefixerCore = require('autoprefixer-core')
-require('babel-core/polyfill');
+var PurifyCssPlugin = require('purifycss-loader/PurifyCssPlugin')
+
+require('babel-core/polyfill')
 
 var plugins = [
   new webpack.PrefetchPlugin('react'),
@@ -17,7 +19,8 @@ var plugins = [
   new ExtractTextPlugin('[name].css', {
     allChunks: true
   }),
-  new webpack.NoErrorsPlugin()
+  new webpack.NoErrorsPlugin(),
+  new PurifyCssPlugin(__dirname, '/app/index.html')
 ]
 
 if (booleanFromEnv('WEBPACK_MINIMIZE_DEV', false)) {
@@ -66,9 +69,9 @@ module.exports = {
       'wav|mp3': 'file-loader',
       'html': 'html-loader',
       'md|markdown': ['html-loader', 'markdown-loader'],
-      'css': ExtractTextPlugin.extract('style-loader', 'css-loader?module&importLoaders=1!postcss-loader'),
-      'less': ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
-      'styl': ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
+      'css': ExtractTextPlugin.extract('style-loader', 'css-loader?module&importLoaders=1!purifycss-loader!postcss-loader'),
+      'less': ExtractTextPlugin.extract('style-loader', 'css-loader!purifycss-loader!less-loader'),
+      'styl': ExtractTextPlugin.extract('style-loader', 'css-loader!purifycss-loader!stylus-loader')
 
     }),
     preloaders: loadersByExtension({
