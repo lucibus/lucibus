@@ -5,7 +5,7 @@ var loadersByExtension = require('./config/loadersByExtension')
 var booleanFromEnv = require('./config/booleanFromEnv')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var AutoprefixerCore = require('autoprefixer-core')
-require('babel-core/polyfill');
+require('babel-core/polyfill')
 
 var plugins = [
   new webpack.PrefetchPlugin('react'),
