@@ -23,7 +23,6 @@ class Inspector extends Component {
   }
 
   render () {
-    console.log(this.handleChange.bind(this))
     return (
       <div>
         <input type='range' min='0' max='1' step='0.01' value={this.level} onChange={this.handleChange.bind(this)} />

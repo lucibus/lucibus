@@ -31,7 +31,6 @@ class LiveList extends Component {
   componentDidMount () {
     this.drake = dragula([this.listNode], {
       moves: function (el, container, handle) {
-        console.log(handle.classList, styles['drag-handle'])
         return handle.classList.contains(styles['drag-handle'])
       }
     })
