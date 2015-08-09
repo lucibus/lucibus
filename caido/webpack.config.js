@@ -5,6 +5,7 @@ var loadersByExtension = require('./config/loadersByExtension')
 var booleanFromEnv = require('./config/booleanFromEnv')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var AutoprefixerCore = require('autoprefixer-core')
+require('babel-core/polyfill');
 
 var plugins = [
   new webpack.PrefetchPlugin('react'),
@@ -35,6 +36,7 @@ if (booleanFromEnv('WEBPACK_MINIMIZE_DEV', false)) {
   )
 }
 
+var jsLoaders = ['babel-loader?stage=0&optional=runtime']
 
 module.exports = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
@@ -50,9 +52,9 @@ module.exports = {
   },
   module: {
     loaders: loadersByExtension({
-      'jsx': booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot', 'babel-loader?stage=0'] : 'babel-loader?stage=0',
+      'jsx': booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(jsLoaders) : jsLoaders,
       'js': {
-        loader: 'babel-loader?stage=0',
+        loaders: jsLoaders,
         include: path.join(__dirname, 'app')
       },
       'json': 'json-loader',
