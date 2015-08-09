@@ -34,7 +34,7 @@ class Inspector extends Component {
 
 Inspector.propTypes = {
   uuid: React.PropTypes.objectOf(React.PropTypes.any),
-  systems: React.PropTypes.arrayOf(React.PropTypes.any),
+  systems: React.PropTypes.any,
   liveLevel: React.PropTypes.number,
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
