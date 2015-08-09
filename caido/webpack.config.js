@@ -20,7 +20,7 @@ var plugins = [
   new webpack.NoErrorsPlugin()
 ]
 
-if (booleanFromEnv('WEBPACK_MINIMIZE_DEV', false)) {
+if (booleanFromEnv('WEBPACK_MINIMIZE', false)) {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
