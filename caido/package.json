@@ -6,7 +6,7 @@
     "lint": "standard",
     "test-docker": "env WDIO_DOCKER=true wdio wdio.conf.js",
     "test-saucelabs": "env WDIO_SAUCELABS=true wdio wdio.conf.js",
-    "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true webpack-dev-server --colors --progress --hot",
+    "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true env WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
     "build": "env WEBPACK_DEV_MINIMIZE=true webpack --colors",
     "deps:updates": "npm-check-updates"
   },

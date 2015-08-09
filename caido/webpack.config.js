@@ -35,11 +35,6 @@ if (booleanFromEnv('WEBPACK_MINIMIZE_DEV', false)) {
   )
 }
 
-if (booleanFromEnv('WEBPACK_HOT_COMPONENTS', false)) {
-  plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-  )
-}
 
 module.exports = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
