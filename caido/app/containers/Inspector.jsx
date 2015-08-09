@@ -3,6 +3,7 @@ import React from 'react'
 import {Decorator} from 'cerebral-react-baobab'
 
 import Component from '../Component'
+import styles from './Inspector.css'
 
 @Decorator({
   liveLevel: ['synced', 'live', 'level'],
@@ -25,7 +26,7 @@ class Inspector extends Component {
   render () {
     return (
       <div>
-        <input type='range' min='0' max='1' step='0.01' value={this.level} onChange={this.handleChange.bind(this)} />
+        <input type='range' min='0' max='1' step='0.01' value={this.level} className={styles['range']} onChange={this.handleChange.bind(this)} />
       </div>
     )
   }

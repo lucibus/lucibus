@@ -7,7 +7,7 @@
     "test-docker": "env WDIO_DOCKER=true wdio wdio.conf.js",
     "test-saucelabs": "env WDIO_SAUCELABS=true wdio wdio.conf.js",
     "dev-server": "env WEBPACK_DEV_SERVER=true WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true webpack-dev-server --colors --progress --hot",
-    "build": "env WEBPACK_DEV_MINIMIZE=true webpack --colors",
+    "build": "env WEBPACK_MINIMIZE=true webpack --colors",
     "deps:updates": "npm-check-updates"
   },
   "license": "MIT",
@@ -40,7 +40,7 @@
     "postcss-loader": "^0.5.1",
     "query-string": "^2.4.0",
     "react": "^0.13.3",
-    "react-dragula": "^1.0.2",
+    "react-dragula": "^1.0.5",
     "react-hot-loader": "^1.2.8",
     "script-loader": "^0.6.1",
     "source-map-loader": "^0.1.5",
