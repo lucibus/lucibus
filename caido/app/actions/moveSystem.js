@@ -1,4 +1,4 @@
-export default function moveSystem (args, state) {
+function moveSystem (args, state) {
   var {uuid, newIndex} = args
 
   var systems = state.get(['synced', 'live', 'systems'])
@@ -10,3 +10,10 @@ export default function moveSystem (args, state) {
     [newIndex, 0, [system]]
   ])
 }
+
+moveSystem.input = {
+  uuid: String,
+  newIndex: Number
+}
+
+export default moveSystem

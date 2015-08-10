@@ -1,6 +1,8 @@
 import Storage from '../Storage'
 
-export default function outputSynced (args, state, promise) {
+function outputSynced (args, state, output) {
   Storage.store(state.get('synced'))
-  promise.resolve()
+  output()
 }
+
+export default outputSynced

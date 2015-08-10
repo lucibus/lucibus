@@ -1,4 +1,4 @@
-export default function selectSystem (args, state) {
+function setSystemLevel (args, state) {
   var {uuid, level} = args
 
   if (uuid === 'live') {
@@ -11,3 +11,10 @@ export default function selectSystem (args, state) {
 
   state.set(['synced', 'live', 'systems', index, 'level'], level)
 }
+
+setSystemLevel.input = {
+  uuid: String,
+  level: Number
+}
+
+export default setSystemLevel

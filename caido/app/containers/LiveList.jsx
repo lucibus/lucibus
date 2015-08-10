@@ -1,13 +1,12 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-baobab'
+import {Decorator} from 'cerebral-react-immutable-store'
 import dragula from 'react-dragula'
 import classNames from 'classnames'
 
 import Component from '../Component'
-import AddAddressOne from './AddAddressOne'
 import styles from './LiveList.css'
 import 'react-dragula/node_modules/dragula/dragula.styl'
-import Level from '../elements/Level'
+import System from './System'
 
 @Decorator({
   systems: ['synced', 'live', 'systems']
@@ -52,7 +51,7 @@ class LiveList extends Component {
         <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
-        <Level description={'Address ' + system.address} level={system.level} uuid={system.uuid}/>
+        <System description={'Address ' + system.address} level={system.level} uuid={system.uuid}/>
       </li>
     )
   }
@@ -63,7 +62,6 @@ class LiveList extends Component {
         <ol className='list-unstyled' ref='list'>
           {this.props.systems.map(this.renderSystem.bind(this))}
         </ol>
-        <AddAddressOne />
       </div>
     )
 
@@ -71,7 +69,7 @@ class LiveList extends Component {
 }
 
 LiveList.propTypes = {
-  systems: React.PropTypes.arrayOf(React.PropTypes.shape(Level.propTypes)),
+  systems: React.PropTypes.arrayOf(React.PropTypes.shape(System.propTypes)),
   signals: React.PropTypes.objectOf(React.PropTypes.function)
 }
 

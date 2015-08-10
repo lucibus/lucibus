@@ -1,3 +1,4 @@
+import {defaults} from 'lodash'
 import Controller from 'cerebral-react-baobab'
 
 const state = {
@@ -22,6 +23,14 @@ const state = {
       //     return systems.find(s => s.uuid === uuid)
       //   }
       // ]
+    },
+    'controller': {
+      'input': '',
+      'terms': [],
+      '$system': [
+        ['local', 'controller', 'terms'],
+        terms => defaults({}, ...terms)
+      ]
     }
   }
 }

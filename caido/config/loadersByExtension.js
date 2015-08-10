@@ -2,8 +2,9 @@ var path = require('path')
 
 function useLoader (exts) {
   return function (absPath) {
-    var ext = path.extname(absPath).slice(1)
+    var ext = path.extname(absPath.split('?')[0]).slice(1)
     var matches = exts.indexOf(ext) !== -1
+    // console.log(absPath, ext, matches)
     return matches
   }
 }

@@ -4,8 +4,9 @@ import classNames from 'classnames'
 import Component from '../Component'
 
 import LiveList from './LiveList'
-import LiveLevel from './LiveLevel'
+import Grandmaster from './Grandmaster'
 import Inspector from './Inspector'
+import Command from './Command'
 
 import styles from './App.css'
 import './App.less'
@@ -17,8 +18,9 @@ export default class App extends Component {
         <div className='row'>
           <div className='col-lg-3'>
             <h2>Live</h2>
-            <LiveLevel/>
+            <Grandmaster/>
             <LiveList/>
+            <Command/>
           </div>
           <div className='col-lg-2'>
             <h2>Inspector</h2>

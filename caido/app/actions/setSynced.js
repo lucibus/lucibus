@@ -1,3 +1,10 @@
-export default function setSynced (args, state) {
-  state.set('synced', args)
+function setSynced (args, state) {
+  var {synced} = args
+  state.set('synced', synced)
 }
+
+setSynced.input = {
+  synced: Object
+}
+
+export default setSynced
