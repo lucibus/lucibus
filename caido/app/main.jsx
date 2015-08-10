@@ -21,8 +21,18 @@ controller.signal('movedInspector', changeSystemLevel, [outputSynced])
 
 Storage.onMessage(controller.signals.gotWebsocketMessage)
 
-React.render(
+var rootInstance = React.render(
   controller.injectInto(App),
   document.getElementById('content')
 )
 
+// from https://christianalfoni.github.io/react-webpack-cookbook/Hot-loading-components.html
+
+if (module.hot) {
+  require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({
+    getRootInstances: function () {
+      // Help React Hot Loader figure out the root component instances on the page:
+      return [rootInstance]
+    }
+  })
+}

@@ -37,10 +37,11 @@ if (booleanFromEnv('WEBPACK_MINIMIZE', false)) {
 }
 
 var jsLoaders = ['babel-loader?stage=0&optional=runtime']
+jsLoaders = booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(jsLoaders) : jsLoaders
 
 module.exports = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
-    'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
+    'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
     'webpack/hot/dev-server',
     './app/main'
   ] : './app/main',
@@ -52,7 +53,7 @@ module.exports = {
   },
   module: {
     loaders: loadersByExtension({
-      'jsx': booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(jsLoaders) : jsLoaders,
+      'jsx': jsLoaders,
       'js': {
         loaders: jsLoaders,
         include: path.join(__dirname, 'app')
