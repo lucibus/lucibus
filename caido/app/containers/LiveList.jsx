@@ -1,5 +1,5 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-immutable-store'
+import {Decorator} from 'cerebral-react-baobab'
 import dragula from 'react-dragula'
 import classNames from 'classnames'
 

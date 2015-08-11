@@ -22,6 +22,7 @@ controller.signal('gotWebsocketMessage', setSynced)
 controller.signal('draggedSystem', moveSystem, [outputSynced])
 controller.signal('clickedSystem', selectSystem)
 controller.signal('movedInspector', setSystemLevel, [outputSynced])
+controller.signal('levelChanged', setSystemLevel, [outputSynced])
 
 controller.signal('controllerChanged',
   popControllerEnterTerm, {

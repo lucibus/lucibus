@@ -20,7 +20,7 @@ export default class App extends Component {
             <h2>Live</h2>
             <Grandmaster/>
             <LiveList/>
-            <Command/>
+
           </div>
           <div className='col-lg-2'>
             <h2>Inspector</h2>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-immutable-store'
+import {Decorator} from 'cerebral-react-baobab'
 
 import Component from '../Component'
 import styles from './System.css'
@@ -19,10 +19,14 @@ class System extends Component {
     this.props.signals.clickedSystem({uuid: this.props.uuid})
   }
 
+  handleLevelChange (level) {
+    this.props.signals.levelChanged({uuid: this.props.uuid, level: level / 100})
+  }
+
   render () {
     return (
       <p className={styles['level'] + (this.selected ? ' ' + styles['selected'] : '')} onClick={this.handleCLick.bind(this)}>
-        <Query description={this.props.description} status={this.props.status}/> <Level level={this.props.level}/>
+        <Query description={this.props.description} status={this.props.status}/> <Level level={this.props.level} onChange={this.handleLevelChange.bind(this)}/>
       </p>
     )
   }

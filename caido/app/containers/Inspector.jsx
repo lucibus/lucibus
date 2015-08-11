@@ -1,6 +1,6 @@
 import React from 'react'
 // import classNames from 'classnames'
-import {Decorator} from 'cerebral-react-immutable-store'
+import {Decorator} from 'cerebral-react-baobab'
 
 import Component from '../Component'
 import styles from './Inspector.css'

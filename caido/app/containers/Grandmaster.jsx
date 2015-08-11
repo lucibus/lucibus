@@ -1,5 +1,5 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-immutable-store'
+import {Decorator} from 'cerebral-react-baobab'
 
 import Component from '../Component'
 import System from './System'

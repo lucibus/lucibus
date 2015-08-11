@@ -1,5 +1,5 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-immutable-store'
+import {Decorator} from 'cerebral-react-baobab'
 import {Multiselect} from 'react-widgets'
 import 'react-widgets/lib/less/react-widgets.less'
 import {range, map, isFunction, omit, round} from 'lodash'
