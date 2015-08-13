@@ -1,0 +1,30 @@
+.wrapper {
+  display: inline-block;
+}
+
+.wrapper *[style] {
+  border: 0 !important;
+  padding: 0 !important;
+  outline: none !important;
+  font-size: inherit !important;
+  color: inherit !important;
+}
+
+.wrapper input[style] {
+  background-color: inherit !important;
+  display: inherit !important;
+}
+
+/*
+this is the autofilled text that is the selected element. We want to make
+it a bit lighter
+*/
+.wrapper input[tabindex="-1"] {
+  color: rgb(146, 146, 146) !important;
+}
+
+.wrapper ul[style] {
+  margin-left: -0.6em !important;
+  margin-top: 0.3em !important;
+  background-color: rgba(0, 0, 0, 0.60) !important;
+}

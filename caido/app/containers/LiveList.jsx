@@ -1,16 +1,19 @@
 import React from 'react'
-import {Decorator} from 'cerebral-react-baobab'
 import dragula from 'react-dragula'
+import 'react-dragula/node_modules/dragula/dragula.styl'
 import classNames from 'classnames'
+import {assign} from 'lodash'
 
 import Component from '../Component'
+import System from '../components/System'
 import styles from './LiveList.css'
-import 'react-dragula/node_modules/dragula/dragula.styl'
-import System from './System'
+import {systemPropType, cerebtralPropTypes, Cerebral} from '../utils'
 
-@Decorator({
-  systems: ['synced', 'live', 'systems']
-})
+const systemsPath = ['synced', 'live', 'systems']
+
+@Cerebral(() => ({
+  systems: systemsPath
+}))
 class LiveList extends Component {
   get listNode () {
     return React.findDOMNode(this.refs.list)
@@ -45,13 +48,13 @@ class LiveList extends Component {
     this.props.signals.draggedSystem({uuid: uuid, newIndex: newIndex})
   }
 
-  renderSystem (system) {
+  renderSystem (system, index) {
     return (
       <li key={system.uuid} data-uuid={system.uuid}>
         <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
-        <System description={'Address ' + system.address} level={system.level} uuid={system.uuid}/>
+        <System systemPath={systemsPath.concat([index])}/>
       </li>
     )
   }
@@ -68,9 +71,10 @@ class LiveList extends Component {
   }
 }
 
-LiveList.propTypes = {
-  systems: React.PropTypes.arrayOf(React.PropTypes.shape(System.propTypes)),
-  signals: React.PropTypes.objectOf(React.PropTypes.function)
-}
+LiveList.propTypes = assign(
+  {},
+  {systems: React.PropTypes.arrayOf(systemPropType).isRequired},
+  cerebtralPropTypes
+)
 
 export default LiveList

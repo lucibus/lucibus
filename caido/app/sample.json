@@ -5,6 +5,10 @@
       "level": 0.1,
       "address": 1,
       "uuid": "test"
+    }, {
+      "level": 0.5,
+      "address": 2,
+      "uuid": "test2"
     }]
   }
 }

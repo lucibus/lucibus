@@ -5,9 +5,4 @@
     padding-right: 0.4em;
     display: inline-block; /* make this as small as possible, so that border doesn't extend past */
     border-radius: .3em;
-    cursor: pointer;
-}
-
-.selected {
-    background-color: #3A3A3A;
 }

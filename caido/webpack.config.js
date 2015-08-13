@@ -36,7 +36,21 @@ if (booleanFromEnv('WEBPACK_MINIMIZE', false)) {
   )
 }
 
-var jsLoaders = ['babel-loader?stage=0&optional=runtime']
+var jsLoaders = [
+  'babel-loader' +
+    '?stage=0' +
+    '&optional[]=runtime' +
+    ',optional[]=validation.react' +
+//    ',optional[]=validation.undeclaredVariableCheck' +
+    ',optional[]=spec.undefinedToVoid' +
+    ',optional[]=utility.inlineEnvironmentVariables' +
+    ',optional[]=es6.spec.templateLiterals' +
+//    ',optional[]=minification.deadCodeElimination' +
+//    ',optional[]=minification.constantFolding' +
+    ',optional[]=minification.memberExpressionLiterals' +
+    ',optional[]=minification.propertyLiterals'
+]
+
 jsLoaders = booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(jsLoaders) : jsLoaders
 
 module.exports = {

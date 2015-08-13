@@ -9,21 +9,6 @@ const state = {
     }
   },
   'local': {
-    'selected': {
-      'uuid': 'live'
-      // '$system': [
-      //   ['local', 'selected', 'uuid'],
-      //   ['synced', 'live', 'systems'],
-      //   ['synced', 'live'],
-      //   (uuid, systems, live) => {
-      //     if (uuid === 'live') {
-      //       console.log(live)
-      //       return live
-      //     }
-      //     return systems.find(s => s.uuid === uuid)
-      //   }
-      // ]
-    },
     'controller': {
       'input': '',
       'terms': [],
@@ -38,7 +23,7 @@ const state = {
 const defaultArgs = {}
 
 const baobabOptions = {
-  autoCommit: false
+//  asynchronous: false
 }
 
 export default Controller(state, defaultArgs, baobabOptions)
