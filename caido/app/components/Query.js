@@ -30,18 +30,25 @@ class Query extends Component {
     this.props.signals.queryChanged({systemPath: this.props.systemPath, address: option.address})
   }
 
+  get currentOption () {
+    if (this.props.address) {
+      return new AddressOption(this.props.address)
+    }
+    return null
+  }
+
   get queryElement () {
     if (this.systemType === 'address') {
-      return <AutoFillInput currentOption={new AddressOption(this.props.address)} options={this.options} onOptionChange={this.onOptionChange.bind(this)}/>
+      return <AutoFillInput currentOption={this.currentOption} options={this.options} onOptionChange={this.onOptionChange.bind(this)}/>
     }
     return <span>Grandmaster</span>
   }
 
   get systemType () {
-    if (this.props.address) {
-      return 'address'
+    if (this.props.systemPath[this.props.systemPath.length - 1] === 'live') {
+      return 'grandmaster'
     }
-    return 'grandmaster'
+    return 'address'
   }
 
   get labelType () {

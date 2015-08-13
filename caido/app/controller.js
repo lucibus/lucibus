@@ -9,14 +9,11 @@ const state = {
     }
   },
   'local': {
-    'controller': {
-      'input': '',
-      'terms': [],
-      '$system': [
-        ['local', 'controller', 'terms'],
-        terms => defaults({}, ...terms)
-      ]
-    }
+    'newSystem': {},
+    '$newSystemValid': [
+      ['local', 'newSystem'],
+      system => system.hasOwnProperty('level') && system.hasOwnProperty('address')
+    ]
   }
 }
 

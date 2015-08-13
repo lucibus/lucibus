@@ -12,7 +12,8 @@ import {systemPropType, cerebtralPropTypes, Cerebral} from '../utils'
 const systemsPath = ['synced', 'live', 'systems']
 
 @Cerebral(() => ({
-  systems: systemsPath
+  systems: systemsPath,
+  newSystemValid: ['local', '$newSystemValid']
 }))
 class LiveList extends Component {
   get listNode () {
@@ -48,15 +49,29 @@ class LiveList extends Component {
     this.props.signals.draggedSystem({uuid: uuid, newIndex: newIndex})
   }
 
+  handleDeleteClick (systemPath) {
+    return () => this.props.signals.clickedDeleteSystem({systemPath})
+  }
+
   renderSystem (system, index) {
+    var systemPath = systemsPath.concat([index])
     return (
       <li key={system.uuid} data-uuid={system.uuid}>
         <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
-        <System systemPath={systemsPath.concat([index])}/>
+        <System systemPath={systemPath}/>
+        <button className='btn btn-danger btn-xs' onClick={this.handleDeleteClick(systemPath)}>
+          –
+        </button>
       </li>
     )
+  }
+
+  handleAddNewClick () {
+    if (this.props.newSystemValid) {
+      this.props.signals.clickedAddNewSystem()
+    }
   }
 
   render () {
@@ -64,6 +79,12 @@ class LiveList extends Component {
       <div>
         <ol className='list-unstyled' ref='list'>
           {this.props.systems.map(this.renderSystem.bind(this))}
+          <li>
+            <System systemPath={['local', 'newSystem']}/>
+            <button className={classNames('btn', 'btn-primary', 'btn-xs', {disabled: !this.props.newSystemValid})} onClick={this.handleAddNewClick.bind(this)}>
+              +
+            </button>
+          </li>
         </ol>
       </div>
     )
@@ -73,7 +94,10 @@ class LiveList extends Component {
 
 LiveList.propTypes = assign(
   {},
-  {systems: React.PropTypes.arrayOf(systemPropType).isRequired},
+  {
+    systems: React.PropTypes.arrayOf(systemPropType).isRequired,
+    newSystemValid: React.PropTypes.bool.isRequired
+  },
   cerebtralPropTypes
 )
 

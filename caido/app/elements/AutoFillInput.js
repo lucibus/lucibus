@@ -15,13 +15,14 @@ class AutoFillInput extends Component {
   }
 
   render () {
+    var defaultValue = this.props.currentOption ? this.props.currentOption.toString() : null
     return (
       <div className={styles['wrapper']}>
         <ComboBox
           placeholder = {'Choose a system'}
           onUpdate={this.onUpdate.bind(this)}
           maxOptions = {5}
-          defaultValue = {this.props.currentOption.toString()}
+          defaultValue={defaultValue}
           enableHint={true}
         >{
           map(this.props.options, (option, index) => {
