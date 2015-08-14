@@ -17,8 +17,15 @@ controller.signal('gotWebsocketMessage', setSynced)
 
 controller.signal('draggedSystem', moveSystem, [outputSynced])
 
-controller.signal('levelChanged', setSystemLevel, [outputSynced])
-controller.signal('queryChanged', setSystemAddress, [outputSynced])
+controller.signal('levelChanged', setSystemLevel, {
+  inSynced: [[outputSynced]],
+  inLocal: []
+})
+controller.signal('queryChanged', setSystemAddress, {
+  inSynced: [[outputSynced]],
+  inLocal: []
+})
+
 controller.signal('clickedAddNewSystem', addNewSystem, [outputSynced])
 controller.signal('clickedDeleteSystem', removeSystem, [outputSynced])
 
