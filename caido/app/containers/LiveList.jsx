@@ -13,7 +13,8 @@ const systemsPath = ['synced', 'live', 'systems']
 
 @Cerebral(() => ({
   systems: systemsPath,
-  newSystemValid: ['local', '$newSystemValid']
+  newSystemValid: ['local', '$newSystemValid'],
+  newSystemUuid: ['local', 'newSystem', 'uuid']
 }))
 class LiveList extends Component {
   get listNode () {
@@ -79,7 +80,7 @@ class LiveList extends Component {
       <div>
         <ol className='list-unstyled' ref='list'>
           {this.props.systems.map(this.renderSystem.bind(this))}
-          <li>
+          <li key={this.props.newSystemUuid}>
             <System systemPath={['local', 'newSystem']}/>
             <button className={classNames('btn', 'btn-primary', 'btn-xs', {disabled: !this.props.newSystemValid})} onClick={this.handleAddNewClick.bind(this)}>
               +
@@ -96,7 +97,8 @@ LiveList.propTypes = assign(
   {},
   {
     systems: React.PropTypes.arrayOf(systemPropType).isRequired,
-    newSystemValid: React.PropTypes.bool.isRequired
+    newSystemValid: React.PropTypes.bool.isRequired,
+    newSystemUuid: React.PropTypes.string.isRequired
   },
   cerebtralPropTypes
 )

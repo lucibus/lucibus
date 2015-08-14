@@ -1,5 +1,5 @@
-import {defaults} from 'lodash'
 import Controller from 'cerebral-react-baobab'
+import {newSystem} from 'utils'
 
 const state = {
   'synced': {
@@ -9,7 +9,7 @@ const state = {
     }
   },
   'local': {
-    'newSystem': {},
+    'newSystem': newSystem(),
     '$newSystemValid': [
       ['local', 'newSystem'],
       system => system.hasOwnProperty('level') && system.hasOwnProperty('address')

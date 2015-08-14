@@ -1,6 +1,7 @@
 import React from 'react'
 import {assign, isEqual} from 'lodash'
 import {Mixin} from 'cerebral-react-baobab'
+import UUID from 'uuid-js'
 
 export var cerebralPropTypes = {
   signals: React.PropTypes.objectOf(React.PropTypes.function)
@@ -61,4 +62,9 @@ export function Cerebral (propsToPaths) {
       }
     })
   }
+}
+
+
+export function newSystem () {
+  return {'uuid': UUID.create().toString()}
 }
