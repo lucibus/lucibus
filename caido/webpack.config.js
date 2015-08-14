@@ -20,6 +20,11 @@ var plugins = [
   new webpack.NoErrorsPlugin()
 ]
 
+var alias = {
+  "react": __dirname + '/node_modules/react',
+  "react/addons": __dirname + '/node_modules/react/addons'
+}
+
 if (booleanFromEnv('WEBPACK_MINIMIZE', false)) {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
@@ -95,7 +100,8 @@ module.exports = {
   debug: booleanFromEnv('WEBPACK_DEBUG', false),
   resolve: {
     root: path.join(__dirname, 'app'),
-    extensions: ['', '.web.js', '.js', '.jsx']
+    extensions: ['', '.web.js', '.js', '.jsx'],
+    alias: alias
   },
   plugins: plugins,
   devServer: {
