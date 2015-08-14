@@ -1,6 +1,5 @@
 import React from 'react'
 import {assign} from 'lodash'
-import {addons} from 'react/addons'
 
 import Component from '../Component'
 
@@ -13,7 +12,6 @@ import {cerebralPropTypes, Cerebral} from '../utils'
 }))
 class Level extends Component {
   onChange (value) {
-    addons.Perf.start()
     this.props.signals.levelChanged(true, {
       systemPath: this.props.systemPath,
       level: value
@@ -21,10 +19,6 @@ class Level extends Component {
   }
 
   render () {
-    addons.Perf.stop()
-    // addons.Perf.printInclusive()
-    // addons.Perf.printExclusive()
-    // addons.Perf.printWasted()
     return (
       <div className={styles['level']}>
         @&nbsp;
