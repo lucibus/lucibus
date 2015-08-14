@@ -80,7 +80,7 @@ class LiveList extends Component {
       <div>
         <ol className='list-unstyled' ref='list'>
           {this.props.systems.map(this.renderSystem.bind(this))}
-          <li key={this.props.newSystemUuid}>
+          <li key={this.props.newSystemUuid} className={styles['new-system']}>
             <System systemPath={['local', 'newSystem']}/>
             <button className={classNames('btn', 'btn-primary', 'btn-xs', {disabled: !this.props.newSystemValid})} onClick={this.handleAddNewClick.bind(this)}>
               +

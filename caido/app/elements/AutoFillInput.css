@@ -15,12 +15,17 @@
   display: inherit !important;
 }
 
+.wrapper ::placeholder {
+  color: white !important;
+}
+
+
 /*
 this is the autofilled text that is the selected element. We want to make
-it a bit lighter
+it a bit darker
 */
 .wrapper input[tabindex="-1"] {
-  color: rgb(146, 146, 146) !important;
+  color: rgb(204, 204, 204) !important;
 }
 
 .wrapper ul[style] {

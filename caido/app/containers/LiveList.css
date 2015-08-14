@@ -9,3 +9,7 @@
   cursor: move;
   cursor: grab;
 }
+
+.new-system {
+  opacity: 0.6;
+}
