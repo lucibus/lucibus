@@ -70,13 +70,6 @@ module.exports = function (config) {
     coverageReporter: {
       type: 'text',
       dir: 'coverage/'
-    },
-    plugins: [
-      require('karma-webpack'),
-      require('karma-tap'),
-      require('karma-chrome-launcher'),
-      require('karma-inject-html'),
-      require('karma-coverage')
-    ]
+    }
   })
 }

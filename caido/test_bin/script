@@ -2,6 +2,5 @@
 set -euox pipefail
 
 npm run lint
+env KARMA_SAUCELABS=true karma start karma.conf.js --single-run
 npm run build
-npm run build-test
-npm run test-saucelabs -- -single-run

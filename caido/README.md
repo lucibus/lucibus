@@ -1,5 +1,7 @@
 # caido
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/sshanabrook.svg)](https://saucelabs.com/u/sshanabrook)
+
 This is the frontend for the lighting console. It communicates via websockets
 to `subicul`. If you aren't running that server, you can append `?debug=true`
 to the URL and it will just create a mock server, so that you can try out the
