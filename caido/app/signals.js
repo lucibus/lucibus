@@ -1,5 +1,3 @@
-import controller from './controller'
-
 import addNewSystem from './actions/addNewSystem.js'
 import moveSystem from './actions/moveSystem.js'
 import outputSynced from './actions/outputSynced.js'

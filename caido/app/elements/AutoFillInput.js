@@ -8,7 +8,7 @@ import styles from './AutoFillInput.css'
 class AutoFillInput extends Component {
 
   onUpdate (event) {
-    var {value, identifier, isOptionSelection, isMatchingOption} = event
+    var {identifier} = event // others keys are: value isOptionSelection isMatchingOption
     if (identifier) {
       this.props.onOptionChange(identifier)
     }

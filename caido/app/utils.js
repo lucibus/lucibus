@@ -8,10 +8,10 @@ export var cerebralPropTypes = {
 }
 
 export var systemPropType = React.PropTypes.shape({
-    level: React.PropTypes.number.isRequired,
-    systems: React.PropTypes.arrayOf(React.PropTypes.object),
-    address: React.PropTypes.number
-  })
+  level: React.PropTypes.number.isRequired,
+  systems: React.PropTypes.arrayOf(React.PropTypes.object),
+  address: React.PropTypes.number
+})
 
 export var systemPathPropType = React.PropTypes.arrayOf(React.PropTypes.string).isRequired
 
@@ -63,7 +63,6 @@ export function Cerebral (propsToPaths) {
     })
   }
 }
-
 
 export function newSystem () {
   return {'uuid': UUID.create().toString()}
