@@ -43,7 +43,7 @@ npm run lint
 Then run the integration tests
 
 ```bash
-npm run test
+npm run test:dev
 ```
 
 Then to make sure production stuff build correctly run:

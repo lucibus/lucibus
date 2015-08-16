@@ -2,5 +2,8 @@
 set -euox pipefail
 
 npm run lint
-env KARMA_SAUCELABS=true karma start karma.conf.js --single-run
 npm run build
+sleep 1
+http-server dist -p 5050 &
+
+env WDIO_SAUCELABS=true npm test
