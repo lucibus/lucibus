@@ -41,14 +41,7 @@ npm run lint
 Then run the integration tests
 
 ```bash
-# bring up the servers in the background
-docker-compose -f docker-compose/test.yml up -d selenium-chrome serve caido-build
-
-# execute the tests
-docker-compose -f docker-compose/test.yml run --rm caido-test
-
-# rebuild if you change installed packages
-docker-compose -f docker-compose/test.yml build caido-test
+npm run test
 ```
 
 Then to make sure production stuff build correctly run:
@@ -57,8 +50,7 @@ Then to make sure production stuff build correctly run:
 npm run build
 ```
 
-Both of these are checked on Travis CI after every push: [![Build Status](https://travis-ci.org/lucibus/caido.svg?branch=master)](https://travis-ci.org/lucibus/caido)
-
+Both of these are checked on Travis CI after every push: [![Build Status](https://travis-ci.org/lucibus/lucibus.svg?branch=master)](https://travis-ci.org/lucibus/lucibus)
 
 ## Design
 

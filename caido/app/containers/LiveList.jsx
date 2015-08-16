@@ -1,6 +1,6 @@
 import React from 'react'
 import dragula from 'react-dragula'
-import 'react-dragula/node_modules/dragula/dragula.styl'
+import 'react-dragula/dist/dragula.css'
 import classNames from 'classnames'
 import {assign} from 'lodash'
 

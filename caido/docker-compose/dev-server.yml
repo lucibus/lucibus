@@ -1,7 +1,0 @@
-caido-dev-server:
-  extends:
-    file: common.yml
-    service: caido
-  command: npm run dev-server
-  ports:
-    - "8080:8080"

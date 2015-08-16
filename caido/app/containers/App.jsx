@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 
 import Component from '../Component'
+import controller from '../controller'
 
 import LiveList from './LiveList'
 import Grandmaster from './Grandmaster'
@@ -9,7 +10,7 @@ import Grandmaster from './Grandmaster'
 import styles from './App.css'
 import './App.less'
 
-export default class App extends Component {
+class App extends Component {
   render () {
     return (
       <div className={classNames('container', styles.body)}>
@@ -24,3 +25,4 @@ export default class App extends Component {
     )
   }
 }
+export default controller.injectInto(App)

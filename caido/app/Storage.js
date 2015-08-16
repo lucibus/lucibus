@@ -1,27 +1,21 @@
-import config from './config'
 import './mockWebSocket'
+import controller from './controller'
 
 class Storage {
 
-  constructor (url) {
-    this.socket = new config.WebSocket(url)
+  constructor () {
+    this.socket = new window.WebSocket('ws://' + window.location.hostname + ':8080')
 
     this.socket.onmessage = event => {
-      this.onMessageCallback(
-        JSON.parse(event.data)
-      )
+      controller.signals.gotWebsocketMessage({
+        synced: JSON.parse(event.data)
+      })
     }
   }
 
   store (data) {
     this.socket.send(JSON.stringify(data))
   }
-
-  // onMessage sets the callback for whenener a websocket message is recieved
-  onMessage (callback) {
-    this.onMessageCallback = callback
-  }
 }
 
-export default new Storage(config.webSocketOrigin)
-
+export default new Storage()

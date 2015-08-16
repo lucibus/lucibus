@@ -3,8 +3,5 @@ set -euox pipefail
 
 npm run lint
 npm run build
-http-server dist &
-sleep 0.5 # give it some time to start
-
-# npm run test-saucelabs
-
+npm run build-test
+npm run test-saucelabs -- -single-run

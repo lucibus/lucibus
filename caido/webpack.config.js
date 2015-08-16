@@ -7,39 +7,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var AutoprefixerCore = require('autoprefixer-core')
 require('babel-core/polyfill')
 
-var plugins = [
-  new webpack.PrefetchPlugin('react'),
-  new HtmlWebpackPlugin({
-    inject: true,
-    template: 'app/index.html'
-  }),
-  new webpack.PrefetchPlugin('react/lib/ReactComponentBrowserEnvironment'),
-  new ExtractTextPlugin('[name].css', {
-    allChunks: true
-  }),
-  new webpack.NoErrorsPlugin()
-]
-
-var alias = {
-  "react": __dirname + '/node_modules/react',
-  "react/addons": __dirname + '/node_modules/react/addons'
-}
-
-if (booleanFromEnv('WEBPACK_MINIMIZE', false)) {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    })
-  )
-}
+const INLINE = booleanFromEnv('WEBPACK_INLINE', false)
+const MINIMIZE = booleanFromEnv('WEBPACK_MINIMIZE', false)
 
 var jsLoaders = [
   'babel-loader' +
@@ -58,7 +27,14 @@ var jsLoaders = [
 
 jsLoaders = booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? ['react-hot'].concat(jsLoaders) : jsLoaders
 
-module.exports = {
+function styleLoader (otherLoaders) {
+  if (INLINE) {
+    return 'style-loader!' + otherLoaders
+  }
+  return ExtractTextPlugin.extract('style-loader', otherLoaders)
+}
+
+var config = {
   entry: booleanFromEnv('WEBPACK_HOT_COMPONENTS', false) ? [
     'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
     'webpack/hot/dev-server',
@@ -68,28 +44,27 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     sourceMapFilename: '[name].map',
-    pathinfo: process.env.WEBPACK_DEBUG
+    pathinfo: booleanFromEnv('WEBPACK_DEBUG', false)
   },
   module: {
     loaders: loadersByExtension({
       'jsx': jsLoaders,
       'js': {
         loaders: jsLoaders,
-        include: path.join(__dirname, 'app')
+        include: [path.join(__dirname, 'app'), path.join(__dirname, 'test')]
       },
       'json': 'json-loader',
       'json5': 'json5-loader',
       'txt': 'raw-loader',
-      'png|jpg|jpeg|gif|svg': 'url-loader?limit=10000',
-      'woff|woff2': 'url-loader?limit=100000',
-      'ttf|eot': 'file-loader',
-      'wav|mp3': 'file-loader',
+      'png|jpg|jpeg|gif|svg': INLINE ? 'url-loader' : 'url-loader?limit=1000',
+      'woff|woff2': INLINE ? 'url-loader' : 'url-loader?limit=1000',
+      'ttf|eot': INLINE ? 'url-loader' : 'file-loader',
+      'wav|mp3': INLINE ? 'url-loader' : 'file-loader',
       'html': 'html-loader',
       'md|markdown': ['html-loader', 'markdown-loader'],
-      'css': ExtractTextPlugin.extract('style-loader', 'css-loader?module&importLoaders=1!postcss-loader'),
-      'less': ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
-      'styl': ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
-
+      'css': styleLoader('css-loader?module&importLoaders=1!postcss-loader'),
+      'less': styleLoader('css-loader!less-loader'),
+      'styl': styleLoader('css-loader!stylus-loader')
     }),
     preloaders: loadersByExtension({
       'js': 'source-map-loader'
@@ -101,12 +76,55 @@ module.exports = {
   resolve: {
     root: path.join(__dirname, 'app'),
     extensions: ['', '.web.js', '.js', '.jsx'],
-    alias: alias
+    alias: {
+//      'react': __dirname + '/node_modules/react',
+//      'lodash': __dirname + '/node_modules/lodash'
+    }
   },
-  plugins: plugins,
+  plugins: [
+    new webpack.PrefetchPlugin('react'),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'app/index.html'
+    }),
+    new webpack.PrefetchPlugin('react'),
+    new webpack.PrefetchPlugin('react-dragula'),
+    new webpack.PrefetchPlugin('babel-runtime/helpers/inherits.js'),
+    new webpack.PrefetchPlugin('babel-runtime/helpers/get.js'),
+    new webpack.PrefetchPlugin('belle'),
+    new webpack.PrefetchPlugin('./app/containers/App.less'),
+    new webpack.PrefetchPlugin('cerebral-react-baobab/node_modules/cerebral'),
+    new webpack.NoErrorsPlugin()
+  ],
   devServer: {
     port: 8080,
     host: '0.0.0.0',
     inline: true
   }
 }
+
+if (MINIMIZE) {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    })
+  )
+}
+
+if (!INLINE) {
+  config.plugins.push(
+    new ExtractTextPlugin('[name].css', {
+      allChunks: true
+    })
+  )
+}
+
+module.exports = config

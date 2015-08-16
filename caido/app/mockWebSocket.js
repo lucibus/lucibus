@@ -1,11 +1,17 @@
-import config from './config.js'
-import sample from './sample.json'
+// import sampleSynced from './sampleSynced.json'
+import 'script!mock-socket/dist/mock-socket.js'
+import queryString from 'query-string'
 
-if (config.mockWebSocket) {
+var qSParsed = queryString.parse(location.search)
+var mockWebSocketQS = JSON.parse(qSParsed['mock_websocket'] || 'false')
+var shouldMockWebSocket = mockWebSocketQS || window.shouldMockWebSocket
+
+if (shouldMockWebSocket) {
+  window.WebSocket = window.MockSocket
   console.log('Starting debug websocket server')
-  var mockServer = new window.MockServer(config.webSocketOrigin)
+  var mockServer = new window.MockServer('ws://' + window.location.hostname + ':8080')
   mockServer.on('connection', function (server) {
-    server.send(JSON.stringify(sample))
+    // server.send(JSON.stringify(sampleSynced))
   })
 
   mockServer.on('message', function incoming (message) {

@@ -1,5 +1,3 @@
-import mixin from 'es6-react-mixins'
-
-var Component = mixin()
+import {Component} from 'react'
 
 export default Component

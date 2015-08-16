@@ -1,5 +1,8 @@
 import Controller from 'cerebral-react-baobab'
-import {newSystem} from 'utils'
+
+import {newSystem} from './utils'
+
+import signals from './signals'
 
 const state = {
   'synced': {
@@ -23,4 +26,8 @@ const baobabOptions = {
 //  asynchronous: false
 }
 
-export default Controller(state, defaultArgs, baobabOptions)
+var controller = Controller(state, defaultArgs, baobabOptions)
+
+signals(controller)
+
+export default controller
