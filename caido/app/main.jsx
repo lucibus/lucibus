@@ -3,7 +3,7 @@ import React from 'react'
 import App from './containers/App'
 
 var rootInstance = React.render(
-  App,
+  App(),
   document.getElementById('content')
 )
 

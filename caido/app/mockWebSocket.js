@@ -4,7 +4,7 @@ import queryString from 'query-string'
 
 var qSParsed = queryString.parse(location.search)
 var mockWebSocketQS = JSON.parse(qSParsed['mock_websocket'] || 'false')
-var shouldMockWebSocket = mockWebSocketQS || window.shouldMockWebSocket
+var shouldMockWebSocket = mockWebSocketQS || window.caidoConfig.shouldMockWebSocket
 
 if (shouldMockWebSocket) {
   window.WebSocket = window.MockSocket
@@ -14,7 +14,7 @@ if (shouldMockWebSocket) {
     // server.send(JSON.stringify(sampleSynced))
   })
 
-  mockServer.on('message', function incoming (message) {
-    console.log('Sent websocket message: %s', message)
-  })
+  var onSendingMessage = window.onSendingMessage || (message => console.log('Sent websocket message: %s', message))
+
+  mockServer.on('message', onSendingMessage)
 }

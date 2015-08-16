@@ -43,16 +43,14 @@ const customLaunchers = {
 module.exports = function (config) {
   config.set({
     browsers: SAUCELABS ? Object.keys(customLaunchers) : ['ChromeCanary'],
-    frameworks: [ 'tap' ],
+    frameworks: [ 'mocha' ],
     files: [
-      // all files ending in "_test"
       'test/*_test.js',
       'test/**/*_test.js'
       // each file acts as entry point for the webpack configuration
     ],
     customLaunchers: SAUCELABS ? customLaunchers : {},
     preprocessors: {
-      // add webpack as preprocessor
       'test/*_test.js': ['webpack', 'inject-html'],
       'test/**/*_test.js': ['webpack', 'inject-html']
     },
@@ -60,7 +58,7 @@ module.exports = function (config) {
       file: 'test/index.html'
     },
     reporters: [
-      'dots',
+      'mocha',
       'coverage'
     ].concat(SAUCELABS ? ['saucelabs'] : []),
     webpack: webpackConf,
@@ -70,6 +68,12 @@ module.exports = function (config) {
     coverageReporter: {
       type: 'text',
       dir: 'coverage/'
+    },
+    client: {
+      mocha: {
+        reporter: 'html', // change Karma's debug.html to the mocha web reporter
+        ui: 'tdd'
+      }
     }
   })
 }
