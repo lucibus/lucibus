@@ -68,11 +68,11 @@ var config = {
   // https://docs.saucelabs.com/reference/platforms-configurator
   //
   capabilities: [{
-    browserName: 'chrome',
-    platform: 'MAC',
-    chromeOptions: {
-      binary: require('expand-home-dir')('~') + '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
-    }
+    browserName: 'chrome'
+    // platform: 'MAC',
+    // chromeOptions: {
+      // binary: require('expand-home-dir')('~') + '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
+    // }
   }
   // {
   //   browserName: 'phantomjs'
