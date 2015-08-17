@@ -95,7 +95,7 @@ var config = {
 
   //
   // Default timeout for all waitForXXX commands.
-  waitforTimeout: 5000,
+  waitforTimeout: 1000,
   //
   // Initialise the browser instance with a WebdriverIO plugin. The object should have the
   // plugin name as key and the desired plugin options as property. Make sure you have
@@ -163,16 +163,19 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   //
   config.updateSauceJob = true
   // delete config.reporter
+  config.runsWithSauce = true
 
   config.capabilities = queryBrowsers([
     {name: 'internet explorer', version: '10..latest'},
     {name: 'firefox', version: '38..latest'},
     {name: 'chrome', version: '43..latest'},
     {name: 'safari', version: '8..latest'},
-    {name: 'iphone', version: '8.4..latest'},
-    {name: 'android', version: '4.4..latest'}
+    {name: 'iphone', version: '8.4..latest'}
   ], {
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+    'idle-timeout': 900,
+    name: 'lucibus/caido',
+    build: process.env.TRAVIS_BUILD_NUMBER
   })
 }
 
