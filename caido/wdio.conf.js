@@ -176,5 +176,4 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   })
 }
 
-console.log(config.capabilities)
 exports.config = config

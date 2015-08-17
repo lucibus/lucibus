@@ -3,7 +3,7 @@ set -euox pipefail
 
 npm run lint
 npm run build
-http-server dist -p 5050 & > /dev/null
+http-server dist -p 5050 > /dev/null &
 sleep 1
 
 env WDIO_SAUCELABS=true npm test
