@@ -11,7 +11,7 @@
     "test:start-server": "env WEBPACK_MINIMIZE=true webpack-dev-server --colors --progress --port 5050",
     "test:dev": "parallelshell 'npm run test:start-selenium' 'npm run test:start-server' 'npm run test:watch'",
     "dev-server": "env WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
-    "build": "env WEBPACK_MINIMIZE=true webpack --colors --progress --display-modules --profile",
+    "build": "env WEBPACK_MINIMIZE=true webpack --colors",
     "deps:updates": "npm-check-updates"
   },
   "license": "MIT",
