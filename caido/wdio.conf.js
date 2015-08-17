@@ -157,7 +157,7 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   // If you are using Sauce Labs WebdriverIO takes care about updating the job information
   // once the test is done. This option is set to `true` per default.
   //
-  config.updateJob = true
+  config.updateSauceJob = true
   delete config.reporter
 
   config.capabilities = queryBrowsers([
