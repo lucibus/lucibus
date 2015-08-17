@@ -25,9 +25,9 @@ function queryBrowsers (query, optionalKeys) {
   var allBrowsers = JSON.parse(res.getBody('utf8'))
   var chosenBrowsers = flattenBrowser(query, format(allBrowsers))
   chosenBrowsers.map(function (browser) {
-    assign(browser, optionalKeys)
     browser.browserName = browser.name
     delete browser.name
+    assign(browser, optionalKeys)
   })
   return chosenBrowsers
 }
@@ -163,7 +163,6 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   //
   config.updateSauceJob = true
   // delete config.reporter
-  config.runsWithSauce = true
 
   config.capabilities = queryBrowsers([
     {name: 'internet explorer', version: '10..latest'},
