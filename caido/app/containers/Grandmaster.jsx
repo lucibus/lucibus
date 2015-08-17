@@ -6,7 +6,9 @@ import System from '../components/System'
 class Grandmaster extends Component {
   render () {
     return (
-      <System systemPath={['synced', 'live']}/>
+      <div id='grandmaster'>
+        <System systemPath={['synced', 'live']}/>
+      </div>
     )
   }
 }

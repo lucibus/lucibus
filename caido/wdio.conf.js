@@ -40,10 +40,12 @@ var config = {
     platform: 'MAC',
     chromeOptions: {
       binary: require('expand-home-dir')('~') + '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
-    },
-    maxInstances: 1,
-    seleniumProtocol: 'WebDriver'
-  }],
+    }
+  }
+  // {
+  //   browserName: 'phantomjs'
+  // }
+  ],
   //
   // ===================
   // Test Configurations
@@ -51,7 +53,7 @@ var config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity.
-  logLevel: 'verbose',
+  logLevel: 'silent',
   //
   // Enables colors for log output
   coloredLogs: true,
@@ -61,7 +63,7 @@ var config = {
 
   //
   // Default timeout for all waitForXXX commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 5000,
   //
   // Initialise the browser instance with a WebdriverIO plugin. The object should have the
   // plugin name as key and the desired plugin options as property. Make sure you have
@@ -102,6 +104,8 @@ var config = {
   // See the full list at http://mochajs.org/
   mochaOpts: {
     ui: 'bdd'
+    // 'check-leaks': true,
+    // bail: true
   },
 
   // Shorten url command calls by setting a base url. If your url parameter starts with '/'

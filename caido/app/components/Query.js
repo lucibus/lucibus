@@ -60,7 +60,7 @@ class Query extends Component {
 
   render () {
     return (
-      <div className={classNames('label', 'label-' + this.labelType)}>
+      <div className={classNames('label', 'label-' + this.labelType, 'query')}>
         {this.queryElement}
       </div>
     )

@@ -9,7 +9,7 @@ import {systemPathPropType} from '../utils'
 class System extends Component {
   render () {
     return (
-      <div className={styles['level']}>
+      <div className={styles['level'] + ' system'}>
         <Query systemPath={this.props.systemPath} />
         &nbsp;
         <Level systemPath={this.props.systemPath} />

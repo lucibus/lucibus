@@ -14,7 +14,8 @@ if (shouldMockWebSocket) {
     // server.send(JSON.stringify(sampleSynced))
   })
 
-  var onSendingMessage = window.onSendingMessage || (message => console.log('Sent websocket message: %s', message))
-
-  mockServer.on('message', onSendingMessage)
+  mockServer.on('message', message => {
+    window.caidoConfig.lastMessage = message
+    console.log('Sent websocket message: %s', message)
+  })
 }

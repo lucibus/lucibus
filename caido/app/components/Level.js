@@ -20,7 +20,7 @@ class Level extends Component {
 
   render () {
     return (
-      <div className={styles['level']}>
+      <div className={styles['level'] + ' level'}>
         @&nbsp;
         <span className='label label-info'>
           <PercentInput float={this.props.level} onChange={this.onChange.bind(this)}/>
