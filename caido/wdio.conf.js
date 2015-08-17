@@ -24,7 +24,11 @@ function queryBrowsers (query, optionalKeys) {
   var res = request('GET', 'https://saucelabs.com/rest/v1/info/browsers/webdriver')
   var allBrowsers = JSON.parse(res.getBody('utf8'))
   var chosenBrowsers = flattenBrowser(query, format(allBrowsers))
-  chosenBrowsers.map(function (browser) {assign(browser, optionalKeys)})
+  chosenBrowsers.map(function (browser) {
+    assign(browser, optionalKeys)
+    browser.browserName = browser.name
+    delete browser.name
+  })
   return chosenBrowsers
 }
 
@@ -172,4 +176,5 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   })
 }
 
+console.log(config.capabilities)
 exports.config = config
