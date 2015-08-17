@@ -1,4 +1,32 @@
 var booleanFromEnv = require('./config/booleanFromEnv')
+var flattenBrowser = require('zuul/lib/flatten_browser')
+var request = require('sync-request')
+var assign = require('lodash').assign
+
+// copied from https://github.com/defunctzombie/zuul/blob/18e1a674f54b7d131b5e5ff82b2a6a75a49ec0c4/lib/scout_browser.js#L42-L56
+function format (obj) {
+  var browsers = {}
+  obj.forEach(function (info) {
+    var name = info.api_name
+
+    var browser = browsers[name] = browsers[name] || []
+    browser.push({
+      name: name,
+      version: info.short_version,
+      platform: info.os
+    })
+  })
+
+  return browsers
+}
+
+function queryBrowsers (query, optionalKeys) {
+  var res = request('GET', 'https://saucelabs.com/rest/v1/info/browsers/webdriver')
+  var allBrowsers = JSON.parse(res.getBody('utf8'))
+  var chosenBrowsers = flattenBrowser(query, format(allBrowsers))
+  chosenBrowsers.map(function (browser) {assign(browser, optionalKeys)})
+  return chosenBrowsers
+}
 
 require('babel/register')({
   experimental: true,
@@ -130,12 +158,18 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   // once the test is done. This option is set to `true` per default.
   //
   config.updateJob = true
+  delete config.reporter
 
-  config.capabilities = [
-    {browserName: 'chrome', version: 'dev', 'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER},
-    {browserName: 'chrome', version: 'beta', 'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER},
-    {browserName: 'chrome', version: '44.0', 'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER}
-  ]
+  config.capabilities = queryBrowsers([
+    {name: 'internet explorer', version: '10..latest'},
+    {name: 'firefox', version: '38..latest'},
+    {name: 'chrome', version: '43..latest'},
+    {name: 'safari', version: '8..latest'},
+    {name: 'iphone', version: '8.4..latest'},
+    {name: 'android', version: '4.4..latest'}
+  ], {
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+  })
 }
 
 exports.config = config
