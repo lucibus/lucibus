@@ -162,7 +162,7 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   // once the test is done. This option is set to `true` per default.
   //
   config.updateSauceJob = true
-  delete config.reporter
+  // delete config.reporter
 
   config.capabilities = queryBrowsers([
     {name: 'internet explorer', version: '10..latest'},
