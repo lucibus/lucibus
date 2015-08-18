@@ -9,8 +9,8 @@ import (
 	"net/http"
 
 	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
-	"github.com/lucibus/lucibus/subicul/contextutils"
 
 	"golang.org/x/net/context"
 )
@@ -37,7 +37,6 @@ func CreateWebsocketServer(
 		onRecieve: onRecieve,
 		listener:  l,
 		ctx:       ctx,
-		log:       *contextutils.GetLogger(ctx, "websocketserver"),
 		hub:       makeHub(),
 	}
 
@@ -46,7 +45,10 @@ func CreateWebsocketServer(
 	go func() {
 		err := http.Serve(l, s)
 		if err != nil {
-			s.log.WithField("err", err).Error("http.Serve errored")
+			log.WithFields(logrus.Fields{
+				"package": "websocketserver.websocketserver",
+				"err":     err,
+			}).Error("http.Serve errored")
 		}
 	}()
 	go func() {

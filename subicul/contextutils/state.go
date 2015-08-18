@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/lucibus/subicul/parse"
 	"golang.org/x/net/context"
 )
@@ -23,8 +24,8 @@ type global struct {
 func getGlobal(ctx context.Context) *global {
 	g, ok := ctx.Value(globalKey).(*global)
 	if ok != true {
-		log := GetLogger(ctx, "contextutils.state")
 		log.WithFields(logrus.Fields{
+			"package":   "contextutils.state",
 			"ctx":       ctx,
 			"globalKey": globalKey,
 		}).Fatal("cant get global key for state")

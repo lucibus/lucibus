@@ -4,6 +4,7 @@ import (
 	"golang.org/x/net/context"
 
 	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/contextutils"
 	"github.com/lucibus/lucibus/subicul/output"
@@ -31,8 +32,11 @@ func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
 func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
 	err := contextutils.SetStateBytes(ctx, message)
 	if err != nil {
-		log := contextutils.GetLogger(ctx, "server.onRecieve")
-		log.WithFields(logrus.Fields{"err": err, "message": message}).Error("Recieved invalid state")
+		log.WithFields(logrus.Fields{
+			"package": "websocketserver.main.stateServerOnRecieve",
+			"err":     err,
+			"message": message,
+		}).Error("Recieved invalid state")
 	} else {
 		broadcast(message)
 	}
@@ -44,10 +48,8 @@ func MakeStateServer(ctx context.Context, port int, a dmx.Adaptor) error {
 	if err != nil {
 		return err
 	}
-	ctx = contextutils.WithDMXAdaptor(
-		contextutils.WithLogger(ctxWithState, logrus.New()),
-		a,
-	)
+	ctx = contextutils.WithDMXAdaptor(ctxWithState, a)
+
 	websocketServerErr := CreateWebsocketServer(
 		ctx,
 		port,

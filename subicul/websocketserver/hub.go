@@ -7,7 +7,8 @@
 package websocketserver
 
 import (
-	"github.com/lucibus/lucibus/subicul/contextutils"
+	log "github.com/Sirupsen/logrus"
+
 	"golang.org/x/net/context"
 )
 
@@ -50,8 +51,10 @@ func (h *hub) run(ctx context.Context) {
 				close(c.send)
 				err := c.ws.Close()
 				if err != nil {
-					log := contextutils.GetLogger(ctx, "websocketserver.hub")
-					log.WithField("err", err).Error("connection didn't close properly")
+					log.WithFields(log.Fields{
+						"package": "websocketserver.hub",
+						"err":     err,
+					}).Error("connection didn't close properly")
 				}
 			}
 			return

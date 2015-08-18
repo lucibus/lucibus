@@ -1,7 +1,7 @@
 package output
 
 import (
-	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/lucibus/subicul/contextutils"
 	"golang.org/x/net/context"
 )
@@ -9,7 +9,6 @@ import (
 // Output will continuiously get the State from the context and try to output
 // it to an output device
 func Output(ctx context.Context) {
-	log := contextutils.GetLogger(ctx, "output")
 	a := *contextutils.GetDMXAdaptor(ctx)
 	for {
 		select {
@@ -20,15 +19,17 @@ func Output(ctx context.Context) {
 		s := contextutils.GetState(ctx)
 		o, err := s.Output()
 		if err != nil {
-			log.WithFields(logrus.Fields{
-				"err":   err,
-				"state": s,
+			log.WithFields(log.Fields{
+				"package": "output",
+				"err":     err,
+				"state":   s,
 			}).Error("can't get output for state")
 			continue
 		}
 		err = a.OutputDMX(o, 512)
 		if err != nil {
-			log.WithFields(logrus.Fields{
+			log.WithFields(log.Fields{
+				"package":     "output",
 				"DMX adaptor": a,
 				"err":         err,
 				"output":      o,

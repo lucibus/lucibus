@@ -2,6 +2,7 @@ package contextutils
 
 import (
 	"github.com/Sirupsen/logrus"
+	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/dmx"
 	"golang.org/x/net/context"
 )
@@ -13,10 +14,10 @@ const outputKey = "DMXAdaptor"
 func GetDMXAdaptor(ctx context.Context) *dmx.Adaptor {
 	od, ok := ctx.Value(outputKey).(*dmx.Adaptor)
 	if ok != true {
-		log := GetLogger(ctx, "contextutils.output")
 		log.WithFields(logrus.Fields{
-			"ctx": ctx,
-			"key": outputKey,
+			"package": "contextutils.output",
+			"ctx":     ctx,
+			"key":     outputKey,
 		}).Error("cant get DMXAdaptor")
 		return nil
 	}
