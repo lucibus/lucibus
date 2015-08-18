@@ -24,7 +24,6 @@ function stateEquals (state) {
     }
     var state = JSON.parse(window.caidoConfig.lastMessage)
     removeUUID(state.live)
-    console.log(state)
     return state
   })
   .should.eventually.have.property('value')
@@ -114,7 +113,7 @@ describe('App', function () {
         yield browser.isVisible('.system-li .drag-handle:first-of-type').should.eventually.be.true
       })
       it('should be able to drag', function *() {
-        yield browser.dragAndDrop('.system-li .drag-handle :first-of-type', '.system-li .drag-handle :last-of-type')
+        yield browser.dragAndDrop('.system-li .drag-handle:first-of-type', '.system-li .drag-handle:last-of-type')
         yield stateEquals({
           live: {
             level: 1,
