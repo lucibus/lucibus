@@ -19,7 +19,7 @@ class AutoFillInput extends Component {
     return (
       <div className={styles['wrapper']}>
         <ComboBox
-          placeholder = {'Choose a system'}
+          placeholder = {'Add a system'}
           onUpdate={this.onUpdate.bind(this)}
           maxOptions = {5}
           defaultValue={defaultValue}
