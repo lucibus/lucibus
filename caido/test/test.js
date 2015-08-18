@@ -24,10 +24,11 @@ function stateEquals (state) {
     }
     var state = JSON.parse(window.caidoConfig.lastMessage)
     removeUUID(state.live)
+    console.log(state)
     return state
   })
   .should.eventually.have.property('value')
-  .to.deep.equal(state)
+  .to.eql(state)
 }
 
 describe('App', function () {
@@ -88,15 +89,44 @@ describe('App', function () {
         })
       })
     })
+
+    function * addSystem (address, level) {
+      yield browser.waitForVisible('#new-system .query').click('#new-system .query')
+      yield browser.keys(`Address ${address}${TAB}${level}${TAB}`)
+      yield browser.click('#new-system button')
+    }
     describe('New System', function () {
       it('should exist', function *() {
         yield browser.isVisible('#new-system').should.eventually.be.true
       })
       it('should be able to add', function *() {
-        yield browser.waitForVisible('#new-system .query').click('#new-system .query')
-        yield browser.keys(`Address 1${TAB}40${TAB}`)
-        yield browser.click('#new-system button')
+        yield* addSystem('1', '40')
         yield stateEquals({live: {level: 1, systems: [{address: 1, level: 0.4}]}})
+      })
+    })
+    describe('Systems', function () {
+      beforeEach('add two systems', function *() {
+        yield* addSystem('1', '40')
+        yield* addSystem('2', '50')
+        yield stateEquals({live: {level: 1, systems: [{address: 2, level: 0.5}, {address: 1, level: 0.4}]}})
+      })
+      it('should exist', function *() {
+        yield browser.isVisible('.system-li .drag-handle:first-of-type').should.eventually.be.true
+      })
+      it('should be able to drag', function *() {
+        yield browser.dragAndDrop('.system-li .drag-handle :first-of-type', '.system-li .drag-handle :last-of-type')
+        yield stateEquals({
+          live: {
+            level: 1,
+            systems: [{
+              address: 1,
+              level: 0.4
+            }, {
+              address: 2,
+              level: 0.5
+            }]
+          }
+        })
       })
     })
   })

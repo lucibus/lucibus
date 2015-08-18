@@ -57,8 +57,8 @@ class LiveList extends Component {
   renderSystem (system, index) {
     var systemPath = systemsPath.concat([index])
     return (
-      <li key={system.uuid} data-uuid={system.uuid}>
-        <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'])}>
+      <li key={system.uuid} data-uuid={system.uuid} className='system-li'>
+        <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'], 'drag-handle')}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
         <System systemPath={systemPath}/>
@@ -79,13 +79,13 @@ class LiveList extends Component {
     return (
       <div>
         <ol className='list-unstyled' ref='list'>
-          {this.props.systems.map(this.renderSystem.bind(this))}
           <li key={this.props.newSystemUuid} className={styles['new-system']} id='new-system'>
             <System systemPath={['local', 'newSystem']}/>
             <button className={classNames('btn', 'btn-primary', 'btn-xs', {disabled: !this.props.newSystemValid})} onClick={this.handleAddNewClick.bind(this)}>
               +
             </button>
           </li>
+          {this.props.systems.map(this.renderSystem.bind(this))}
         </ol>
       </div>
     )
