@@ -14,19 +14,23 @@ import (
 // starts up
 var InitialStateBytes = []byte(`
 {
-	"patch": [],
 	"live": {
 		"level": 1,
-		"systems": [],
-		"cue": {}
-	},
-	"looks": {},
-	"cues": {}
+		"systems": []
+	}
 }`)
 
 func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
-	sb := contextutils.GetStateBytes(ctx)
-	reply(sb)
+	sb, err := contextutils.GetStateBytes(ctx)
+	if err == nil {
+		reply(sb)
+	} else {
+		log.WithFields(logrus.Fields{
+			"package":     "websocketserver.main.stateServerOnOpen",
+			"err":         err,
+			"state bytes": sb,
+		}).Error("Cant turn state into JSON")
+	}
 }
 
 func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {

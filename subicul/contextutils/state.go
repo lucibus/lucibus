@@ -16,8 +16,7 @@ const globalKey = "global"
 // can still access the new one, because the memory address of the `global`
 // doesnt change
 type global struct {
-	state      *parse.State
-	stateBytes []byte
+	state *parse.State
 	sync.Mutex
 }
 
@@ -45,18 +44,18 @@ func GetState(ctx context.Context) *parse.State {
 
 // GetStateBytes returns the bytes that make up the JSON of the current state.
 // if none is set, an error will be logged and nil will be returned
-func GetStateBytes(ctx context.Context) []byte {
+func GetStateBytes(ctx context.Context) ([]byte, error) {
 
 	g := getGlobal(ctx)
 	g.Lock()
 	defer g.Unlock()
-	return g.stateBytes
+	return g.state.ToJSON()
 }
 
 // WithState returns a new context with the updated state
 func WithState(ctx context.Context, stateBytes []byte) (context.Context, error) {
 	state, err := parse.Parse(stateBytes)
-	return context.WithValue(ctx, globalKey, &global{state: state, stateBytes: stateBytes}), err
+	return context.WithValue(ctx, globalKey, &global{state: state}), err
 }
 
 // SetStateBytes mutates the a value in the context to change the state value
@@ -68,7 +67,6 @@ func SetStateBytes(ctx context.Context, stateBytes []byte) error {
 	}
 	g.Lock()
 	g.state = state
-	g.stateBytes = stateBytes
 	g.Unlock()
 	return nil
 }

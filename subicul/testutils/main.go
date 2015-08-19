@@ -3,6 +3,9 @@ package testutils
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
+	"fmt"
+	"reflect"
 	"runtime/pprof"
 	"strings"
 )
@@ -39,6 +42,25 @@ func ShouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
 			pprof.Lookup("goroutine").WriteTo(&b, 2)
 			return "Was running other goroutines: " + t + b.String()
 		}
+	}
+	return ""
+}
+
+// ShouldMatchJSON checks if actual and expected[0] are strings that
+// hold the same JSON representation
+// logic copied from https://github.com/onsi/gomega/blob/d6c945f9fdbf6cad99e85b0feff591caa268e0db/matchers/match_json_matcher.go#L15-L29
+func ShouldMatchJSON(actual interface{}, expected ...interface{}) string {
+	actualBytes := actual.([]byte)
+	expectedBytes := expected[0].([]byte)
+
+	var aval interface{}
+	var eval interface{}
+
+	json.Unmarshal(actualBytes, &aval)
+	json.Unmarshal(expectedBytes, &eval)
+
+	if !reflect.DeepEqual(aval, eval) {
+		return fmt.Sprintf("JSON %s was supposed to be %s", actualBytes, expectedBytes)
 	}
 	return ""
 }

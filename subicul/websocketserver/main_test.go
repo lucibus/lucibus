@@ -42,7 +42,7 @@ func shouldGet(conn *websocket.Conn, message []byte) {
 	messageType, p, err := conn.ReadMessage()
 	So(err, ShouldBeNil)
 	So(messageType, ShouldEqual, websocket.TextMessage)
-	So(p, ShouldResemble, message)
+	So(p, testutils.ShouldMatchJSON, message)
 }
 
 func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
