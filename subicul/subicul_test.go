@@ -16,7 +16,7 @@ import (
 
 func TestMainCLI(t *testing.T) {
 	Convey("when I run the app", t, func() {
-		port := 9001
+		port := 9003
 
 		ctx, cancelFunc := context.WithCancel(context.Background())
 
