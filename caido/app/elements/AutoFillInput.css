@@ -29,7 +29,11 @@ it a bit darker
 }
 
 .wrapper ul[style] {
-  margin-left: -0.6em !important;
+  text-align: left;
   margin-top: 0.3em !important;
-  background-color: rgba(0, 0, 0, 0.60) !important;
+  background-color: rgba(0, 0, 0, 1) !important;
 }
+
+/*.wrapper li div[style]:hover {
+  background: rgb(62, 62, 62) !important;
+}*/
