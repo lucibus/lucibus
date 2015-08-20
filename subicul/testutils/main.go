@@ -60,7 +60,7 @@ func ShouldMatchJSON(actual interface{}, expected ...interface{}) string {
 	json.Unmarshal(expectedBytes, &eval)
 
 	if !reflect.DeepEqual(aval, eval) {
-		return fmt.Sprintf("JSON %s was supposed to be %s", actualBytes, expectedBytes)
+		return fmt.Sprintf("JSON %s supposed to = %s", actualBytes, expectedBytes)
 	}
 	return ""
 }

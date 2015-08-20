@@ -1,4 +1,4 @@
-package websocketserver
+package main
 
 import (
 	"fmt"
@@ -11,27 +11,11 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/lucibus/dmx"
+	"github.com/lucibus/lucibus/subicul/parse"
 	"github.com/lucibus/lucibus/subicul/testutils"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
-
-var stateOneDimmer = []byte(`
-	{
-			"live": {
-					"level": 1,
-					"systems": [{
-							"level": 1,
-							"address": 1
-					}, {
-							"level": 0,
-							"address": 1
-					}]
-			}
-	}
-`)
-
-var stateNaimmers = InitialStateBytes
 
 func shouldSend(conn *websocket.Conn, message []byte) {
 	err := conn.WriteMessage(websocket.TextMessage, message)
@@ -67,15 +51,15 @@ func TestServer(t *testing.T) {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
 			Convey("it should return a default state", func() {
-				shouldGet(conn, stateNaimmers)
+				shouldGet(conn, parse.InitialBytes)
 
 				Convey("it should take an updated state", func() {
-					newState := stateOneDimmer
+					newState := parse.OneSystemStateBytes
 					shouldSend(conn, newState)
 
 					Convey("and it should output the new state", func() {
 						time.Sleep(time.Second / 2)
-						So(a.LastOutput, ShouldResemble, map[int]byte{1: 255})
+						So(a.GetLastOutput(), ShouldResemble, map[int]byte{1: 255})
 					})
 
 					Convey("and reconnect", func() {
@@ -93,11 +77,11 @@ func TestServer(t *testing.T) {
 						Convey("it should initally recieve the state set by the first", func() {
 							shouldGet(conn2, newState)
 							Convey("and then when the first changes the state, it should get it", func() {
-								secondNewState := []byte(`{"test2": "hi"}`)
+								secondNewState := parse.TwoSystemStateBytes
 								shouldSend(conn, secondNewState)
 								shouldGet(conn2, secondNewState)
 								Convey("and vice versa", func() {
-									thirdNewState := []byte(`{"test3": "hi"}`)
+									thirdNewState := parse.ThreeSystemStateBytes
 									shouldSend(conn2, thirdNewState)
 									shouldGet(conn, thirdNewState)
 								})
@@ -113,7 +97,7 @@ func TestServer(t *testing.T) {
 			})
 
 			Convey("output should be blank", func() {
-				So(a.LastOutput, ShouldResemble, map[int]byte{})
+				So(a.GetLastOutput(), ShouldResemble, map[int]byte{})
 			})
 			Reset(func() {
 				shouldCloseConnection(conn)
@@ -153,18 +137,18 @@ func BenchmarkServer(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
-		prevLength := len(a.LastOutput)
+		prevLength := len(a.GetLastOutput())
 		if toggleSendOneDimmer {
-			message = stateOneDimmer
+			message = parse.OneSystemStateBytes
 		} else {
-			message = stateNaimmers
+			message = parse.InitialBytes
 		}
 		toggleSendOneDimmer = !toggleSendOneDimmer
 		b.StartTimer()
 		conn.WriteMessage(websocket.TextMessage, message)
 		for {
 			time.Sleep(time.Nanosecond)
-			if len(a.LastOutput) != prevLength {
+			if len(a.GetLastOutput()) != prevLength {
 				break
 			}
 		}

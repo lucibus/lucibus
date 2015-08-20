@@ -92,6 +92,10 @@ func Parse(b []byte) (*State, error) {
 	return &s, json.Unmarshal(b, &s)
 }
 
+func MakeState() (*State, error) {
+	return Parse(InitialBytes)
+}
+
 // ParseAndOutput will simply combines Output() with Parse().
 func ParseAndOutput(b []byte) (Output, error) {
 	s, err := Parse(b)

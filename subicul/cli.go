@@ -3,14 +3,12 @@ package main
 import (
 	"log"
 	"os"
-	"runtime"
 
 	"golang.org/x/net/context"
 
 	"github.com/codegangsta/cli"
 
 	"github.com/lucibus/dmx"
-	"github.com/lucibus/lucibus/subicul/websocketserver"
 )
 
 // type FileDMXAdaptor struct {
@@ -64,7 +62,7 @@ func MakeCliApp(ctx context.Context) *cli.App {
 		}
 
 		// od := lige.DummyDMXAdaptor{}
-		err := websocketserver.MakeStateServer(ctx, c.Int("port"), a)
+		err := MakeStateServer(ctx, c.Int("port"), a)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -74,7 +72,6 @@ func MakeCliApp(ctx context.Context) *cli.App {
 }
 
 func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
 	app := MakeCliApp(context.Background())
 	app.Run(os.Args)
 }

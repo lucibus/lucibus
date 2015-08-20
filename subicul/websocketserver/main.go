@@ -1,69 +1,98 @@
+// Package websocketserver provides a way to start a TCP WebsocketServer at a certain point
+// that serves websocket connections at its base path. It provides a way
+// of openeing and closing that WebsocketServer, as well a hook to add the function
+// does the processing for the websockets
 package websocketserver
 
 import (
-	"golang.org/x/net/context"
+	"net"
+	"net/http"
 
 	"github.com/Sirupsen/logrus"
 	log "github.com/Sirupsen/logrus"
-	"github.com/lucibus/dmx"
-	"github.com/lucibus/lucibus/subicul/contextutils"
-	"github.com/lucibus/lucibus/subicul/output"
+	"github.com/gorilla/websocket"
+
+	"golang.org/x/net/context"
 )
 
-// InitialState is the json the server sends to the client when it first
-// starts up
-var InitialStateBytes = []byte(`
-{
-	"live": {
-		"level": 1,
-		"systems": []
-	}
-}`)
+// onOpen is called when a websocket connection is opened
+type onOpen func(ctx context.Context, reply, broadcast func([]byte))
 
-func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
-	sb, err := contextutils.GetStateBytes(ctx)
-	if err == nil {
-		reply(sb)
-	} else {
-		log.WithFields(logrus.Fields{
-			"package":     "websocketserver.main.stateServerOnOpen",
-			"err":         err,
-			"state bytes": sb,
-		}).Error("Cant turn state into JSON")
-	}
-}
+// onRecieve is called when the websocket connection recieves a text message
+type onRecieve func(ctx context.Context, message []byte, reply, broadcast func([]byte))
 
-func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
-	err := contextutils.SetStateBytes(ctx, message)
-	if err != nil {
-		log.WithFields(logrus.Fields{
-			"package": "websocketserver.main.stateServerOnRecieve",
-			"err":     err,
-			"message": message,
-		}).Error("Recieved invalid state")
-	} else {
-		broadcast(message)
-	}
-}
-
-// MakeStateServer starts up a new server and populates the initial state.
-func MakeStateServer(ctx context.Context, port int, a dmx.Adaptor) error {
-	ctxWithState, err := contextutils.WithState(ctx, InitialStateBytes)
+// Create starts a TCP server that responds to websocket requests.
+func Create(
+	ctx context.Context,
+	port int,
+	onOpen onOpen,
+	onRecieve onRecieve,
+) error {
+	l, err := net.ListenTCP("tcp", &net.TCPAddr{Port: port})
 	if err != nil {
 		return err
 	}
-	ctx = contextutils.WithDMXAdaptor(ctxWithState, a)
-
-	websocketServerErr := CreateWebsocketServer(
-		ctx,
-		port,
-		stateServerOnOpen,
-		stateServerOnRecieve,
-	)
-	if websocketServerErr != nil {
-		return websocketServerErr
+	s := websocketServer{
+		onOpen:    onOpen,
+		onRecieve: onRecieve,
+		listener:  l,
+		ctx:       ctx,
+		hub:       makeHub(),
 	}
 
-	go output.Output(ctx)
+	go s.hub.run(ctx)
+	// start up the server
+	go func() {
+		err := http.Serve(l, s)
+		if err != nil {
+			log.WithFields(logrus.Fields{
+				"package": "websocketserver.websocketserver",
+				"err":     err,
+			}).Error("http.Serve errored")
+		}
+	}()
+	go func() {
+		select {
+		case <-ctx.Done():
+			s.cancel()
+		}
+	}()
 	return nil
+}
+
+type websocketServer struct {
+	onOpen    onOpen
+	onRecieve onRecieve
+	listener  *net.TCPListener
+	ctx       context.Context
+	log       logrus.Entry
+	hub       *hub
+}
+
+// ServeHTTP is called for every client that connects. It will upgrade the
+// connection to websockets.
+func (s websocketServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// checking for GET logic is from https://github.com/gorilla/websocket/blob/a3ec486e6a7a41858210b0fc5d7b5df593b3c4a3/examples/chat/conn.go#L93-L96
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", 405)
+		return
+	}
+	upgrader := websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool { return true },
+	}
+	wsConn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		s.log.WithField("err", err).Error("Cant upgrade connection")
+		return
+	}
+	makeConnection(s.ctx, s.hub, wsConn, s.onOpen, s.onRecieve)
+}
+
+func (s *websocketServer) cancel() {
+	var err error
+	// close the listener
+	err = s.listener.Close()
+	if err != nil {
+		s.log.WithField("err", err).Error("listener didn't close properly")
+	}
 }
