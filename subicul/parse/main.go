@@ -41,11 +41,11 @@ type Level float32
 
 // Live holds everything that is currently up on stage atm
 type Live struct {
-	Level   Level
+	Level   Level `json:"level"`
 	Systems []struct {
-		Level   Level
-		Address int
-	}
+		Level   Level `json:"level"`
+		Address int   `json:"address"`
+	} `json:"systems"`
 }
 
 // Output returns the Output of this `Live`.
@@ -69,7 +69,7 @@ func (l *Live) Output(s State) (o Output, e error) {
 
 // State contains everything that makes up the current show and stage
 type State struct {
-	Live Live
+	Live Live `json:"live"`
 }
 
 // Output gives the DMX address to value mapping of the current state
@@ -81,10 +81,19 @@ func (s *State) Output() (o Output, e error) {
 	return
 }
 
+// ToJSON returns the JSON representation of the state
+func (s *State) ToJSON() ([]byte, error) {
+	return json.Marshal(s)
+}
+
 // Parse takes a state json and returns the state for it
 func Parse(b []byte) (*State, error) {
 	var s State
 	return &s, json.Unmarshal(b, &s)
+}
+
+func MakeState() (*State, error) {
+	return Parse(InitialBytes)
 }
 
 // ParseAndOutput will simply combines Output() with Parse().

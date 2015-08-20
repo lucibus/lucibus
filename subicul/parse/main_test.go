@@ -11,8 +11,9 @@ func TestParse(t *testing.T) {
 
 	Convey("it should parse correctly when we have valid json with", t, func() {
 		Convey("no current systems", func() {
-			b := []byte(`{"live": {"systems": []}}`)
-			o, e := ParseAndOutput(b)
+			s, e := MakeState()
+			So(e, ShouldBeNil)
+			o, e := s.Output()
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{})
 		})
@@ -114,20 +115,9 @@ func TestParse(t *testing.T) {
 
 }
 
-var oneSystemStateBytes = []byte(`
-	{
-		"live": {
-			"level": 1,
-			"systems": [{
-				"level": 1,
-				"address": 1
-			}]
-		}
-	}`)
-
 func BenchmarkParse(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Parse(oneSystemStateBytes)
+		Parse(OneSystemStateBytes)
 	}
 }
 
@@ -135,6 +125,6 @@ func BenchmarkUnmarshal(b *testing.B) {
 	var s State
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		json.Unmarshal(oneSystemStateBytes, &s)
+		json.Unmarshal(OneSystemStateBytes, &s)
 	}
 }
