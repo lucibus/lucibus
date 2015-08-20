@@ -13,7 +13,9 @@ func Output(ctx context.Context, a dmx.Adaptor) {
 	toOutput := make(chan parse.Output)
 	go processOutput(ctx, toOutput, a)
 	for {
+		stateMutex.RLock()
 		o, err := state.Output()
+		stateMutex.RUnlock()
 		if err != nil {
 			log.WithFields(log.Fields{
 				"package": "output",

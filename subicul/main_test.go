@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"runtime"
 	"testing"
 	"time"
 
@@ -40,7 +41,7 @@ func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
 
 func TestServer(t *testing.T) {
 	Convey("when i start the server", t, func() {
-		port := 9001
+		port := 9002
 		a := dmx.NewDebugAdaptor()
 		ctx, cancelF := context.WithCancel(context.Background())
 		err := MakeStateServer(ctx, port, a)
@@ -116,7 +117,7 @@ func TestServer(t *testing.T) {
 }
 
 func BenchmarkServer(b *testing.B) {
-	//	runtime.GOMAXPROCS(runtime.NumCPU())
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	port := 9001
 	a := dmx.NewDebugAdaptor()
 	ctx, cancelF := context.WithCancel(context.Background())

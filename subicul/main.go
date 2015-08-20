@@ -1,6 +1,8 @@
 package main
 
 import (
+	"sync"
+
 	"golang.org/x/net/context"
 
 	"github.com/Sirupsen/logrus"
@@ -12,8 +14,11 @@ import (
 
 // state is the current global state
 var state *parse.State
+var stateMutex = &sync.RWMutex{}
 
 func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
+	stateMutex.RLock()
+	defer stateMutex.RUnlock()
 	sb, err := state.ToJSON()
 	if err == nil {
 		reply(sb)
@@ -28,6 +33,8 @@ func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
 
 func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
 	var err error
+	stateMutex.Lock()
+	defer stateMutex.Unlock()
 	state, err = parse.Parse(message)
 	if err != nil {
 		log.WithFields(logrus.Fields{
@@ -52,7 +59,9 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 
 // MakeStateServer starts up a new server and populates the initial state.
 func MakeStateServer(ctx context.Context, port int, o dmx.Adaptor) (err error) {
+	stateMutex.Lock()
 	state, err = parse.MakeState()
+	stateMutex.Unlock()
 	if err != nil {
 		return
 	}
