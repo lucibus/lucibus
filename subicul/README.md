@@ -1,7 +1,5 @@
 # Subicul
 
-[![Coverage Status](https://coveralls.io/repos/lucibus/lucibus/badge.svg)](https://coveralls.io/r/lucibus/lucibus)
-
 ```shell
 $ subicul --help
 NAME:
