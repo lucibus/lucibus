@@ -32,10 +32,7 @@ func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
 }
 
 func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
-	var err error
-	stateMutex.Lock()
-	defer stateMutex.Unlock()
-	state, err = parse.Parse(message)
+	tmpState, err := parse.Parse(message)
 	if err != nil {
 		log.WithFields(logrus.Fields{
 			"package": "websocketserver.main.stateServerOnRecieve",
@@ -53,18 +50,23 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 		}).Error("Cant turn state into JSON")
 		return
 	}
+	stateMutex.Lock()
+	state = tmpState
+	stateMutex.Unlock()
 	broadcast(message)
 
 }
 
 // MakeStateServer starts up a new server and populates the initial state.
 func MakeStateServer(ctx context.Context, port int, o dmx.Adaptor) (err error) {
-	stateMutex.Lock()
-	state, err = parse.MakeState()
-	stateMutex.Unlock()
+
+	tmpState, err := parse.MakeState()
 	if err != nil {
 		return
 	}
+	stateMutex.Lock()
+	state = tmpState
+	stateMutex.Unlock()
 	err = websocketserver.Create(
 		ctx,
 		port,

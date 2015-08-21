@@ -54,6 +54,10 @@ func TestServer(t *testing.T) {
 			Convey("it should return a default state", func() {
 				shouldGet(conn, parse.InitialBytes)
 
+				Convey("it shouldnt crash on an invalid state", func() {
+					shouldSend(conn, []byte{})
+				})
+
 				Convey("it should take an updated state", func() {
 					newState := parse.OneSystemStateBytes
 					shouldSend(conn, newState)
