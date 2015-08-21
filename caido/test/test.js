@@ -112,7 +112,7 @@ describe('App', function () {
       it('should exist', function *() {
         yield browser.isVisible('.system-li .drag-handle:first-of-type').should.eventually.be.true
       })
-      it('should be able to drag', function *() {
+      it.skip('should be able to drag', function *() {
         yield browser.dragAndDrop('.system-li .drag-handle:first-of-type', '.system-li .drag-handle:last-of-type')
         yield stateEquals({
           live: {

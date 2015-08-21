@@ -9,7 +9,7 @@ before_install:
 - export PATH=$PATH:$GOPATH/bin
 - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.5 bash)"
 - go version
-- gimmer version
+- gimme version
 install:
 - cd $TESTFOLDER
 - ./test_bin/install
