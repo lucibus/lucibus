@@ -25,7 +25,8 @@ func TestParse(t *testing.T) {
                             "level": 1,
                             "systems": [{
                                 "level": 1,
-                                "address": 1
+                                "address": 1,
+																"uuid": "first"
                             }]
                         }
                     }`)
@@ -40,10 +41,12 @@ func TestParse(t *testing.T) {
                           "level": 1,
                           "systems": [{
                               "level": 1,
-                              "address": 2
+                              "address": 2,
+															"uuid": "first"
                           }, {
                               "level": 1,
-                              "address": 1
+                              "address": 1,
+															"uuid": "second"
                           }]
                       }
                     }`)
@@ -61,7 +64,8 @@ func TestParse(t *testing.T) {
                         "level": 0.2,
                         "systems": [{
                             "level": 1,
-														"address": 1
+														"address": 1,
+														"uuid": "first"
                         }]
                     }
                 	}`)
@@ -79,10 +83,12 @@ func TestParse(t *testing.T) {
 														"level": 1,
 														"systems": [{
 																"level": 1,
-																"address": 2
+																"address": 2,
+																"uuid": "first"
 														}, {
 																"level": 1,
-																"address": 1
+																"address": 1,
+																"uuid": "second"
 														}]
 												}
 										}`)
@@ -98,10 +104,12 @@ func TestParse(t *testing.T) {
 														"level": 1,
 														"systems": [{
 																"level": 1,
-																"address": 1
+																"address": 1,
+																"uuid": "first"
 														}, {
 																"level": 0,
-																"address": 1
+																"address": 1,
+																"uuid": "second"
 														}]
 												}
 										}`)

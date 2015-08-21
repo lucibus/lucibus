@@ -16,7 +16,8 @@ var OneSystemStateBytes = []byte(`
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1
+				"address": 1,
+				"uuid": "first"
 			}]
 		}
 	}`)
@@ -27,10 +28,12 @@ var TwoSystemStateBytes = []byte(`
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1
+				"address": 1,
+				"uuid": "first"
 			}, {
 				"level": 1,
-				"address": 2
+				"address": 2,
+				"uuid": "second"
 			}]
 		}
 	}`)
@@ -40,13 +43,16 @@ var ThreeSystemStateBytes = []byte(`
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1
+				"address": 1,
+				"uuid": "first"
 			}, {
 				"level": 1,
-				"address": 2
+				"address": 2,
+				"uuid": "second"
 			}, {
 				"level": 1,
-				"address": 3
+				"address": 3,
+				"uuid": "third"
 			}]
 		}
 	}`)

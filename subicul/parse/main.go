@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/imdario/mergo"
+	"github.com/xeipuuv/gojsonschema"
 )
 
 // Output is a mapping for DMX output
@@ -43,8 +44,9 @@ type Level float32
 type Live struct {
 	Level   Level `json:"level"`
 	Systems []struct {
-		Level   Level `json:"level"`
-		Address int   `json:"address"`
+		Level   Level  `json:"level"`
+		Address int    `json:"address"`
+		UUID    string `json:"uuid"`
 	} `json:"systems"`
 }
 
@@ -86,12 +88,32 @@ func (s *State) ToJSON() ([]byte, error) {
 	return json.Marshal(s)
 }
 
+// SchemaError is returned when a JSON schema does not match.
+type SchemaError struct {
+	Errors []gojsonschema.ResultError
+}
+
+func (se *SchemaError) Error() (s string) {
+	for _, desc := range se.Errors {
+		s += fmt.Sprintln(desc)
+	}
+	return
+}
+
 // Parse takes a state json and returns the state for it
 func Parse(b []byte) (*State, error) {
+	result, err := gojsonschema.Validate(getSchema(), gojsonschema.NewStringLoader(string(b)))
+	if err != nil {
+		return nil, err
+	}
+	if !result.Valid() {
+		return nil, &SchemaError{result.Errors()}
+	}
 	var s State
 	return &s, json.Unmarshal(b, &s)
 }
 
+// MakeState returns the inital state from the `InitialBytes`
 func MakeState() (*State, error) {
 	return Parse(InitialBytes)
 }
