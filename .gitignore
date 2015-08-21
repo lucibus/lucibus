@@ -8,3 +8,4 @@ caido/phantomjsdriver.log
 caido/npm-debug.log*
 subicul/vendor
 vendor
+bindata.go

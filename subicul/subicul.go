@@ -5,7 +5,6 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/Sirupsen/logrus"
 	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/parse"
@@ -21,12 +20,15 @@ func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
 	defer stateMutex.RUnlock()
 	sb, err := state.ToJSON()
 	if err == nil {
+		log.WithFields(log.Fields{
+			"message": string(sb),
+		}).Info("Sending initial message")
 		reply(sb)
 	} else {
-		log.WithFields(logrus.Fields{
-			"package":     "websocketserver.main.stateServerOnOpen",
-			"err":         err,
-			"state bytes": sb,
+		log.WithFields(log.Fields{
+			"package": "websocketserver.main.stateServerOnOpen",
+			"err":     err,
+			"state":   string(sb),
 		}).Error("Cant turn state into JSON")
 	}
 }
@@ -34,22 +36,25 @@ func stateServerOnOpen(ctx context.Context, reply, broadcast func([]byte)) {
 func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast func([]byte)) {
 	tmpState, err := parse.Parse(message)
 	if err != nil {
-		log.WithFields(logrus.Fields{
+		log.WithFields(log.Fields{
 			"package": "websocketserver.main.stateServerOnRecieve",
 			"err":     err,
-			"message": message,
+			"message": string(message),
 		}).Error("Recieved invalid state")
 		return
 	}
-	message, err = state.ToJSON()
+	message, err = tmpState.ToJSON()
 	if err != nil {
-		log.WithFields(logrus.Fields{
+		log.WithFields(log.Fields{
 			"package": "websocketserver.main.stateServerOnRecieve",
 			"err":     err,
 			"message": message,
 		}).Error("Cant turn state into JSON")
 		return
 	}
+	log.WithFields(log.Fields{
+		"message": string(message),
+	}).Info("Got message")
 	stateMutex.Lock()
 	state = tmpState
 	stateMutex.Unlock()
@@ -59,7 +64,11 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 
 // MakeStateServer starts up a new server and populates the initial state.
 func MakeStateServer(ctx context.Context, port int, o dmx.Adaptor) (err error) {
-
+	log.WithFields(log.Fields{
+		"package": "subicul.subicul",
+		"port":    port,
+		"adaptor": o,
+	}).Info("Starting server")
 	tmpState, err := parse.MakeState()
 	if err != nil {
 		return
