@@ -164,26 +164,18 @@ if (booleanFromEnv('WDIO_SAUCELABS', false)) {
   config.updateJob = true
   // delete config.reporter
 
-  config.capabilities = {
-    browserName: 'chrome',
+  config.capabilities = queryBrowsers([
+    // {name: 'internet explorer', version: '10..latest'},
+    // {name: 'firefox', version: '38..latest'},
+    {name: 'chrome', version: 'latest'},
+    // {name: 'safari', version: '8..latest'},
+    // {name: 'iphone', version: '8.4..latest'}
+  ], {
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'idle-timeout': 900,
     name: 'lucibus/caido',
     build: process.env.TRAVIS_BUILD_NUMBER
-  }
-  
-  //  queryBrowsers([
-  //   {name: 'internet explorer', version: '10..latest'},
-  //   {name: 'firefox', version: '38..latest'},
-  //   {name: 'chrome', version: '43..latest'},
-  //   {name: 'safari', version: '8..latest'},
-  //   {name: 'iphone', version: '8.4..latest'}
-  // ], {
-  //   'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-  //   'idle-timeout': 900,
-  //   name: 'lucibus/caido',
-  //   build: process.env.TRAVIS_BUILD_NUMBER
-  // })
+  })
 }
 
 exports.config = config
