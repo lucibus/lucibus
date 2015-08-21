@@ -8,6 +8,14 @@
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/sshanabrook.svg)](https://saucelabs.com/u/sshanabrook)
 
 
+This project is seperated into three distinct apps. They exist right now in one repository for ease of deployment and synchronization of commits.
+
+*`subicul`* is the backend. It is written in Go and serves up a websocket connection.
+
+*`caido`* is the frontend.
+
+*`api`*  just has the JSON schmea that defines the structure of the websocket messages sent between the fontend and the backend.
+
 ## Running in Production
 
 To install, [download the binary](https://bintray.com/lucibus/lucibus/lucibus/view#files)
