@@ -8,6 +8,8 @@
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/sshanabrook.svg)](https://saucelabs.com/u/sshanabrook)
 
 
+## Running in Production
+
 To install, [download the binary](https://bintray.com/lucibus/lucibus/lucibus/view#files)
 and execute it. To output on a DMX USB Pro device, pass in the path to the serial
 port as the first argument.
