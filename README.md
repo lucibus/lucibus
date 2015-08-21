@@ -19,6 +19,8 @@ port as the first argument.
 ### Setup
 
 ```bash
+mkdir -p $GOPATH/src/github.com/lucibus
+cd $GOPATH/src/github.com/lucibus
 git clone https://github.com/lucibus/lucibus.git
 cd lucibus
 go get github.com/Masterminds/glide
@@ -26,6 +28,10 @@ glide up
 ```
 
 ### Dependencies
+We need go version 1.5
+
+Also you have to set `GO15VENDOREXPERIMENT=1`
+
 We use `glide` to manage versioning. Please [refer to their docs](https://github.com/Masterminds/glide/)
 for how to update and install new packages properly.
 
