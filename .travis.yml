@@ -7,6 +7,9 @@ before_install:
 - mv $PWD $GOPATH/src/github.com/lucibus/lucibus
 - cd $GOPATH/src/github.com/lucibus/lucibus
 - export PATH=$PATH:$GOPATH/bin
+- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.5 bash)"
+- go version
+- gimmer version
 install:
 - cd $TESTFOLDER
 - ./test_bin/install
