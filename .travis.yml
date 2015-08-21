@@ -6,6 +6,7 @@ before_install:
 - mkdir -p $GOPATH/src/github.com/lucibus
 - mv $PWD $GOPATH/src/github.com/lucibus/lucibus
 - cd $GOPATH/src/github.com/lucibus/lucibus
+- export PATH=$PATH:$GOPATH/bin
 install:
 - cd $TESTFOLDER
 - ./test_bin/install
