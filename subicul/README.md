@@ -23,25 +23,34 @@ GLOBAL OPTIONS:
 
 # Installing
 
-First install the library
+This requires go 1.5 for versioning support
 
-```shell
-go install github.com/lucibus/lucibus
+
+```bash
+git clone https://github.com/lucibus/lucibus.git
+cd lucibus/subicul
+go get github.com/Masterminds/glide
+glide up
 ```
 
 # Testing
 
-```
-env GOPATH=`godep path`:$GOPATH goconvey
-```
-
-This won't test for race conditions. To do that run:
-
-```
-env GOPATH=`godep path`:$GOPATH go test -race -v ./...
+```bash
+go test -race -v . ./parse
 ```
 
+Or for live testing:
+
+```bash
+go run vendor/github.com/smartystreets/goconvey/goconvey.go -depth 2
+```
 
 # Dependencies
-We use `godep` to manage versioning. Please [refer to their docs](https://github.com/tools/godep#edit-test-cycle)
+We use `glide` to manage versioning. Please [refer to their docs](https://github.com/Masterminds/glide/)
 for how to update and install new packages properly.
+
+To add a new package:
+
+```
+glide get github.com/Masterminds/cookoo
+```

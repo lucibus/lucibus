@@ -102,7 +102,11 @@ func (se *SchemaError) Error() (s string) {
 
 // Parse takes a state json and returns the state for it
 func Parse(b []byte) (*State, error) {
-	result, err := gojsonschema.Validate(getSchema(), gojsonschema.NewStringLoader(string(b)))
+	schema, err := getSchema()
+	if err != nil {
+		return nil, err
+	}
+	result, err := gojsonschema.Validate(schema, gojsonschema.NewStringLoader(string(b)))
 	if err != nil {
 		return nil, err
 	}

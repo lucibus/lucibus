@@ -3,9 +3,6 @@ set -euox pipefail
 
 eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.5 bash)"
 go version
-
-go get github.com/axw/gocov/gocov
-go get github.com/mattn/goveralls
-go get golang.org/x/tools/cmd/cover
-go get github.com/modocache/gover
-go get -t -v ./...
+go get github.com/Masterminds/glide
+glide up
+make

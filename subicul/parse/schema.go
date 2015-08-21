@@ -1,27 +1,16 @@
 package parse
 
-import (
-	"os"
-	"path/filepath"
-	"runtime"
-
-	"github.com/xeipuuv/gojsonschema"
-)
+import "github.com/xeipuuv/gojsonschema"
 
 var schema gojsonschema.JSONLoader
 
-func getFilePath() string {
-	_, filename, _, _ := runtime.Caller(1)
-	return filepath.Join(filepath.Dir(filename), "../../api/schema.json")
-}
-
-func getSchema() gojsonschema.JSONLoader {
+func getSchema() (gojsonschema.JSONLoader, error) {
 	if schema != nil {
-		return schema
+		return schema, nil
 	}
-	schemaFilePath := getFilePath()
-	if _, err := os.Stat(schemaFilePath); err == nil {
-		return gojsonschema.NewReferenceLoader("file://" + schemaFilePath)
+	b, err := Asset("schema.json")
+	if err != nil {
+		return nil, err
 	}
-	return gojsonschema.NewReferenceLoader("http://localhost/api/schema.json")
+	return gojsonschema.NewStringLoader(string(b)), nil
 }

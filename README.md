@@ -14,6 +14,24 @@ port as the first argument.
 
 ## Development
 
+### Setup
+
+```bash
+git clone https://github.com/lucibus/lucibus.git
+cd lucibus
+go get github.com/Masterminds/glide
+glide up
+```
+
+### Dependencies
+We use `glide` to manage versioning. Please [refer to their docs](https://github.com/Masterminds/glide/)
+for how to update and install new packages properly.
+
+
+### Building
+
 To build run `make`. This will build the `./subicul` executable. Running
 this will start the HTML server on port 80 and the websocket server on port
 8080.
+
+

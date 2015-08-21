@@ -1,1 +1,0 @@
-FAIL	github.com/lucibus/lucibus/subicul [build failed]

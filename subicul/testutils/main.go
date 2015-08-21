@@ -33,7 +33,7 @@ func ShouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
 		// that is running a file in this module that is not a test
 		runningInModule := strings.Contains(t, module)
 		runningTest := strings.Contains(t, "test")
-		runningExternal := strings.Contains(t, "Godeps")
+		runningExternal := strings.Contains(t, "Godeps") || strings.Contains(t, "vendor")
 		runningOtherFileInModule := runningInModule && !runningTest && !runningExternal
 		if runningOtherFileInModule {
 			// if we find that it is in fact running another goroutine from this

@@ -1,4 +1,4 @@
-package main
+package subicul
 
 import (
 	log "github.com/Sirupsen/logrus"
