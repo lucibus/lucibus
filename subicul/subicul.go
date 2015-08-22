@@ -37,7 +37,7 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 	tmpState, err := parse.Parse(message)
 	if err != nil {
 		log.WithFields(log.Fields{
-			"package": "websocketserver.main.stateServerOnRecieve",
+			"package": "subicul.stateServerOnRecieve",
 			"err":     err,
 			"message": string(message),
 		}).Error("Recieved invalid state")
@@ -46,9 +46,9 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 	message, err = tmpState.ToJSON()
 	if err != nil {
 		log.WithFields(log.Fields{
-			"package": "websocketserver.main.stateServerOnRecieve",
+			"package": "subicul.stateServerOnRecieve",
 			"err":     err,
-			"message": message,
+			"message": string(message),
 		}).Error("Cant turn state into JSON")
 		return
 	}
@@ -65,7 +65,7 @@ func stateServerOnRecieve(ctx context.Context, message []byte, reply, broadcast 
 // MakeStateServer starts up a new server and populates the initial state.
 func MakeStateServer(ctx context.Context, port int, o dmx.Adaptor) (err error) {
 	log.WithFields(log.Fields{
-		"package": "subicul.subicul",
+		"package": "subicul.MakeStateServer",
 		"port":    port,
 		"adaptor": o,
 	}).Info("Starting server")
