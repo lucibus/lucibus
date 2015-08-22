@@ -16,6 +16,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "ajv": "^1.0.1",
     "async": "^1.4.2",
     "autoprefixer-core": "^5.2.1",
     "babel": "^5.8.21",
