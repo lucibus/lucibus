@@ -1,71 +1,62 @@
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
-
-/*
-Tests use a few different parts. First, overall they use
-[Mocha](http://mochajs.org/). That does the `it` and `describe` and `before`
-blocks. Then we use [Chai](http://chaijs.com/) for assertions. The
-`browser` object comes from [WebdriverIO](http://www.webdriver.io/api.html)
-*/
+import 'must'
 
 const DELETE = '\uE003'
 const TAB = '\uE004'
 // const RETURN = '\uE006'
 const DOWN_ARROW = '\uE015'
 
+function removeUUID (system) {
+  delete system.uuid
+  if (system.hasOwnProperty('systems')) {
+    system.systems.map(removeUUID)
+  }
+}
+
 function stateEquals (state) {
 
   return browser.execute(function () {
-    function removeUUID (system) {
-      delete system.uuid
-      if (system.hasOwnProperty('systems')) {
-        system.systems.map(removeUUID)
-      }
-    }
-    var state = JSON.parse(window.caidoConfig.lastMessage)
+    return window.caidoConfig.lastMessage
+  }).then(response => {
+    var {value} = response
+    var state = JSON.parse(value)
     removeUUID(state.live)
     return state
   })
-  .should.eventually.have.property('value')
-  .to.eql(state)
+  .must.eventually.eql(state)
 }
 
 describe('App', function () {
-  chai.use(chaiAsPromised)
-  chai.should()
-  chaiAsPromised.transferPromiseness = browser.transferPromiseness
-
   beforeEach('go to URL', function *() {
     yield browser.url('/?mock_websocket=true')
 
   })
 
-  it('should exist', function *() {
-    yield browser.isVisible('#content').should.eventually.be.true
+  it('must exist', function *() {
+    yield browser.isVisible('#content').must.eventually.equal(true)
   })
   describe('Live', function () {
-    it('should exist', function *() {
-      yield browser.isVisible('#live').should.eventually.be.true
+    it('must exist', function *() {
+      yield browser.isVisible('#live').must.eventually.equal(true)
     })
-    it('should contain text Live', function *() {
-      yield browser.getText('#live h2').should.eventually.be.equal('Live')
+    it('must contain text Live', function *() {
+      yield browser.getText('#live h2').must.eventually.equal('Live')
     })
     describe('Grandmaster', function () {
-      it('should exist', function *() {
-        yield browser.isVisible('#grandmaster').should.eventually.be.true
+      it('must exist', function *() {
+        yield browser.isVisible('#grandmaster').must.eventually.equal(true)
       })
-      it('should contain text Grandmaster', function *() {
-        yield browser.getText('#grandmaster').should.eventually.include('Grandmaster')
+      it('must contain text Grandmaster', function *() {
+        yield browser.getText('#grandmaster').must.eventually.include('Grandmaster')
       })
       describe('Level', function () {
-        it('should exist', function *() {
-          yield browser.isVisible('#grandmaster .level').should.eventually.be.true
+        it('must exist', function *() {
+          yield browser.isVisible('#grandmaster .level').must.eventually.equal(true)
         })
-        it('should have input', function *() {
-          yield browser.isVisible('#grandmaster .level input').should.eventually.be.true
+        it('must have input', function *() {
+          yield browser.isVisible('#grandmaster .level input').must.eventually.equal(true)
         })
-        it('should start at 100', function *() {
-          yield browser.getValue('#grandmaster .level input').should.eventually.be.equal('100')
+        it('must start at 100', function *() {
+          yield browser.getValue('#grandmaster .level input').must.eventually.equal('100')
         })
         function * click () {
           yield browser.waitForVisible('#grandmaster .level input')
@@ -74,14 +65,14 @@ describe('App', function () {
         function * clickAndType () {
           yield* click()
           yield browser.keys(DELETE + DELETE + DELETE + '50')
-          yield browser.getValue('#grandmaster .level input').should.eventually.be.equal('50')
+          yield browser.getValue('#grandmaster .level input').must.eventually.equal('50')
         }
-        it('clicking on it and typing should change value', clickAndType)
-        it('typing should update state', function *() {
+        it('clicking on it and typing must change value', clickAndType)
+        it('typing must update state', function *() {
           yield* clickAndType()
           yield stateEquals({live: {level: 0.5, systems: []}})
         })
-        it('using arrow keys should update', function *() {
+        it('using arrow keys must update', function *() {
           yield* click()
           yield browser.keys(DOWN_ARROW)
           yield stateEquals({live: {level: 0.99, systems: []}})
@@ -95,25 +86,25 @@ describe('App', function () {
       yield browser.click('#new-system button')
     }
     describe('New System', function () {
-      it('should exist', function *() {
-        yield browser.isVisible('#new-system').should.eventually.be.true
+      it('must exist', function *() {
+        yield browser.isVisible('#new-system').must.eventually.equal(true)
       })
-      it('should be able to add', function *() {
+      it('must be able to add', function *() {
         yield* addSystem('1', '40')
         yield stateEquals({live: {level: 1, systems: [{address: 1, level: 0.4}]}})
       })
     })
-    describe('Systems', function () {
+    describe.skip('Systems', function () {
       beforeEach('add two systems', function *() {
         yield* addSystem('1', '40')
         yield* addSystem('2', '50')
         yield stateEquals({live: {level: 1, systems: [{address: 2, level: 0.5}, {address: 1, level: 0.4}]}})
       })
-      it('should exist', function *() {
-        yield browser.isVisible('.system-li .drag-handle:first-of-type').should.eventually.be.true
+      it('must exist', function *() {
+        yield browser.isVisible('.system-li .drag-handle:nth-Child(1)').must.eventually.equal(true)
       })
-      it.skip('should be able to drag', function *() {
-        yield browser.dragAndDrop('.system-li .drag-handle:first-of-type', '.system-li .drag-handle:last-of-type')
+      it('must be able to drag', function *() {
+        yield browser.dragAndDrop('.system-li .drag-handle:nth-Child(1)', '.system-li .drag-handle:nth-Child(2)')
         yield stateEquals({
           live: {
             level: 1,
