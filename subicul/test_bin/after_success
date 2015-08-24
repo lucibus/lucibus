@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euox pipefail
-
-gover
-goveralls -coverprofile=gover.coverprofile -service=travis-ci

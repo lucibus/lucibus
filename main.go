@@ -22,7 +22,7 @@ func main() {
 		path = ""
 	}
 	go app.Run([]string{"<executable path>", "--port", strconv.Itoa(subiculPort), "--path", path})
-	staticPort := 80
+	staticPort := 8081
 	http.Handle("/", http.FileServer(
 		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "caido/dist"},
 	))
