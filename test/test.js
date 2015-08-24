@@ -7,18 +7,16 @@ var config
 if (booleanFromEnv('CI', false)) {
   config = {
     waitforTimeout: 10000,
-    user: process.env.SAUCE_USERNAME,
-    key: process.env.SAUCE_ACCESS_KEY,
-    baseUrl: 'http://localhost.local:8081',
+    user: process.env.BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY,
+    baseUrl: 'http://localhost:8081',
     desiredCapabilities: {
       browserName: 'chrome',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'idle-timeout': 30000,
-      name: 'lucibus',
-      version: 'dev',
-      platform: 'Mac 10.10',
-      build: process.env.TRAVIS_BUILD_NUMBER,
-      captureHtml: true
+      project: 'lucibus',
+      version: '44.0',
+      build: 'lucibus #' + process.env.TRAVIS_BUILD_NUMBER + process.env.TRAVIS_JOB_NUMBER,
+      'browserstack.local': 'true',
+      'browserstack.debug': 'true'
     }
   }
 } else {
@@ -64,7 +62,6 @@ describe('App', function () {
     }
     it('changing on one should change both', function *() {
       yield* clickAndType(firstBrowser, 10)
-      yield firstBrowser.log('browser').then(console.log)
       yield* mustEqual(firstBrowser, 10)
       yield browsers.pause(2000)
       yield* mustEqual(secondBrowser, 10)
