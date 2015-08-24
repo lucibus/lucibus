@@ -2,7 +2,6 @@ package subicul
 
 import (
 	"log"
-	"os"
 
 	"golang.org/x/net/context"
 
@@ -69,9 +68,4 @@ func MakeCliApp(ctx context.Context) *cli.App {
 		<-ctx.Done()
 	}
 	return app
-}
-
-func main() {
-	app := MakeCliApp(context.Background())
-	app.Run(os.Args)
 }

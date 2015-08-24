@@ -65,7 +65,6 @@ type websocketServer struct {
 	onRecieve onRecieve
 	listener  *net.TCPListener
 	ctx       context.Context
-	log       logrus.Entry
 	hub       *hub
 }
 
@@ -82,7 +81,7 @@ func (s websocketServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	wsConn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		s.log.WithField("err", err).Error("Cant upgrade connection")
+		log.WithField("err", err).Error("Cant upgrade connection")
 		return
 	}
 	makeConnection(s.ctx, s.hub, wsConn, s.onOpen, s.onRecieve)
@@ -93,6 +92,6 @@ func (s *websocketServer) cancel() {
 	// close the listener
 	err = s.listener.Close()
 	if err != nil {
-		s.log.WithField("err", err).Error("listener didn't close properly")
+		log.WithField("err", err).Error("listener didn't close properly")
 	}
 }
