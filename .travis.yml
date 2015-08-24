@@ -12,11 +12,11 @@ before_install:
 - gimme version
 install:
 - cd $TESTFOLDER
-- ./test_bin/install
+- make travis_install
 script:
-- ./test_bin/script
+- make travis_script
 after_success:
-- ./test_bin/after_success
+- make travis_after_success
 before_deploy:
 - make bindata_assetfs.go
 - go get github.com/mitchellh/gox
