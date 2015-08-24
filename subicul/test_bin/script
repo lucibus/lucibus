@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euox pipefail
-
-go test -coverprofile=parse.coverprofile -v -race ./parse
-go test -coverprofile=main.coverprofile -v -race

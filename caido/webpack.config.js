@@ -51,7 +51,7 @@ var config = {
       'jsx': jsLoaders,
       'js': {
         loaders: jsLoaders,
-        include: path.join(__dirname, 'app')
+        include: [path.join(__dirname, 'app'), path.join(__dirname, 'test/unit')]
       },
       'json': 'json-loader',
       'json5': 'json5-loader',
