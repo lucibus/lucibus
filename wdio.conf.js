@@ -109,7 +109,10 @@ var config = {
 if (booleanFromEnv('CI', false)) {
   Object.assign(config, {
     user: process.env.SAUCE_USERNAME,
-    key: process.env.SAUCE_ACCESS_KEY
+    key: process.env.SAUCE_ACCESS_KEY,
+    capabilities: [{
+      browserName: 'firefox'
+    }]
     // updateJob: true,
     // host: 'ondemand.saucelabs.com',
     // port: 80

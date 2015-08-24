@@ -19,11 +19,15 @@ travis_install:
 	cd caido; make travis_install
 	make lucibus
 	npm install
+	sh -e /etc/init.d/xvfb start
+	npm run pretest:selenium
+
 
 travis_script:
 	npm run lint
 	npm run test:server &
-	sleep 1
+	npm run test:selenium &
+	sleep 10
 	npm test
 
 

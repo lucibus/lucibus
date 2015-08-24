@@ -6,20 +6,8 @@ var config
 
 if (booleanFromEnv('CI', false)) {
   config = {
-    waitforTimeout: 10000,
-    user: process.env.SAUCE_USERNAME,
-    key: process.env.SAUCE_ACCESS_KEY,
-    host: 'ondemand.saucelabs.com',
-    port: 80,
     desiredCapabilities: {
-      browserName: 'chrome',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'idle-timeout': 30000,
-      name: 'lucibus',
-      version: 'dev',
-      platform: 'Mac 10.10',
-      build: process.env.TRAVIS_BUILD_NUMBER,
-      captureHtml: true
+      browserName: 'firefox'
     }
   }
 } else {
