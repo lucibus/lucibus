@@ -15,6 +15,4 @@ travis_after_success:
 	gover
 	goveralls -coverprofile=gover.coverprofile -service=travis-ci
 
-travis: travis_install travis_script travis_after_success
-
-.PHONY: travis_install travis_script travis_after_success travis
+.PHONY: travis_install travis_script travis_after_success

@@ -4,7 +4,7 @@ import queryString from 'query-string'
 
 var qSParsed = queryString.parse(location.search)
 var mockWebSocketQS = JSON.parse(qSParsed['mock_websocket'] || 'false')
-var shouldMockWebSocket = mockWebSocketQS || window.caidoConfig.shouldMockWebSocket
+var shouldMockWebSocket = mockWebSocketQS || !window.caidoConfig || window.caidoConfig.shouldMockWebSocket
 
 if (shouldMockWebSocket) {
   window.WebSocket = window.MockSocket

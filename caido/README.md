@@ -23,10 +23,10 @@ open "http://localhost:8080/?mock_websocket=true"
 
 ### Production Server
 
-This builds the full client bundle and starts an nginx server to serve it.
+This builds the full client bundle
 
 ```
-npm run build -- --watch
+npm run build
 open ./dist/index.html
 ```
 
@@ -38,15 +38,23 @@ All `.js[x]` files should pass `standard`. To run the linter run:
 npm run lint
 ```
 
-Then run the integration tests
+Then run the unit tests
 
 ```bash
-npm run test:dev
+npm run test:unit
+```
+
+And the integration tests:
+
+```bash
+npm run test:integration:selenium
+nom run test:integration:server
+npm run test:integration
 ```
 
 Then to make sure production stuff build correctly run:
 
-```
+```bash
 npm run build
 ```
 

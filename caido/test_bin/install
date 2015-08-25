@@ -1,6 +1,0 @@
-#!/bin/bash
-set -euox pipefail
-
-npm cache clean
-npm install
-npm install http-server -g

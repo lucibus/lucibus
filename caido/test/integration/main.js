@@ -28,7 +28,6 @@ function stateEquals (state) {
 describe('App', function () {
   beforeEach('go to URL', function *() {
     yield browser.url('/?mock_websocket=true')
-
   })
 
   it('must exist', function *() {

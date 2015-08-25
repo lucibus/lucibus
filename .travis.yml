@@ -1,22 +1,23 @@
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 compiler: gcc
 before_install:
 - mkdir -p $GOPATH/src/github.com/lucibus
 - mv $PWD $GOPATH/src/github.com/lucibus/lucibus
 - cd $GOPATH/src/github.com/lucibus/lucibus
 - export PATH=$PATH:$GOPATH/bin
-- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.5 bash)"
+- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
+  | GIMME_GO_VERSION=1.5 bash)"
 - go version
 - gimme version
 install:
 - cd $TESTFOLDER
-- ./test_bin/install
+- make travis_install
 script:
-- ./test_bin/script
+- make travis_script
 after_success:
-- ./test_bin/after_success
+- make travis_after_success
 before_deploy:
 - make bindata_assetfs.go
 - go get github.com/mitchellh/gox
@@ -56,5 +57,7 @@ env:
   - GO15VENDOREXPERIMENT=1
   - secure: 1FmlXg7by7kwg8SIXRy3iSAUPVZXxmU4Keub0rzAh5CA6K3YLCURyucSm/I67RF2TWGxpPIo6UNUX+PrSkqWE3IfPYQGgNqkj/R/QHIDPfwtrmuMvtbabqi8lRxXJHSuS6Bz9TkX5ZkmH8BHVSfvOtyI4Y1Am726Bd+Dd/QxWbXN7Gt3HBVP1Ty6Z5Sb5rDYh50xDK9RAQEg6/v2DIcaPttOTmtlkJdIUArYZN9C6XSh23Au4NTwn4TkXXjwWShmSuK28mDq9UpJJqRdanYmP5E8PqFhzMEAy5PmpXSPV5Ag6kxOOLu4zOpnA1z3IWADJJwwJM3iXIrLGCB9VTQVeQFxE9XWBcMzYUApdH6+S5LmiUmCLCARGcG9tV4qJlViipGF8Aj5PNNCpf8B5K0wymZCdst21iVrDdWEWmFh/I6Dmhz2mn1LMzKBfrFbyYWHl1Jy7ucYQEPau4bU29zw1r9UJmqMBIyXuEYnnpXaLVUYLNpq7N03imELK5G+8tXMlxASeyAYYiZ+tt4EDIsqoBnaAZm2Rb+PRlRv7nPm+TJ2QAgKzCxgGvLrFyzAMRzXZVnQNebZQpUJRbDBsRRlVQcAETIrt5aclSq1gpsWetwxXI1Lj50tapxEo6z1KHp/92Jk7lzVIHme4nejfKoTKPIncc5taVDewT0FSEwpUeM=
   - secure: 5mdnyuS6s1PJorbeoPONd8Ui94456xvScVFPsWga1ihiy1LHJQCQenDZ9+Er++HWBL6V+yN6Qru6ago5txAqb9BxJNBn6+KHhkpnnNK5P++ZHSf6TE9Hwz44o1FkkyKJRNCQEq2b9nsxe+WUdnxPdJs2V4hu833XAvacruCcrBU5Cr6tbyKxVy5JLJA6VmIHeoLkFj8JCQHGKhWYUXYGr0lTENNIS9LSf/BUmmieiy3WNB3gtfeOYQyTzcS9GvZth0Kzyy1l0IwQhWT8A3pd80hN9eVBscGNthaS5u/MOr2BsGP7duYOUeMA7h9csldfkn+4c3dkXpsgfD4hvAVZ9gZAkVxO6Jt7ny4QF6mrgsAXxHo8gDCrHjp1LQo6dv2pjfZ3IWZPE1zElP/BEZOwPqaA05nfRD1/rmUcuaSrzHBTXQMZo1R5PBD2IKSNyyAt+gtpo93HogZ9KXjeOZ8UEdFMQfOME7hzNQXYBCI5/3V12l8vPyHVGQaWCtRLCMKc/0trdLR7YNsLvl5vyfgGl70Ll80yhb+akcxMLX4+/BpeAIGE/sBhnNgyEia6MvTnGMWV1IU6xdMgI93XO/MTJk9I7hUUjmycmt59BRiqMb0yxDOt7RgtOeoHmnf7USwd02+vXpqDHpiAAcMArBoLAuOtQPae3xR/E1EjL80zIzk=
+  - secure: B2l+yW6r3NS8fwqvav7A6ltQ2rVUxfxcNlbqHdTLiN5lGtOTQLSMGfEVZRX2/LH7aN+Bp1LvUPYmq2AlkVFfqeFyeIfVpy+52CCw0vI/nxtatWAT9qIlZW0V87xdrK04EPmQ1towCSnsGpWnQlWXoIqFUrpKY6horiRJoX+iaJ6iwOV0kk0IRfhocGpBoDGtsDvuSWQavUyTQhAGFMYpWO2W9hxmdTuFWJUExCLfVmC5217J+R8VKZAtLbvmD/I7X/LAS+FZ5rcKjzVUdNZ8rKhikN9ZV4ZK6w7p7x5ofzco1AovSCKxUpuF94TsUJ8TAxOS0chGA6HVK+q2OEqvMzSPDd4sbMjCCTnvNB9nEkzVrSn92IKzO33bpgRY3QENcjO7xJh/k+T1+HOE4Wa9J+2noqtmC4RoIZcrouLF9saZEzIZGzrPbDutqgVkffJyXgLbv7TVJb+DETQpUxd3KzB77y5qFIc7pq5FYgNCAPEn9kgTGvUfCDcz0wxX16lc7OI1NqSp6XEP10L37ZlURwpQLyI+GznaStcY7XIV/GNX+xd73gxVSKs2TZGSLjyhj1QF+6nUd3Z5peV/DqNzbzIYqhb1BGA77iAhE1DscVjYNWr/171AQVpvxQYpw0xWbW/Qr41W8uNjbIa8k/Y5WymF+AeKitTJj9eIPdnt/WY=
+  - secure: YneFjb3cVpLbZV6iEQQZptbHRkpLgI7WnnxBNWZAPraCzpxeaDaoFVpysM/nQ9t/m1dFfvUGO9ud/5fRR2GsSAdl9OOqbql0vJbUQr6R2yrfiCBbi8DeqGwD9uhcRdEKfrUmP/LD9qJl60rNQ4ZNoVWdbL7INf7+7lwEMVWRh6ws6O6/h/ykI+podmevT7Hx32SF1oZO1j8t2+a/7fNMlq5fpx0L4OpWYeWF4dXCgpi49HIv1hnZeyGy5odeR6VK9ED+nsrHaRcicbmqoMUbWlRRDD9T/TnrIyj1X8D6RUFyadZo6BT/xr3a0pWKCmC6xw0CZ0yziEF9d7gaTXlt2RKgZqPWwopqaTiBcpi3w36SRHGIOisB2CgvVNv6ePXdoJSvgbGY1y/LlXi3886aDazB8hXP/x1IhSEUxR6DsIdXNTmFaNIivq3mMocRjkTpUcNDrK4l05Cu8EOnXj5RoxQ/CFTYQdDFmDhklL15oaO8ozEk99ILHBI+qnK4cBbQ4YCioaFRrRQ6zxdxCBv9uroQAG/Lps61hfWK4Iepn0Zmh2SdYnmbIYawT7csNARRn9hNxHuKCBnuYKh3cLMREIxrFY7P8qrQGsDMZP0x2KfYQpdfq0D1sTz6hI6EkS/AWfqOg1xEYNjfHTa58w/tXjJH0G6bBgJEEjUkGr0v4RY=
 addons:
   sauce_connect: true
