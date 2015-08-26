@@ -6,7 +6,7 @@
 [![Build Status](https://travis-ci.org/lucibus/lucibus.svg)](https://travis-ci.org/lucibus/lucibus)
 [![Coverage Status](https://coveralls.io/repos/lucibus/lucibus/badge.svg)](https://coveralls.io/r/lucibus/lucibus)
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/sshanabrook.svg)](https://saucelabs.com/u/sshanabrook)
-
+[ ![Download](https://api.bintray.com/packages/lucibus/lucibus/lucibus/images/download.svg) ](https://bintray.com/lucibus/lucibus/lucibus/_latestVersion)
 
 This project is seperated into three distinct apps. They exist right now in one repository for ease of deployment and synchronization of commits.
 
