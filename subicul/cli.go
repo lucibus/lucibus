@@ -1,10 +1,12 @@
 package subicul
 
 import (
-	"log"
+	"fmt"
+	"net/http"
 
 	"golang.org/x/net/context"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
 	"github.com/lucibus/dmx"
@@ -48,8 +50,16 @@ func MakeCliApp(ctx context.Context) *cli.App {
 			EnvVar: "SUBICUL_PATH",
 		},
 	}
+	ResetState()
 
 	app.Action = func(c *cli.Context) {
+		port := c.Int("port")
+		log.WithFields(log.Fields{
+			"port": port,
+		}).Info("Starting Subicul Server")
+		mux := http.NewServeMux()
+		mux.HandleFunc("/", HandleFunc())
+
 		var a dmx.Adaptor
 		if c.String("path") == "" {
 			a = dmx.NewDebugAdaptor()
@@ -61,11 +71,14 @@ func MakeCliApp(ctx context.Context) *cli.App {
 		}
 
 		// od := lige.DummyDMXAdaptor{}
-		err := MakeStateServer(ctx, c.Int("port"), a)
+		go Output(ctx, a)
+
+		err := http.ListenAndServe(fmt.Sprintf(":%v", port), mux)
 		if err != nil {
-			log.Fatalln(err)
+			log.WithFields(log.Fields{
+				"err": err,
+			}).Error("ListenAndServe errored")
 		}
-		<-ctx.Done()
 	}
 	return app
 }

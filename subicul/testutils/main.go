@@ -40,7 +40,7 @@ func ShouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
 			// package then output the full stacktrace, with debug level 2 to show
 			// more information
 			pprof.Lookup("goroutine").WriteTo(&b, 2)
-			return "Was running other goroutines: " + t + b.String()
+			return "Was running other goroutine: " + t + "\n" + "\n" + b.String()
 		}
 	}
 	return ""

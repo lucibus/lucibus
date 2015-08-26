@@ -80,3 +80,7 @@ import:
     ref:     ac6b6f68ca3d6ac00a360d0fad0c844859ad131b
     repo:    https://github.com/smartystreets/assertions
     vcs:     git
+  - package: github.com/olahol/melody
+    ref:     b558902a00435e2ccf1289eb017031809cb889ed
+    repo:    https://github.com/olahol/melody
+    vcs:     git

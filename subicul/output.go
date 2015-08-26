@@ -3,16 +3,19 @@ package subicul
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/dmx"
-	"github.com/lucibus/lucibus/subicul/parse"
 	"golang.org/x/net/context"
 )
 
 // Output will continuiously get the State from the context and try to output
 // it to an output device
 func Output(ctx context.Context, a dmx.Adaptor) {
-	toOutput := make(chan parse.Output)
-	go processOutput(ctx, toOutput, a)
 	for {
+		select {
+		case <-ctx.Done():
+			close(ctx.Value("IsDone").(chan interface{}))
+			return
+		default:
+		}
 		stateMutex.RLock()
 		o, err := state.Output()
 		stateMutex.RUnlock()
@@ -26,27 +29,19 @@ func Output(ctx context.Context, a dmx.Adaptor) {
 		}
 		select {
 		case <-ctx.Done():
+			close(ctx.Value("IsDone").(chan interface{}))
 			return
-		case toOutput <- o:
-		}
-	}
-}
-
-func processOutput(ctx context.Context, toOutput chan parse.Output, a dmx.Adaptor) {
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case output := <-toOutput:
-			err := a.OutputDMX(output, 512)
+		default:
+			err := a.OutputDMX(o, 512)
 			if err != nil {
 				log.WithFields(log.Fields{
 					"package":     "output",
 					"DMX adaptor": a,
 					"err":         err,
-					"output":      output,
+					"output":      o,
 				}).Error("can't output dimmers")
 			}
+
 		}
 	}
 }

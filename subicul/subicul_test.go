@@ -1,15 +1,15 @@
 package subicul
 
 import (
-	"fmt"
-	"log"
 	"net/http"
-	"runtime"
+	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 
 	"golang.org/x/net/context"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
 	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/parse"
@@ -39,14 +39,35 @@ func shouldCloseConnection(actual interface{}, _ ...interface{}) string {
 	return ""
 }
 
+func testServer() *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(HandleFunc()))
+}
+
+func setupTestServer() (*dmx.DebugAdaptor, string, func()) {
+	ctx, cancel := context.WithCancel(context.WithValue(context.Background(), "IsDone", make(chan interface{})))
+
+	a := dmx.NewDebugAdaptor()
+	go Output(ctx, a)
+	ts := testServer()
+	stopServer := func() {
+		cancel()
+		ts.CloseClientConnections()
+		ts.Close()
+		<-ctx.Value("IsDone").(chan interface{})
+	}
+	url := strings.Replace(ts.URL, "http", "ws", 1)
+	return a, url, stopServer
+}
+
 func TestServer(t *testing.T) {
+	ResetState()
+	a, url, stopServer := setupTestServer()
+	defer stopServer()
+
+	log.SetLevel(log.WarnLevel)
+
 	Convey("when i start the server", t, func() {
-		port := 9002
-		a := dmx.NewDebugAdaptor()
-		ctx, cancelF := context.WithCancel(context.Background())
-		err := MakeStateServer(ctx, port, a)
-		So(err, ShouldBeNil)
-		url := fmt.Sprintf("ws://localhost:%v/", port)
+		So(ResetState(), ShouldBeNil)
 		d := websocket.Dialer{}
 		Convey("and connect", func() {
 			conn, _, err := d.Dial(url, http.Header{})
@@ -63,12 +84,13 @@ func TestServer(t *testing.T) {
 					shouldSend(conn, newState)
 
 					Convey("and it should output the new state", func() {
-						time.Sleep(time.Second / 2)
+						time.Sleep(time.Millisecond * 50)
 						So(a.GetLastOutput(), ShouldResemble, map[int]byte{1: 255})
 					})
 
 					Convey("and reconnect", func() {
 						shouldCloseConnection(conn)
+						time.Sleep(time.Millisecond * 50)
 						conn, _, err = d.Dial(url, http.Header{})
 						So(err, ShouldBeNil)
 
@@ -77,6 +99,7 @@ func TestServer(t *testing.T) {
 						})
 					})
 					Convey("and connect with another client", func() {
+						time.Sleep(time.Millisecond * 50)
 						conn2, _, err := d.Dial(url, http.Header{})
 						So(err, ShouldBeNil)
 						Convey("it should initally recieve the state set by the first", func() {
@@ -94,42 +117,25 @@ func TestServer(t *testing.T) {
 							})
 							conn.WriteMessage(websocket.TextMessage, newState)
 						})
-						Reset(func() {
-							So(conn2.Close(), ShouldBeNil)
-						})
 					})
 				})
 			})
 
 			Convey("output should be blank", func() {
+				So(ResetState(), ShouldBeNil)
+				time.Sleep(time.Millisecond * 50)
 				So(a.GetLastOutput(), ShouldResemble, map[int]byte{})
 			})
-			Reset(func() {
-				shouldCloseConnection(conn)
-			})
-
 		})
-
 		Reset(func() {
-			cancelF()
-			time.Sleep(time.Millisecond)
-			So("subicul", testutils.ShouldNotBeRunningGoroutines)
+			// So(ResetState(), ShouldBeNil)
+			//So("subicul", testutils.ShouldNotBeRunningGoroutines)
 		})
-
 	})
-
 }
 
 func BenchmarkServer(b *testing.B) {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-	port := 9001
-	a := dmx.NewDebugAdaptor()
-	ctx, cancelF := context.WithCancel(context.Background())
-	err := MakeStateServer(ctx, port, a)
-	if err != nil {
-		log.Panicln("error in create server", err)
-	}
-	url := fmt.Sprintf("ws://localhost:%v/", port)
+	a, url, stopServer := setupTestServer()
 	d := websocket.Dialer{}
 	conn, _, err := d.Dial(url, http.Header{})
 	if err != nil {
@@ -159,7 +165,5 @@ func BenchmarkServer(b *testing.B) {
 		}
 	}
 	b.StopTimer()
-	shouldCloseConnection(conn)
-	cancelF()
-	time.Sleep(time.Nanosecond)
+	stopServer()
 }
