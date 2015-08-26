@@ -10,7 +10,7 @@ lucibus: bindata_assetfs.go main.go $(wildcard subicul/**/*)
 	go build
 
 bintray.json: bintray.json.tmpl
-	sed "s/{date}/$(shell date +%F)/g; s/{name}/$(TRAVIS_COMMIT)/; s/{desc}/from Travis build $(TRAVIS_BUILD_NUMBER)/" bintray.json.tmpl > bintray.json
+	sed "s/{date}/$(shell date +%F)/g; s/{name}/travis-build-$(TRAVIS_BUILD_NUMBER)/; s/{desc}/from commit $(TRAVIS_COMMIT)/" bintray.json.tmpl > bintray.json
 
 travis_install:
 	wget https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
