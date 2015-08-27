@@ -4,6 +4,7 @@ package parse
 // starts up
 var InitialBytes = []byte(`
 {
+	"patch": {},
 	"live": {
 		"level": 1,
 		"systems": []
@@ -12,11 +13,12 @@ var InitialBytes = []byte(`
 
 var OneSystemStateBytes = []byte(`
 	{
+		"patch": {},
 		"live": {
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1,
+				"query": [{"address": 1}],
 				"uuid": "first"
 			}]
 		}
@@ -24,34 +26,36 @@ var OneSystemStateBytes = []byte(`
 
 var TwoSystemStateBytes = []byte(`
 	{
+		"patch": {},
 		"live": {
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1,
+				"query": [{"address": 1}],
 				"uuid": "first"
 			}, {
 				"level": 1,
-				"address": 2,
+				"query": [{"address": 2}],
 				"uuid": "second"
 			}]
 		}
 	}`)
 var ThreeSystemStateBytes = []byte(`
 	{
+		"patch": {},
 		"live": {
 			"level": 1,
 			"systems": [{
 				"level": 1,
-				"address": 1,
+				"query": [{"address": 1}],
 				"uuid": "first"
 			}, {
 				"level": 1,
-				"address": 2,
+				"query": [{"address": 2}],
 				"uuid": "second"
 			}, {
 				"level": 1,
-				"address": 3,
+				"query": [{"address": 3}],
 				"uuid": "third"
 			}]
 		}

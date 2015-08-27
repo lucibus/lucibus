@@ -7,7 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestParse(t *testing.T) {
+func TestState(t *testing.T) {
 
 	Convey("it should parse correctly when we have valid json with", t, func() {
 		Convey("no current systems", func() {
@@ -21,11 +21,12 @@ func TestParse(t *testing.T) {
 		Convey("an address", func() {
 			b := []byte(`
                     {
+												"patch": {},
                         "live": {
                             "level": 1,
                             "systems": [{
                                 "level": 1,
-                                "address": 1,
+                                "query": [{"address": 1}],
 																"uuid": "first"
                             }]
                         }
@@ -37,15 +38,16 @@ func TestParse(t *testing.T) {
 			Convey("two addresses", func() {
 				b := []byte(`
                     {
+											"patch": {},
                       "live": {
                           "level": 1,
                           "systems": [{
                               "level": 1,
-                              "address": 2,
+															"query": [{"address": 2}],
 															"uuid": "first"
                           }, {
                               "level": 1,
-                              "address": 1,
+															"query": [{"address": 1}],
 															"uuid": "second"
                           }]
                       }
@@ -54,17 +56,57 @@ func TestParse(t *testing.T) {
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
 			})
+		})
 
+		Convey("a tag", func() {
+			b := []byte(`
+                    {
+												"patch": {"1": ["hi"]},
+                        "live": {
+                            "level": 1,
+                            "systems": [{
+                                "level": 1,
+                                "query": [{"tag": "hi"}],
+																"uuid": "first"
+                            }]
+                        }
+                    }`)
+			o, e := ParseAndOutput(b)
+			So(e, ShouldBeNil)
+			So(o, ShouldResemble, Output{1: 255})
+
+			Convey("two tags", func() {
+				b := []byte(`
+                    {
+											"patch": {"1": ["hi", "there"], "2": ["hi"]},
+                      "live": {
+                          "level": 1,
+                          "systems": [{
+                              "level": 1,
+															"query": [{"tag": "hi"}, {"tag": "there"}],
+															"uuid": "first"
+                          }, {
+                              "level": 0.2,
+															"query": [{"tag": "hi"}],
+															"uuid": "second"
+                          }]
+                      }
+                    }`)
+				o, e := ParseAndOutput(b)
+				So(e, ShouldBeNil)
+				So(o, ShouldResemble, Output{1: 255, 2: 51})
+			})
 		})
 
 		Convey("a different grandmaster level", func() {
 			b := []byte(`
                 	{
+										"patch": {},
                     "live": {
                         "level": 0.2,
                         "systems": [{
                             "level": 1,
-														"address": 1,
+														"query": [{"address": 1}],
 														"uuid": "first"
                         }]
                     }
@@ -79,15 +121,16 @@ func TestParse(t *testing.T) {
 			Convey("combine", func() {
 				b := []byte(`
 										{
+												"patch": {},
 												"live": {
 														"level": 1,
 														"systems": [{
 																"level": 1,
-																"address": 2,
+																"query": [{"address": 2}],
 																"uuid": "first"
 														}, {
 																"level": 1,
-																"address": 1,
+																"query": [{"address": 1}],
 																"uuid": "second"
 														}]
 												}
@@ -100,15 +143,16 @@ func TestParse(t *testing.T) {
 			Convey("override", func() {
 				b := []byte(`
 										{
+												"patch": {},
 												"live": {
 														"level": 1,
 														"systems": [{
 																"level": 1,
-																"address": 1,
+																"query": [{"address": 1}],
 																"uuid": "first"
 														}, {
 																"level": 0,
-																"address": 1,
+																"query": [{"address": 1}],
 																"uuid": "second"
 														}]
 												}

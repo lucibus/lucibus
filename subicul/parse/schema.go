@@ -1,6 +1,10 @@
 package parse
 
-import "github.com/xeipuuv/gojsonschema"
+import (
+	"fmt"
+
+	"github.com/xeipuuv/gojsonschema"
+)
 
 var schema gojsonschema.JSONLoader
 
@@ -13,4 +17,16 @@ func getSchema() (gojsonschema.JSONLoader, error) {
 		return nil, err
 	}
 	return gojsonschema.NewStringLoader(string(b)), nil
+}
+
+// SchemaError is returned when a JSON schema does not match.
+type SchemaError struct {
+	Errors []gojsonschema.ResultError
+}
+
+func (se *SchemaError) Error() (s string) {
+	for _, desc := range se.Errors {
+		s += fmt.Sprintln(desc)
+	}
+	return
 }
