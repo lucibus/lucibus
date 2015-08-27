@@ -1,13 +1,16 @@
 {
+  "patch": {
+    "1": ["blue", "green"]
+  },
   "live": {
     "level": 0.89,
     "systems": [{
       "level": 0.5,
-      "address": 1,
+      "query": [{"address": 1}],
       "uuid": "first"
     }, {
       "level": 0.7,
-      "address": 2,
+      "query": [{"tag": "green"}, {"tag": "blue"}],
       "uuid": "second"
     }]
   }

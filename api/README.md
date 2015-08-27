@@ -10,7 +10,7 @@ The schema is in the form of [JSON Schema](http://json-schema.org/).
 
 We currently test the `sample.json` compliance to the `schema.json` with three
 validators, [**jsen**](https://github.com/bugventure/jsen), [**ajv**](https://github.com/epoberezkin/ajv),
-and [**gojsonschema**](https://github.com/xeipuuv/gojsonschema).
+ [tv4](http://geraintluff.github.io/tv4/), and [**gojsonschema**](https://github.com/xeipuuv/gojsonschema).
 
 ```bash
 docker build -t lucibus/api-jsen -f validators/jsen.Dockerfile .
@@ -18,6 +18,9 @@ docker run --rm lucibus/api-jsen
 
 docker build -t lucibus/api-ajv -f validators/ajv.Dockerfile .
 docker run --rm lucibus/api-ajv
+
+docker build -t lucibus/api-tv4 -f validators/tv4.Dockerfile .
+docker run --rm lucibus/api-tv4
 
 docker build -t lucibus/api-gojsonschema -f validators/gojsonschema.Dockerfile .
 docker run --rm lucibus/api-gojsonschema
