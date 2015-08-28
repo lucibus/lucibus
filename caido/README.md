@@ -17,7 +17,7 @@ UI.
 This has hot reloading enabled.
 
 ```
-npm run dev-server
+npm run build:dev:debug
 open "http://localhost:8080/?mock_websocket=true"
 ```
 

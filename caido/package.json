@@ -12,7 +12,8 @@
     "pretest:integration:selenium": "selenium-standalone install",
     "test:integration:selenium": "selenium-standalone start",
     "test:integration:server": "env WEBPACK_MINIMIZE=true webpack-dev-server --colors --progress --port 5050",
-    "dev-server": "env WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
+    "build:dev:debug": "env WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
+    "build:dev:prod": "env WEBPACK_MINIMIZE=true WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
     "build": "env WEBPACK_MINIMIZE=true webpack --colors",
     "deps:updates": "npm-check-updates",
     "deps:shrinkwrap": "npm-shrinkwrap --dev"
