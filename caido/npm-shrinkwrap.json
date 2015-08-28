@@ -1142,15 +1142,17 @@
       "version": "3.3.5",
       "resolved": "https://registry.npmjs.org/bootswatch/-/bootswatch-3.3.5.tgz"
     },
-    "cerebral-react-baobab": {
-      "version": "0.4.0",
-      "resolved": "https://registry.npmjs.org/cerebral-react-baobab/-/cerebral-react-baobab-0.4.0.tgz",
-      "dependencies": {
-        "cerebral": {
-          "version": "0.15.0",
-          "resolved": "https://registry.npmjs.org/cerebral/-/cerebral-0.15.0.tgz"
-        }
-      }
+    "cerebral": {
+      "version": "0.17.2",
+      "resolved": "https://registry.npmjs.org/cerebral/-/cerebral-0.17.2.tgz"
+    },
+    "cerebral-baobab": {
+      "version": "0.1.2",
+      "resolved": "https://registry.npmjs.org/cerebral-baobab/-/cerebral-baobab-0.1.2.tgz"
+    },
+    "cerebral-react": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/cerebral-react/-/cerebral-react-0.1.1.tgz"
     },
     "classnames": {
       "version": "2.1.3",

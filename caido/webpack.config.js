@@ -93,7 +93,6 @@ var config = {
     new webpack.PrefetchPlugin('babel-runtime/helpers/get.js'),
     new webpack.PrefetchPlugin('belle'),
     new webpack.PrefetchPlugin('./app/containers/App.less'),
-    new webpack.PrefetchPlugin('cerebral-react-baobab/node_modules/cerebral'),
     new webpack.NoErrorsPlugin()
   ],
   devServer: {
