@@ -1,4 +1,5 @@
-import Controller from 'cerebral-react-baobab'
+import Controller from 'cerebral'
+import Model from 'cerebral-baobab'
 
 import {newSystem} from './utils'
 
@@ -21,8 +22,6 @@ const state = {
   }
 }
 
-const defaultArgs = {}
-
 const baobabOptions = {
   asynchronous: false,
   validate: (previousState, newState, affectedPaths) => {
@@ -35,8 +34,11 @@ const baobabOptions = {
   }
 }
 
-var controller = Controller(state, defaultArgs, baobabOptions)
+const model = Model(state, baobabOptions)
 
+// Any services you want each action to receive.
+const services = {}
+
+var controller = Controller(model, services)
 signals(controller)
-
 export default controller

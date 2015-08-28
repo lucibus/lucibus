@@ -1,8 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classNames from 'classnames'
 import {map, range, assign} from 'lodash'
 
-import Component from '../Component'
 import AutoFillInput from '../elements/AutoFillInput'
 import {cerebralPropTypes, Cerebral} from '../utils'
 

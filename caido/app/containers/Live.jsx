@@ -1,6 +1,4 @@
-import React from 'react'
-
-import Component from '../Component'
+import React, {Component} from 'react'
 
 import LiveList from './LiveList'
 import Grandmaster from './Grandmaster'

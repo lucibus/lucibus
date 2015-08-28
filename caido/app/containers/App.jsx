@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {Container} from 'cerebral-react'
 import classNames from 'classnames'
-
-import Component from '../Component'
 
 import Live from './Live'
 
@@ -22,5 +21,7 @@ class App extends Component {
 
 export default (config) => {
   window.caidoConfig = config || {}
-  return require('../controller').injectInto(App)
+  var controller = require('../controller')
+
+  return <Container controller={controller} app={App}/>
 }

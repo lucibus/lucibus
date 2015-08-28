@@ -1,6 +1,5 @@
-import React from 'react'
+import React, {Component} from 'react'
 
-import Component from '../Component'
 import styles from './System.css'
 import Query from './Query'
 import Level from './Level'

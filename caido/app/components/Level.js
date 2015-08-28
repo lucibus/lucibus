@@ -1,7 +1,5 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {assign} from 'lodash'
-
-import Component from '../Component'
 
 import styles from './Level.css'
 import PercentInput from '../elements/PercentInput'

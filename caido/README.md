@@ -17,7 +17,7 @@ UI.
 This has hot reloading enabled.
 
 ```
-npm run dev-server
+npm run build:dev:debug
 open "http://localhost:8080/?mock_websocket=true"
 ```
 
@@ -85,7 +85,7 @@ for examples.
 
 #### State
 We use [react](http://facebook.github.io/react/) for the view layer and
-[cerebral-react-baobab]https://github.com/christianalfoni/cerebral-react-baobab)
+[cerebral](https://github.com/christianalfoni/cerebral)
 for the state. We chose baobab over a classic Flux solution because it minimizes
 the amount of code we have to write for state changes and supports having one
 global state, which is helpful initially, so that we can sync it easily to the
