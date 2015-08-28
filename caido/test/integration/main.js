@@ -69,19 +69,19 @@ describe('App', function () {
         it('clicking on it and typing must change value', clickAndType)
         it('typing must update state', function *() {
           yield* clickAndType()
-          yield stateEquals({live: {level: 0.5, systems: []}})
+          yield stateEquals({patch: {}, live: {level: 0.5, systems: []}})
         })
         it('using arrow keys must update', function *() {
           yield* click()
           yield browser.keys(DOWN_ARROW)
-          yield stateEquals({live: {level: 0.99, systems: []}})
+          yield stateEquals({patch: {}, live: {level: 0.99, systems: []}})
         })
       })
     })
 
     function * addSystem (address, level) {
       yield browser.waitForVisible('#new-system .query').click('#new-system .query')
-      yield browser.keys(`Address ${address}${TAB}${level}${TAB}`)
+      yield browser.keys(`Address ${address}${TAB}${TAB}${level}${TAB}`)
       yield browser.click('#new-system button')
     }
     describe('New System', function () {
@@ -90,14 +90,14 @@ describe('App', function () {
       })
       it('must be able to add', function *() {
         yield* addSystem('1', '40')
-        yield stateEquals({live: {level: 1, systems: [{address: 1, level: 0.4}]}})
+        yield stateEquals({patch: {}, live: {level: 1, systems: [{query: [{address: 1}], level: 0.4}]}})
       })
     })
     describe.skip('Systems', function () {
       beforeEach('add two systems', function *() {
         yield* addSystem('1', '40')
         yield* addSystem('2', '50')
-        yield stateEquals({live: {level: 1, systems: [{address: 2, level: 0.5}, {address: 1, level: 0.4}]}})
+        yield stateEquals({patch: {}, live: {level: 1, systems: [{address: 2, level: 0.5}, {address: 1, level: 0.4}]}})
       })
       it('must exist', function *() {
         yield browser.isVisible('.system-li .drag-handle:nth-Child(1)').must.eventually.equal(true)
@@ -105,6 +105,7 @@ describe('App', function () {
       it('must be able to drag', function *() {
         yield browser.dragAndDrop('.system-li .drag-handle:nth-Child(1)', '.system-li .drag-handle:nth-Child(2)')
         yield stateEquals({
+          patch: {},
           live: {
             level: 1,
             systems: [{

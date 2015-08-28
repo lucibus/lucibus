@@ -2,22 +2,20 @@ import React, {Component} from 'react'
 import classNames from 'classnames'
 import {map, range, assign} from 'lodash'
 
-import AutoFillInput from '../elements/AutoFillInput'
+import AutoFillInputReactSelect from '../elements/AutoFillInputReactSelect'
 import {cerebralPropTypes, Cerebral} from '../utils'
 
 function optionsToQuery (options) {
-  options.map(o => {
-    delete o.label
-  })
-  return options
+  return options.map(o => JSON.parse(o.value))
 }
 
 function queryToOptions (query) {
   return query.map(o => {
     var isAddress = o.hasOwnProperty('address')
-    return Object.assign({
-      label: isAddress ? `Address ${o.address}` : o.tag
-    }, o)
+    return {
+      label: isAddress ? `Address ${o.address}` : o.tag,
+      value: JSON.stringify(o)
+    }
   })
 }
 
@@ -47,7 +45,7 @@ class Query extends Component {
 
   get queryElement () {
     if (this.systemType === 'filter') {
-      return <AutoFillInput currentOptions={this.currentOptions} options={this.options} onOptionsChange={this.onOptionsChange.bind(this)}/>
+      return <AutoFillInputReactSelect currentOptions={this.currentOptions} options={this.options} onOptionsChange={this.onOptionsChange.bind(this)}/>
     }
     return <span>Grandmaster</span>
   }

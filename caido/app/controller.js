@@ -18,7 +18,7 @@ const state = {
     'newSystem': newSystem(),
     '$newSystemValid': [
       ['local', 'newSystem'],
-      system => system.hasOwnProperty('level') && system.hasOwnProperty('address')
+      system => (system.query || []).length > 0 && system.hasOwnProperty('level')
     ]
   }
 }

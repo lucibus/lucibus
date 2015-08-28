@@ -10,7 +10,7 @@ describe('controller', function () {
     controller.signal('testSetSynced', setSyncedAction)
   })
   it('must accept a valid state', function () {
-    var synced = {live: {systems: [], level: 0.7}}
+    var synced = {patch: {}, live: {systems: [], level: 0.7}}
     controller.signals.testSetSynced(true, {synced})
     controller.get('synced').must.eql(synced)
   })

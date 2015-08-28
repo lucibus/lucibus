@@ -1,0 +1,37 @@
+.wrapper {
+  display: inline-flex;
+}
+
+.wrapper :global(.Select) {
+  min-width: 12em;
+}
+
+
+/*
+.wrapper input[style] {
+  background-color: inherit !important;
+  display: inherit !important;
+}
+
+.wrapper ::placeholder {
+  color: white !important;
+}*/
+
+/*
+this is the autofilled text that is the selected element. We want to make
+it a bit darker
+*/
+/*
+.wrapper input[tabindex="-1"] {
+  color: rgb(204, 204, 204) !important;
+}
+
+.wrapper ul[style] {
+  text-align: left;
+  margin-top: 0.3em !important;
+  background-color: rgba(0, 0, 0, 1) !important;
+}
+*/
+/*.wrapper li div[style]:hover {
+  background: rgb(62, 62, 62) !important;
+}*/

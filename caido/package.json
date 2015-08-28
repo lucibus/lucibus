@@ -73,7 +73,7 @@
     "react-dragula": "1.0.7",
     "react-hot-loader": "1.2.8",
     "react-immutable-proptypes": "1.1.0",
-    "react-widgets": "https://registry.npmjs.org/react-widgets/-/react-widgets-2.8.0.tgz",
+    "react-select": "^0.6.7",
     "script-loader": "0.6.1",
     "source-map-loader": "0.1.5",
     "standard": "5.1.0",
