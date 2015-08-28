@@ -1,8 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {map} from 'lodash'
 import {ComboBox, Option} from 'belle'
 
-import Component from '../Component'
 import styles from './AutoFillInput.css'
 
 class AutoFillInput extends Component {

@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {round} from 'lodash'
 
-import Component from '../Component'
 import styles from './PercentInput.css'
 
 function clamp (number, min, max) {

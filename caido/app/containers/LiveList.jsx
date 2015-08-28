@@ -1,10 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 import dragula from 'react-dragula'
 import 'react-dragula/dist/dragula.css'
 import classNames from 'classnames'
 import {assign} from 'lodash'
 
-import Component from '../Component'
 import System from '../components/System'
 import styles from './LiveList.css'
 import {systemPropType, cerebtralPropTypes, Cerebral} from '../utils'

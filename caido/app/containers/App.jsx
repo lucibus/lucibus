@@ -1,7 +1,5 @@
-import React from 'react'
+import React, {Component} from 'react'
 import classNames from 'classnames'
-
-import Component from '../Component'
 
 import Live from './Live'
 
