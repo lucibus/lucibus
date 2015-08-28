@@ -15,7 +15,7 @@
     "dev-server": "env WEBPACK_DEVTOOL=eval-source-map WEBPACK_DEBUG=true WEBPACK_HOT_COMPONENTS=true webpack-dev-server --colors --progress --hot",
     "build": "env WEBPACK_MINIMIZE=true webpack --colors",
     "deps:updates": "npm-check-updates",
-    "deps:shrinkwrap": "npm shrinkwrap --dev"
+    "deps:shrinkwrap": "npm-shrinkwrap --dev"
   },
   "license": "MIT",
   "dependencies": {
@@ -62,6 +62,7 @@
     "mocha": "2.2.5",
     "mock-socket": "0.6.0",
     "must": "0.13.0-beta2",
+    "npm-shrinkwrap": "^5.4.0",
     "parallelshell": "2.0.0",
     "postcss-loader": "0.5.1",
     "query-string": "2.4.0",
