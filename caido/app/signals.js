@@ -3,7 +3,7 @@ import moveSystem from './actions/moveSystem.js'
 import outputSynced from './actions/outputSynced.js'
 import setSynced from './actions/setSynced.js'
 import setSystemLevel from './actions/setSystemLevel.js'
-import setSystemAddress from './actions/setSystemAddress.js'
+import setSystemQuery from './actions/setSystemQuery.js'
 import removeSystem from './actions/removeSystem.js'
 
 export default controller => {
@@ -15,7 +15,7 @@ export default controller => {
     inSynced: [[outputSynced]],
     inLocal: []
   })
-  controller.signal('queryChanged', setSystemAddress, {
+  controller.signal('queryChanged', setSystemQuery, {
     inSynced: [[outputSynced]],
     inLocal: []
   })

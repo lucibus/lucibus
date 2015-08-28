@@ -10,11 +10,11 @@ import {systemPropType, cerebtralPropTypes, Cerebral} from '../utils'
 
 const systemsPath = ['synced', 'live', 'systems']
 
-@Cerebral(() => ({
+@Cerebral({
   systems: systemsPath,
   newSystemValid: ['local', '$newSystemValid'],
   newSystemUuid: ['local', 'newSystem', 'uuid']
-}))
+})
 class LiveList extends Component {
   get listNode () {
     return React.findDOMNode(this.refs.list)

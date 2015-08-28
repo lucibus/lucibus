@@ -1,15 +1,13 @@
 .wrapper {
-  display: inline-block;
+  display: inline-flex;
 }
 
-.wrapper *[style] {
-  border: 0 !important;
-  padding: 0 !important;
-  outline: none !important;
-  font-size: inherit !important;
-  color: inherit !important;
+.wrapper :global(.rw-multiselect) {
+  min-width: 12em;
 }
 
+
+/*
 .wrapper input[style] {
   background-color: inherit !important;
   display: inherit !important;
@@ -17,13 +15,13 @@
 
 .wrapper ::placeholder {
   color: white !important;
-}
-
+}*/
 
 /*
 this is the autofilled text that is the selected element. We want to make
 it a bit darker
 */
+/*
 .wrapper input[tabindex="-1"] {
   color: rgb(204, 204, 204) !important;
 }
@@ -33,7 +31,7 @@ it a bit darker
   margin-top: 0.3em !important;
   background-color: rgba(0, 0, 0, 1) !important;
 }
-
+*/
 /*.wrapper li div[style]:hover {
   background: rgb(62, 62, 62) !important;
 }*/

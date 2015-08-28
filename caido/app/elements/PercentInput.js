@@ -36,7 +36,7 @@ class PercentInput extends Component {
 }
 
 PercentInput.propTypes = {
-  float: React.PropTypes.number.isRequired,
+  float: React.PropTypes.number,
   onChange: React.PropTypes.func.isRequired
 }
 

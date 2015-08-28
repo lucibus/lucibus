@@ -8,6 +8,7 @@ import schema from './schema'
 
 const state = {
   'synced': {
+    'patch': {},
     'live': {
       'level': 1,
       'systems': []
@@ -41,4 +42,5 @@ const services = {}
 
 var controller = Controller(model, services)
 signals(controller)
+
 export default controller
