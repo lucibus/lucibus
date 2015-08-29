@@ -2,43 +2,51 @@ import React, {Component} from 'react'
 import classNames from 'classnames'
 import {map, range, assign} from 'lodash'
 
-import AutoFillInput from '../elements/AutoFillInput'
+import AutoFillInputReactSelect from '../elements/AutoFillInputReactSelect'
 import {cerebralPropTypes, Cerebral} from '../utils'
 
-class AddressOption {
-  constructor (address) {
-    this.address = address
-    this.asString = 'Address ' + address
-  }
+function optionsToQuery (options) {
+  return options.map(o => JSON.parse(o.value))
+}
 
-  toString () {
-    return this.asString
-  }
+function queryToOptions (query) {
+  return query.map(o => {
+    var isAddress = o.hasOwnProperty('address')
+    return {
+      label: isAddress ? `Address ${o.address}` : o.tag,
+      value: JSON.stringify(o)
+    }
+  })
 }
 
 @Cerebral(props => ({
-  address: props.systemPath.concat(['address'])
+  query: props.systemPath.concat(['query']),
+  allTags: ['local', '$allTags']
 }))
 class Query extends Component {
   constructor () {
     super()
-    this.options = map(range(1, 512 + 1), i => new AddressOption(i))
   }
 
-  onOptionChange (option) {
-    this.props.signals.queryChanged({systemPath: this.props.systemPath, address: option.address})
+  onOptionsChange (options) {
+    var query = optionsToQuery(options)
+    this.props.signals.queryChanged({systemPath: this.props.systemPath, query: query})
   }
 
-  get currentOption () {
-    if (this.props.address) {
-      return new AddressOption(this.props.address)
-    }
-    return null
+  get currentOptions () {
+    return queryToOptions(this.props.query || [])
+  }
+
+  get options () {
+    var allAddressQuery = map(range(1, 512 + 1), address => ({address}))
+    var allTagQuery = map(this.props.allTags, tag => ({tag}))
+    var allQuery = allTagQuery.concat(allAddressQuery)
+    return queryToOptions(allQuery)
   }
 
   get queryElement () {
-    if (this.systemType === 'address') {
-      return <AutoFillInput currentOption={this.currentOption} options={this.options} onOptionChange={this.onOptionChange.bind(this)}/>
+    if (this.systemType === 'filter') {
+      return <AutoFillInputReactSelect currentOptions={this.currentOptions} options={this.options} onOptionsChange={this.onOptionsChange.bind(this)}/>
     }
     return <span>Grandmaster</span>
   }
@@ -47,11 +55,11 @@ class Query extends Component {
     if (this.props.systemPath[this.props.systemPath.length - 1] === 'live') {
       return 'grandmaster'
     }
-    return 'address'
+    return 'filter'
   }
 
   get labelType () {
-    if (this.systemType === 'address') {
+    if (this.systemType === 'filter') {
       return 'success'
     }
     return 'primary'
@@ -66,6 +74,16 @@ class Query extends Component {
   }
 }
 
-Query.propTypes = assign({}, cerebralPropTypes, {address: React.PropTypes.number})
+Query.propTypes = assign({}, cerebralPropTypes, {
+  allTags: React.PropTypes.arrayOf(React.PropTypes.string),
+  query: React.PropTypes.arrayOf(React.PropTypes.oneOf([
+    React.PropTypes.shape({
+      'address': React.PropTypes.number
+    }),
+    React.PropTypes.shape({
+      'tag': React.PropTypes.string
+    })
+  ]))
+})
 
 export default Query

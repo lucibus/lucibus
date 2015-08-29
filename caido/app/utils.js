@@ -1,5 +1,5 @@
 import React from 'react'
-import {assign} from 'lodash'
+import {assign, isEqual} from 'lodash'
 import {Mixin} from 'cerebral-react'
 import render from 'cerebral-react/src/render'
 
@@ -32,6 +32,9 @@ export function Cerebral (paths) {
     return React.createClass({
       displayName: Component.name + 'Container',
       mixins: [Mixin],
+      function (nextProps, nextState) {
+        return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState)
+      },
       getStatePaths: function () {
         if (!paths) {
           return {}
@@ -41,8 +44,15 @@ export function Cerebral (paths) {
       render: render(Component)
     })
   }
-};
+}
 
 export function newSystem () {
   return {'uuid': UUID.create().toString()}
+}
+
+export function newPatchItem () {
+  return {
+    tags: [],
+    address: null
+  }
 }

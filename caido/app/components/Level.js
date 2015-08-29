@@ -6,7 +6,8 @@ import PercentInput from '../elements/PercentInput'
 import {cerebralPropTypes, Cerebral} from '../utils'
 
 @Cerebral(props => ({
-  level: props.systemPath.concat(['level'])
+  level: props.systemPath.concat(['level']),
+  system: props.systemPath
 }))
 class Level extends Component {
   onChange (value) {

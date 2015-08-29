@@ -2,11 +2,20 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "/",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
-    "live": {
+    "patch": {
       "type": "object",
       "additionalProperties": false,
+      "patternProperties": {
+        "^([1-9][0-9]?|[1-4][0-9]{2}|50[0-9]|51[0-2])$": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "live": {
+      "type": "object",
       "properties": {
         "level": {
           "type": "number",
@@ -24,18 +33,35 @@
                 "maximum": 1,
                 "minimum": 0
               },
-              "address": {
-                "type": "integer",
-                "maximum": 255,
-                "minimum": 1
-              },
+              "query": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "oneOf": [{
+                    "properties": {
+                      "address": {"$ref":  "#/definitions/address"}
+                    },
+                    "additionalProperties": false,
+                    "required": ["address"]
+                  }, {
+                    "properties": {
+                      "tag": {
+                        "type": "string"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "required": ["tag"]
+                  }]
+                }
+              } ,
               "uuid": {
                 "type": "string"
               }
             },
             "required": [
               "level",
-              "address",
+              "query",
               "uuid"
             ]
           }
@@ -48,6 +74,14 @@
     }
   },
   "required": [
+    "patch",
     "live"
-  ]
+  ],
+  "definitions": {
+    "address": {
+      "type": "integer",
+      "maximum": 255,
+      "minimum": 1
+    }
+  }
 }

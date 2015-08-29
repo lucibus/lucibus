@@ -3,6 +3,7 @@ import {Container} from 'cerebral-react'
 import classNames from 'classnames'
 
 import Live from './Live'
+import Patch from './Patch'
 
 import styles from './App.css'
 import './App.less'
@@ -13,6 +14,7 @@ class App extends Component {
       <div className={classNames('container', styles.body)}>
         <div className='row'>
           <Live />
+          <Patch />
         </div>
       </div>
     )

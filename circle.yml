@@ -6,6 +6,9 @@ dependencies:
     - docker build -t lucibus/api-ajv -f validators/ajv.Dockerfile .:
         pwd:
           api
+    - docker build -t lucibus/api-tv4 -f validators/tv4.Dockerfile .:
+        pwd:
+          api
     - docker build -t lucibus/api-gojsonschema -f validators/gojsonschema.Dockerfile .:
         pwd:
           api
@@ -16,4 +19,5 @@ test:
   override:
     - docker run lucibus/api-jsen
     - docker run lucibus/api-ajv
+    - docker run lucibus/api-tv4
     - docker run lucibus/api-gojsonschema

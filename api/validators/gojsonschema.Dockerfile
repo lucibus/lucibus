@@ -1,4 +1,4 @@
-FROM golang:1.4
+FROM golang:1.5
 RUN go get github.com/xeipuuv/gojsonschema
 
 ADD validators/gojsonschema.go /code/gojsonschema.go

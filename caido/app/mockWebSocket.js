@@ -1,4 +1,3 @@
-// import sampleSynced from './sampleSynced.json'
 import 'script!mock-socket/dist/mock-socket.js'
 import queryString from 'query-string'
 
@@ -11,7 +10,6 @@ if (shouldMockWebSocket) {
   console.log('Starting debug websocket server')
   var mockServer = new window.MockServer('ws://' + window.location.hostname + ':8080')
   mockServer.on('connection', function (server) {
-    // server.send(JSON.stringify(sampleSynced))
   })
 
   mockServer.on('message', message => {

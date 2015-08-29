@@ -2,7 +2,7 @@
   display: inline-flex;
 }
 
-.wrapper :global(.rw-multiselect) {
+.wrapper :global(.Select) {
   min-width: 12em;
 }
 
