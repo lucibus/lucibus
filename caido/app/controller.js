@@ -16,6 +16,7 @@ const state = {
     }
   },
   'local': {
+    'page': 'live',
     '$allTags': [
       ['synced', 'patch'],
       patch => _.uniq(_.flatten(_.values(patch)))

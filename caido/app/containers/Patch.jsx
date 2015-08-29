@@ -16,7 +16,7 @@ class Patch extends Component {
 
   render () {
     return (
-      <div className='col-lg-6' id='patch'>
+      <div className='col-lg-12' id='patch'>
         <h2>Patch</h2>
         <table className='table table-striped table-hover'>
           <thead>

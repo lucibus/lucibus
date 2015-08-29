@@ -10,6 +10,7 @@ import setNewPatchItemAddress from './actions/setNewPatchItemAddress.js'
 import setNewPatchItemTags from './actions/setNewPatchItemTags.js'
 import setPatchItemAddress from './actions/setPatchItemAddress.js'
 import setPatchItemTags from './actions/setPatchItemTags.js'
+import setPage from './actions/setPage.js'
 
 export default controller => {
   controller.signal('gotWebsocketMessage', setSynced)
@@ -33,4 +34,6 @@ export default controller => {
   controller.signal('changedNewPatchItemTags', setNewPatchItemTags)
   controller.signal('changedPatchItemAddress', setPatchItemAddress)
   controller.signal('changedPatchItemTags', setPatchItemTags)
+
+  controller.signal('clickedNav', setPage)
 }
