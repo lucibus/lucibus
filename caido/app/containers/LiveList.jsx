@@ -4,9 +4,12 @@ import 'react-dragula/dist/dragula.css'
 import classNames from 'classnames'
 import {assign} from 'lodash'
 
+import {systemPropType, cerebralPropTypes, Cerebral} from '../utils'
 import System from '../components/System'
+import Add from '../elements/Add'
+import Remove from '../elements/Remove'
+
 import styles from './LiveList.css'
-import {systemPropType, cerebtralPropTypes, Cerebral} from '../utils'
 
 const systemsPath = ['synced', 'live', 'systems']
 
@@ -61,9 +64,7 @@ class LiveList extends Component {
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
         <System systemPath={systemPath}/>
-        <button className='btn btn-danger btn-xs' onClick={this.handleDeleteClick(systemPath)}>
-          –
-        </button>
+        <Remove onClick={this.handleDeleteClick(systemPath)} />
       </li>
     )
   }
@@ -80,9 +81,7 @@ class LiveList extends Component {
         <ol className='list-unstyled' ref='list'>
           <li key={this.props.newSystemUuid} className={styles['new-system']} id='new-system'>
             <System systemPath={['local', 'newSystem']}/>
-            <button className={classNames('btn', 'btn-primary', 'btn-xs', {disabled: !this.props.newSystemValid})} onClick={this.handleAddNewClick.bind(this)}>
-              +
-            </button>
+            <Add disabled={!this.props.newSystemValid} onClick={this.handleAddNewClick.bind(this)} />
           </li>
           {this.props.systems.map(this.renderSystem.bind(this))}
         </ol>
@@ -99,7 +98,7 @@ LiveList.propTypes = assign(
     newSystemValid: React.PropTypes.bool.isRequired,
     newSystemUuid: React.PropTypes.string.isRequired
   },
-  cerebtralPropTypes
+  cerebralPropTypes
 )
 
 export default LiveList

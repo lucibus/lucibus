@@ -30,6 +30,7 @@ class AutoFillInputReactSelect extends Component {
           onChange={(value, values) => this.props.onOptionsChange(values)}
           placeholder='Add a system'
           filterOptions={this.filterOptions}
+          allowCreate={this.props.allowCreate}
         />
       </div>
     )
@@ -39,7 +40,12 @@ class AutoFillInputReactSelect extends Component {
 AutoFillInputReactSelect.propTypes = {
   onOptionsChange: React.PropTypes.func.isRequired,
   currentOptions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired
+  options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  allowCreate: React.PropTypes.bool
+}
+
+AutoFillInputReactSelect.defaultPropTypes = {
+  allowCreate: false
 }
 
 export default AutoFillInputReactSelect

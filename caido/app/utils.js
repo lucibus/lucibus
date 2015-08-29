@@ -49,3 +49,10 @@ export function Cerebral (paths) {
 export function newSystem () {
   return {'uuid': UUID.create().toString()}
 }
+
+export function newPatchItem () {
+  return {
+    tags: [],
+    address: null
+  }
+}

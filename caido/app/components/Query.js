@@ -20,7 +20,8 @@ function queryToOptions (query) {
 }
 
 @Cerebral(props => ({
-  query: props.systemPath.concat(['query'])
+  query: props.systemPath.concat(['query']),
+  allTags: ['local', '$allTags']
 }))
 class Query extends Component {
   constructor () {
@@ -37,8 +38,8 @@ class Query extends Component {
   }
 
   get options () {
-    var allAddressQuery = map(range(1, 512 + 1), function (i) {return {address: i}})
-    var allTagQuery = [{tag: 'Hi'}]
+    var allAddressQuery = map(range(1, 512 + 1), address => ({address}))
+    var allTagQuery = map(this.props.allTags, tag => ({tag}))
     var allQuery = allTagQuery.concat(allAddressQuery)
     return queryToOptions(allQuery)
   }
@@ -74,6 +75,7 @@ class Query extends Component {
 }
 
 Query.propTypes = assign({}, cerebralPropTypes, {
+  allTags: React.PropTypes.arrayOf(React.PropTypes.string),
   query: React.PropTypes.arrayOf(React.PropTypes.oneOf([
     React.PropTypes.shape({
       'address': React.PropTypes.number

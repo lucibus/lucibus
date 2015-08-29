@@ -1,7 +1,8 @@
 import Controller from 'cerebral'
 import Model from 'cerebral-baobab'
+import _ from 'lodash'
 
-import {newSystem} from './utils'
+import {newSystem, newPatchItem} from './utils'
 
 import signals from './signals'
 import schema from './schema'
@@ -15,6 +16,15 @@ const state = {
     }
   },
   'local': {
+    '$allTags': [
+      ['synced', 'patch'],
+      patch => _.uniq(_.flatten(_.values(patch)))
+    ],
+    'newPatchItem': newPatchItem(),
+    '$newPatchItemValid': [
+      ['local', 'newPatchItem'],
+      patchItem => patchItem.address !== null && patchItem.tags.length > 0
+    ],
     'newSystem': newSystem(),
     '$newSystemValid': [
       ['local', 'newSystem'],
