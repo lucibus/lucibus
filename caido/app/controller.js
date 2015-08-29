@@ -10,8 +10,10 @@ import schema from './schema'
 const state = {
   'synced': {
     'patch': {},
+    'cues': [],
     'live': {
       'level': 1,
+      'cue': '',
       'systems': []
     }
   },
