@@ -62,7 +62,14 @@ var config = {
       'wav|mp3': INLINE ? 'url-loader' : 'file-loader',
       'html': 'html-loader',
       'md|markdown': ['html-loader', 'markdown-loader'],
-      'css': styleLoader('css-loader?module&importLoaders=1!postcss-loader'),
+      'css': {
+        loader: styleLoader('css-loader?module&importLoaders=1!postcss-loader'),
+        include: [path.join(__dirname, 'app')]
+      },
+      'css ': {
+        loader: styleLoader('css-loader'),
+        include: [path.join(__dirname, 'node_modules')]
+      },
       'less': styleLoader('css-loader!less-loader'),
       'styl': styleLoader('css-loader!stylus-loader')
     }),
