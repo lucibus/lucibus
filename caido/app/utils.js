@@ -56,3 +56,11 @@ export function newPatchItem () {
     address: null
   }
 }
+
+export function systemValid (system) {
+  return (system.query || []).length > 0 && system.hasOwnProperty('level')
+}
+
+export function getNewSystemPath (systemsPath) {
+  return ['local', 'newSystems', JSON.stringify(systemsPath)]
+}

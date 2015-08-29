@@ -11,6 +11,7 @@ import setNewPatchItemTags from './actions/setNewPatchItemTags.js'
 import setPatchItemAddress from './actions/setPatchItemAddress.js'
 import setPatchItemTags from './actions/setPatchItemTags.js'
 import setPage from './actions/setPage.js'
+import createNewSystem from './actions/createNewSystem.js'
 
 export default controller => {
   controller.signal('gotWebsocketMessage', setSynced)
@@ -26,7 +27,9 @@ export default controller => {
     inLocal: []
   })
 
-  controller.signal('clickedAddNewSystem', addNewSystem, [outputSynced])
+  controller.signal('needNewSystem', createNewSystem)
+
+  controller.signal('clickedAddNewSystem', addNewSystem, createNewSystem, [outputSynced])
   controller.signal('clickedDeleteSystem', removeSystem, [outputSynced])
 
   controller.signal('clickedAddNewPatchItem', addNewPatchItem, [outputSynced])

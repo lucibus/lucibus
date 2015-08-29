@@ -4,7 +4,7 @@ import 'react-dragula/dist/dragula.css'
 import classNames from 'classnames'
 import {assign} from 'lodash'
 
-import {systemPropType, cerebralPropTypes, Cerebral} from '../utils'
+import {systemPropType, cerebralPropTypes, Cerebral, getNewSystemPath, systemValid} from '../utils'
 import System from '../components/System'
 import Add from '../elements/Add'
 import Remove from '../elements/Remove'
@@ -12,11 +12,11 @@ import Remove from '../elements/Remove'
 import styles from './LiveList.css'
 
 const systemsPath = ['synced', 'live', 'systems']
+const newSystemPath = getNewSystemPath(systemsPath)
 
 @Cerebral({
   systems: systemsPath,
-  newSystemValid: ['local', '$newSystemValid'],
-  newSystemUuid: ['local', 'newSystem', 'uuid']
+  newSystem: newSystemPath
 })
 class LiveList extends Component {
   get listNode () {
@@ -70,19 +70,32 @@ class LiveList extends Component {
   }
 
   handleAddNewClick () {
-    if (this.props.newSystemValid) {
-      this.props.signals.clickedAddNewSystem()
+    if (this.newSystemValid) {
+      this.props.signals.clickedAddNewSystem({systemsPath})
     }
   }
 
+  get newSystemValid () {
+    return systemValid(this.props.newSystem)
+  }
+
+  renderNewSystem () {
+    return (
+      <li key={this.props.newSystem.uuid} className={styles['new-system']} id='new-system'>
+        <System systemPath={newSystemPath}/>
+        <Add disabled={!this.newSystemValid} onClick={this.handleAddNewClick.bind(this)} />
+      </li>
+    )
+  }
+
   render () {
+    if (!this.props.newSystem) {
+      this.props.signals.needNewSystem({newSystemPath})
+    }
     return (
       <div>
         <ol className='list-unstyled' ref='list'>
-          <li key={this.props.newSystemUuid} className={styles['new-system']} id='new-system'>
-            <System systemPath={['local', 'newSystem']}/>
-            <Add disabled={!this.props.newSystemValid} onClick={this.handleAddNewClick.bind(this)} />
-          </li>
+          {this.props.newSystem ? this.renderNewSystem() : ''}
           {this.props.systems.map(this.renderSystem.bind(this))}
         </ol>
       </div>
@@ -95,8 +108,7 @@ LiveList.propTypes = assign(
   {},
   {
     systems: React.PropTypes.arrayOf(systemPropType).isRequired,
-    newSystemValid: React.PropTypes.bool.isRequired,
-    newSystemUuid: React.PropTypes.string.isRequired
+    newSystem: systemPropType
   },
   cerebralPropTypes
 )
