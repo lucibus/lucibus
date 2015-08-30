@@ -2,6 +2,9 @@ import React, {Component} from 'react'
 
 import LiveList from './LiveList'
 import Grandmaster from './Grandmaster'
+import LiveCue from './LiveCue'
+
+import styles from './Live.css'
 
 class Live extends Component {
   render () {
@@ -9,7 +12,10 @@ class Live extends Component {
       <div className='col-lg-12' id='live'>
         <h2>Live</h2>
         <Grandmaster/>
-        <LiveList/>
+        <div className={styles['under-grandmaster']}>
+          <LiveList/>
+          <LiveCue/>
+        </div>
       </div>
     )
   }

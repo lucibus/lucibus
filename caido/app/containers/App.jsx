@@ -8,13 +8,15 @@ import {cerebralPropTypes, Cerebral} from '../utils'
 
 import Live from './Live'
 import Patch from './Patch'
+import Cues from './Cues'
 
 import styles from './App.css'
 import './App.less'
 
 const pages = {
   'live': Live,
-  'patch': Patch
+  'patch': Patch,
+  'cues': Cues
 }
 
 @Cerebral({

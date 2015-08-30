@@ -1,15 +1,18 @@
 .drag-handle-parent {
-/*  transition: opacity 0.4s ease-in-out;*/
   position: absolute;
-  left: -0.5em;
-  margin-top: 0.2em;
+  left: -1.0em;
+  margin-top: 0.4em;
 }
 
 .drag-handle {
-  cursor: move;
   cursor: grab;
 }
 
 .new-system {
   /*opacity: 0.6;*/
+}
+
+.li {
+  position: relative;
+  list-style: none;
 }

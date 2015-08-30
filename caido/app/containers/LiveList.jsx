@@ -6,7 +6,6 @@ class LiveList extends Component {
     return (
       <Systems systemsPath={['synced', 'live', 'systems']} />
     )
-
   }
 }
 

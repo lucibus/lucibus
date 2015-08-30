@@ -1,0 +1,9 @@
+/*:global(html, body){
+  height:100%;
+  background-color: black;
+}
+*/
+
+.under-grandmaster {
+  padding-left: 2em;
+}

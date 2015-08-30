@@ -16,7 +16,7 @@
 }
 
 .wrapper :global(.Select-placeholder) {
-  color: inherit;
+  color: inherit !important;
   max-width: initial;
 }
 

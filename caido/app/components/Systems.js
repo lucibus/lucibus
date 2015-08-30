@@ -60,8 +60,8 @@ class Systems extends Component {
   renderSystem (system, index) {
     var systemPath = this.props.systemsPath.concat([index])
     return (
-      <li key={system.uuid} data-uuid={system.uuid} className='system-li'>
-        <div className={classNames(styles['drag-handle-parent'], 'pull-left', styles['drag-handle'], 'drag-handle')}>
+      <li key={system.uuid} data-uuid={system.uuid} className={classNames(styles['li'], 'system-li')}>
+        <div className={classNames(styles['drag-handle-parent'], styles['drag-handle'], 'drag-handle')}>
           <span className={classNames('glyphicon', 'glyphicon-menu-hamburger', styles['drag-handle'])}></span>
         </div>
         <System systemPath={systemPath}/>

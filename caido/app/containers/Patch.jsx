@@ -31,7 +31,7 @@ class Patch extends Component {
               <td>
                 <Address
                   address={this.props.newPatchItem.address}
-                  onChange={address => this.props.signals.changedNewPatchItemAddress({address})}
+                  onChange={address => this.props.signals.changedNewPatchItemAddress(true, {address})}
                 />
               </td>
               <td>
@@ -56,7 +56,7 @@ class Patch extends Component {
                   <td>
                     <Address
                       address={address}
-                      onChange={address => this.props.signals.changedPatchItemAddress({oldAddress: address, newAddress: address})}
+                      onChange={address => this.props.signals.changedPatchItemAddress(true, {oldAddress: address, newAddress: address})}
                     />
                   </td>
                   <td>

@@ -9,7 +9,7 @@ describe('controller', function () {
   before(function () {
     controller.signal('testSetSynced', setSyncedAction)
   })
-  it('must accept a valid state', function () {
+  it.skip('must accept a valid state', function () {
     var synced = {patch: {}, cues: [], live: {systems: [], level: 0.7, cue: ''}}
     controller.signals.testSetSynced(true, {synced})
     controller.get('synced').must.eql(synced)
