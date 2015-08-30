@@ -28,9 +28,11 @@ class AutoFillInputReactSelect extends Component {
           value={this.props.currentOptions.map(o => o.value).join('`')}
           delimiter='`'
           onChange={(value, values) => this.props.onOptionsChange(values)}
-          placeholder='Add a system'
           filterOptions={this.filterOptions}
+          placeholder={this.props.placeholder}
           allowCreate={this.props.allowCreate}
+          multi={this.props.multi}
+          noResultsText={this.props.noResultsText}
         />
       </div>
     )
@@ -42,10 +44,15 @@ AutoFillInputReactSelect.propTypes = {
   currentOptions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   allowCreate: React.PropTypes.bool
+  multi: React.PropTypes.bool,
+  placeholder: React.PropTypes.string.isRequired,
+  noResultsText: React.PropTypes.string
 }
 
 AutoFillInputReactSelect.defaultPropTypes = {
   allowCreate: false
+  multi: true,
+  noResultsText: 'No results found'
 }
 
 export default AutoFillInputReactSelect

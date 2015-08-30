@@ -7,6 +7,53 @@
 }
 
 
+.wrapper :global(.Select-control) {
+  background-color: inherit;
+  color: inherit;
+  border: 0;
+  box-shadow: none !important;
+  text-align: left;
+}
+
+.wrapper :global(.Select-placeholder) {
+  color: inherit;
+  max-width: initial;
+}
+
+.wrapper :global(.Select-item) {
+  border: 0;
+  color: inherit;
+  background-color: inherit;
+}
+
+.wrapper :global(.Select-item-icon) {
+  border-right: 0;
+  padding: 0;
+}
+
+.wrapper :global(.Select-arrow) {
+  border-top-color: white;
+  border-bottom-color: white !important;
+}
+
+.wrapper :global(.Select-clear) {
+  color: inherit;
+}
+
+.wrapper :global(.Select-menu-outer) {
+  background-color: rgba(0, 0, 0, 0.65);
+  border: 0;
+}
+
+.wrapper :global(.Select-option) {
+  color: inherit;
+  text-align: left;
+}
+
+.wrapper :global(.Select-option.is-focused) {
+  background-color: rgba(115, 115, 115, 0.65);
+}
+
 /*
 .wrapper input[style] {
   background-color: inherit !important;

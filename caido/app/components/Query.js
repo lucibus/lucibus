@@ -46,7 +46,12 @@ class Query extends Component {
 
   get queryElement () {
     if (this.systemType === 'filter') {
-      return <AutoFillInputReactSelect currentOptions={this.currentOptions} options={this.options} onOptionsChange={this.onOptionsChange.bind(this)}/>
+      return <AutoFillInputReactSelect
+        currentOptions={this.currentOptions}
+        options={this.options}
+        onOptionsChange={this.onOptionsChange.bind(this)}
+        placeholder='Select addresses or tags'
+      />
     }
     return <span>Grandmaster</span>
   }
