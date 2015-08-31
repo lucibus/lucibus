@@ -7,8 +7,8 @@ travis_install:
 	make parse/schema_file.go
 
 travis_script:
-	go test -coverprofile=parse.coverprofile -v -race ./parse
-	go test -coverprofile=main.coverprofile -v -race
+	go test -coverprofile=parse.coverprofile -v ./parse
+	go test -coverprofile=main.coverprofile -v
 
 
 travis_after_success:
