@@ -1,10 +1,19 @@
-import {newSystem} from '../utils'
+import {getNewSystemPath} from '../utils'
 
-function addNewSystem (args, state) {
-  var systemPath = ['local', 'newSystem']
-  var system = state.get(systemPath)
-  state.unshift(['synced', 'live', 'systems'], system)
-  state.set(systemPath, newSystem())
+function addNewSystem ({systemsPath}, state, output) {
+  var newSystemPath = getNewSystemPath(systemsPath)
+
+  var system = state.get(newSystemPath)
+  state.unshift(systemsPath, system)
+  output({newSystemPath})
+}
+
+addNewSystem.input = {
+  systemsPath: Array
+}
+
+addNewSystem.output = {
+  newSystemPath: Array
 }
 
 export default addNewSystem

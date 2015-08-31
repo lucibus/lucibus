@@ -22,8 +22,11 @@ func TestState(t *testing.T) {
 			b := []byte(`
                     {
 												"patch": {},
+												"cues": [],
+												"cues": [],
                         "live": {
                             "level": 1,
+														"cue": "",
                             "systems": [{
                                 "level": 1,
                                 "query": [{"address": 1}],
@@ -39,8 +42,10 @@ func TestState(t *testing.T) {
 				b := []byte(`
                     {
 											"patch": {},
+											"cues": [],
                       "live": {
                           "level": 1,
+													"cue": "",
                           "systems": [{
                               "level": 1,
 															"query": [{"address": 2}],
@@ -62,8 +67,10 @@ func TestState(t *testing.T) {
 			b := []byte(`
                     {
 												"patch": {"1": ["hi"]},
+												"cues": [],
                         "live": {
                             "level": 1,
+														"cue": "",
                             "systems": [{
                                 "level": 1,
                                 "query": [{"tag": "hi"}],
@@ -79,8 +86,10 @@ func TestState(t *testing.T) {
 				b := []byte(`
                     {
 											"patch": {"1": ["hi", "there"], "2": ["hi"]},
+											"cues": [],
                       "live": {
                           "level": 1,
+													"cue": "",
                           "systems": [{
                               "level": 1,
 															"query": [{"tag": "hi"}, {"tag": "there"}],
@@ -97,13 +106,58 @@ func TestState(t *testing.T) {
 				So(o, ShouldResemble, Output{1: 255, 2: 51})
 			})
 		})
+		Convey("a cue", func() {
+			b := []byte(`
+                  {
+											"patch": {},
+											"cues": [{
+												"name": "hi",
+												"uuid": "first",
+												"systems": [{"level": 1, "query": [{"address": 1}], "uuid": "other"}]
+											}],
+                      "live": {
+                          "level": 1,
+													"cue": "first",
+                          "systems": []
+                      }
+                  }`)
+			o, e := ParseAndOutput(b)
+			So(e, ShouldBeNil)
+			So(o, ShouldResemble, Output{1: 255})
+
+			Convey("a cue should be overriden by systems", func() {
+				b := []byte(`
+                    {
+											"patch": {},
+											"cues": [{
+												"name": "hi",
+												"uuid": "first",
+												"systems": [{"level": 1, "query": [{"address": 1}], "uuid": "other"}]
+											}],
+                      "live": {
+                          "level": 1,
+													"cue": "first",
+                          "systems": [{
+                              "level": 0.2,
+															"query": [{"address": 1}],
+															"uuid": "otherf"
+                          }]
+                      }
+                    }`)
+				o, e := ParseAndOutput(b)
+				So(e, ShouldBeNil)
+				So(o, ShouldResemble, Output{1: 51})
+			})
+		})
 
 		Convey("a different grandmaster level", func() {
 			b := []byte(`
                 	{
 										"patch": {},
+										"cues": [],
                     "live": {
                         "level": 0.2,
+												"cue": "",
                         "systems": [{
                             "level": 1,
 														"query": [{"address": 1}],
@@ -122,8 +176,10 @@ func TestState(t *testing.T) {
 				b := []byte(`
 										{
 												"patch": {},
+												"cues": [],
 												"live": {
 														"level": 1,
+														"cue": "",
 														"systems": [{
 																"level": 1,
 																"query": [{"address": 2}],
@@ -144,8 +200,10 @@ func TestState(t *testing.T) {
 				b := []byte(`
 										{
 												"patch": {},
+												"cues": [],
 												"live": {
 														"level": 1,
+														"cue": "",
 														"systems": [{
 																"level": 1,
 																"query": [{"address": 1}],

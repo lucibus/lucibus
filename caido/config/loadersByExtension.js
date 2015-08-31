@@ -12,7 +12,7 @@ function useLoader (exts) {
 module.exports = function loadersByExtension (obj) {
   var loaders = []
   Object.keys(obj).forEach(function (key) {
-    var exts = key.split('|')
+    var exts = key.split('|').map(function (e) {return e.trim()})
     var value = obj[key]
     var entry = {
       extensions: exts,

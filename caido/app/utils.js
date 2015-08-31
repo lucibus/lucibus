@@ -46,8 +46,12 @@ export function Cerebral (paths) {
   }
 }
 
+function uuid () {
+  return UUID.create().toString()
+}
+
 export function newSystem () {
-  return {'uuid': UUID.create().toString()}
+  return {'uuid': uuid()}
 }
 
 export function newPatchItem () {
@@ -55,4 +59,24 @@ export function newPatchItem () {
     tags: [],
     address: null
   }
+}
+
+export function newCue () {
+  return {
+    uuid: uuid(),
+    name: '',
+    systems: []
+  }
+}
+
+export function systemValid (system) {
+  return (system.query || []).length > 0 && system.hasOwnProperty('level')
+}
+
+export function getNewSystemPath (systemsPath) {
+  return ['local', 'newSystems', JSON.stringify(systemsPath)]
+}
+
+export function getCueExpandedPath (cuePath) {
+  return ['local', 'cueExpanded', JSON.stringify(cuePath)]
 }

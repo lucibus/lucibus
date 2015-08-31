@@ -1,6 +1,5 @@
-function removeSystem (args, state) {
-  var {systemPath} = args
-  state.splice(systemPath, [systemPath.pop(), 1])
+function removeSystem ({systemPath}, state) {
+  state.unset(systemPath)
 }
 
 removeSystem.input = {

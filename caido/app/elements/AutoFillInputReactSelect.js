@@ -22,15 +22,16 @@ class AutoFillInputReactSelect extends Component {
     return (
       <div className={styles['wrapper']}>
         <Select
-          multi={true}
           options={this.props.options}
           // values={this.props.currentOptions}
-          value={this.props.currentOptions.map(o => o.value).join('`')}
+          value={this.props.value !== undefined ? this.props.value : this.props.currentOptions.map(o => o.value).join('`')}
           delimiter='`'
-          onChange={(value, values) => this.props.onOptionsChange(values)}
-          placeholder='Add a system'
+          onChange={(value, values) => this.props.onValueChange ? this.props.onValueChange(value) : this.props.onOptionsChange(values)}
           filterOptions={this.filterOptions}
+          placeholder={this.props.placeholder}
           allowCreate={this.props.allowCreate}
+          multi={this.props.multi}
+          noResultsText={this.props.noResultsText}
         />
       </div>
     )
@@ -38,14 +39,21 @@ class AutoFillInputReactSelect extends Component {
 }
 
 AutoFillInputReactSelect.propTypes = {
-  onOptionsChange: React.PropTypes.func.isRequired,
-  currentOptions: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  onOptionsChange: React.PropTypes.func,
+  onValueChange: React.PropTypes.func,
+  currentOptions: React.PropTypes.arrayOf(React.PropTypes.object),
+  value: React.PropTypes.string,
   options: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  allowCreate: React.PropTypes.bool
+  allowCreate: React.PropTypes.bool,
+  multi: React.PropTypes.bool,
+  placeholder: React.PropTypes.string.isRequired,
+  noResultsText: React.PropTypes.string
 }
 
-AutoFillInputReactSelect.defaultPropTypes = {
-  allowCreate: false
+AutoFillInputReactSelect.defaultProps = {
+  allowCreate: false,
+  multi: true,
+  noResultsText: 'No results found'
 }
 
 export default AutoFillInputReactSelect

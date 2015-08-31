@@ -14,6 +14,19 @@
         }
       }
     },
+    "cues": {
+      "type": "array",
+      "items": {
+        "type":"object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "systems": {"$ref":  "#/definitions/systems"},
+          "uuid": {"type": "string"}
+        },
+        "required": ["name", "systems", "uuid"]
+      }
+    },
     "live": {
       "type": "object",
       "properties": {
@@ -22,53 +35,12 @@
           "maximum": 1,
           "minimum": 0
         },
-        "systems": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "level": {
-                "type": "number",
-                "maximum": 1,
-                "minimum": 0
-              },
-              "query": {
-                "type": "array",
-                "uniqueItems": true,
-                "items": {
-                  "type": "object",
-                  "oneOf": [{
-                    "properties": {
-                      "address": {"$ref":  "#/definitions/address"}
-                    },
-                    "additionalProperties": false,
-                    "required": ["address"]
-                  }, {
-                    "properties": {
-                      "tag": {
-                        "type": "string"
-                      }
-                    },
-                    "additionalProperties": false,
-                    "required": ["tag"]
-                  }]
-                }
-              } ,
-              "uuid": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "level",
-              "query",
-              "uuid"
-            ]
-          }
-        }
+        "cue": {"type": "string"},
+        "systems": {"$ref":  "#/definitions/systems"}
       },
       "required": [
         "level",
+        "cue",
         "systems"
       ]
     }
@@ -82,6 +54,50 @@
       "type": "integer",
       "maximum": 255,
       "minimum": 1
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "level": {
+            "type": "number",
+            "maximum": 1,
+            "minimum": 0
+          },
+          "query": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "oneOf": [{
+                "properties": {
+                  "address": {"$ref":  "#/definitions/address"}
+                },
+                "additionalProperties": false,
+                "required": ["address"]
+              }, {
+                "properties": {
+                  "tag": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false,
+                "required": ["tag"]
+              }]
+            }
+          } ,
+          "uuid": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "level",
+          "query",
+          "uuid"
+        ]
+      }
     }
   }
 }

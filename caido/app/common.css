@@ -1,9 +1,8 @@
 .hiddenInput {
-  border: 0 !important;
-  display: inherit !important;
-  background-color: inherit !important;
-  padding: 0 !important;
-  outline: none !important;
-  color: inherit !important;
-  border: none !important;
+  display: inherit;
+  background-color: inherit;
+  padding: 0;
+  outline: none;
+  color: inherit;
+  border: none;
 }

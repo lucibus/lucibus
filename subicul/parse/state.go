@@ -9,16 +9,13 @@ import (
 // State contains everything that makes up the current show and stage
 type State struct {
 	Patch Patch `json:"patch"`
+	Cues  Cues  `json:"cues"`
 	Live  Live  `json:"live"`
 }
 
 // Output gives the DMX address to value mapping of the current state
 func (s *State) Output() (o Output, e error) {
-	if o, e = s.Live.Output(*s); e != nil {
-		return
-	}
-	o.MultiplyBy(s.Live.Level)
-	return
+	return s.Live.Output(s)
 }
 
 // ToJSON returns the JSON representation of the state

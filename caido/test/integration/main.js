@@ -13,8 +13,7 @@ function removeUUID (system) {
 }
 
 function stateEquals (state) {
-
-  return browser.execute(function () {
+  return browser.pause(50).execute(function () {
     return window.caidoConfig.lastMessage
   }).then(response => {
     var {value} = response
@@ -69,12 +68,12 @@ describe('App', function () {
         it('clicking on it and typing must change value', clickAndType)
         it('typing must update state', function *() {
           yield* clickAndType()
-          yield stateEquals({patch: {}, live: {level: 0.5, systems: []}})
+          yield stateEquals({cues: [], patch: {}, live: {level: 0.5, cue: '', systems: []}})
         })
         it('using arrow keys must update', function *() {
           yield* click()
           yield browser.keys(DOWN_ARROW)
-          yield stateEquals({patch: {}, live: {level: 0.99, systems: []}})
+          yield stateEquals({cues: [], patch: {}, live: {level: 0.99, cue: '', systems: []}})
         })
       })
     })
@@ -90,7 +89,7 @@ describe('App', function () {
       })
       it('must be able to add', function *() {
         yield* addSystem('1', '40')
-        yield stateEquals({patch: {}, live: {level: 1, systems: [{query: [{address: 1}], level: 0.4}]}})
+        yield stateEquals({patch: {}, cues: [], live: {level: 1, cue: '', systems: [{query: [{address: 1}], level: 0.4}]}})
       })
     })
     describe.skip('Systems', function () {
@@ -106,8 +105,10 @@ describe('App', function () {
         yield browser.dragAndDrop('.system-li .drag-handle:nth-Child(1)', '.system-li .drag-handle:nth-Child(2)')
         yield stateEquals({
           patch: {},
+          cues: [],
           live: {
             level: 1,
+            cue: [],
             systems: [{
               address: 1,
               level: 0.4

@@ -35,6 +35,8 @@ class PatchItem extends Component {
         options={this.options}
         allowCreate={true}
         onOptionsChange={this.onOptionsChange.bind(this)}
+        placeholder='Add tags'
+        noResultsText='Add a new tag'
       />
     )
   }

@@ -16,7 +16,7 @@ class Patch extends Component {
 
   render () {
     return (
-      <div className='col-lg-6' id='patch'>
+      <div className='col-lg-12' id='patch'>
         <h2>Patch</h2>
         <table className='table table-striped table-hover'>
           <thead>
@@ -31,7 +31,7 @@ class Patch extends Component {
               <td>
                 <Address
                   address={this.props.newPatchItem.address}
-                  onChange={address => this.props.signals.changedNewPatchItemAddress({address})}
+                  onChange={address => this.props.signals.changedNewPatchItemAddress(true, {address})}
                 />
               </td>
               <td>
@@ -56,7 +56,7 @@ class Patch extends Component {
                   <td>
                     <Address
                       address={address}
-                      onChange={address => this.props.signals.changedPatchItemAddress({oldAddress: address, newAddress: address})}
+                      onChange={address => this.props.signals.changedPatchItemAddress(true, {oldAddress: address, newAddress: address})}
                     />
                   </td>
                   <td>
