@@ -8,7 +8,7 @@ var InitialBytes = []byte(`
 	"patch": {},
 	"live": {
 		"level": 1,
-		"cue": null,
+		"cue": "",
 		"systems": []
 	}
 }`)
@@ -19,7 +19,7 @@ var OneSystemStateBytes = []byte(`
 		"cues": [],
 		"live": {
 			"level": 1,
-			"cue": null,
+			"cue": "",
 			"systems": [{
 				"level": 1,
 				"query": [{"address": 1}],
@@ -34,7 +34,7 @@ var TwoSystemStateBytes = []byte(`
 		"cues": [],
 		"live": {
 			"level": 1,
-			"cue": null,
+			"cue": "",
 			"systems": [{
 				"level": 1,
 				"query": [{"address": 1}],
@@ -52,7 +52,7 @@ var ThreeSystemStateBytes = []byte(`
 		"cues": [],
 		"live": {
 			"level": 1,
-			"cue": null,
+			"cue": "",
 			"systems": [{
 				"level": 1,
 				"query": [{"address": 1}],

@@ -26,7 +26,7 @@ func TestState(t *testing.T) {
 												"cues": [],
                         "live": {
                             "level": 1,
-														"cue": null,
+														"cue": "",
                             "systems": [{
                                 "level": 1,
                                 "query": [{"address": 1}],
@@ -45,7 +45,7 @@ func TestState(t *testing.T) {
 											"cues": [],
                       "live": {
                           "level": 1,
-													"cue": null,
+													"cue": "",
                           "systems": [{
                               "level": 1,
 															"query": [{"address": 2}],
@@ -70,7 +70,7 @@ func TestState(t *testing.T) {
 												"cues": [],
                         "live": {
                             "level": 1,
-														"cue": null,
+														"cue": "",
                             "systems": [{
                                 "level": 1,
                                 "query": [{"tag": "hi"}],
@@ -89,7 +89,7 @@ func TestState(t *testing.T) {
 											"cues": [],
                       "live": {
                           "level": 1,
-													"cue": null,
+													"cue": "",
                           "systems": [{
                               "level": 1,
 															"query": [{"tag": "hi"}, {"tag": "there"}],
@@ -157,7 +157,7 @@ func TestState(t *testing.T) {
 										"cues": [],
                     "live": {
                         "level": 0.2,
-												"cue": null,
+												"cue": "",
                         "systems": [{
                             "level": 1,
 														"query": [{"address": 1}],
@@ -179,7 +179,7 @@ func TestState(t *testing.T) {
 												"cues": [],
 												"live": {
 														"level": 1,
-														"cue": null,
+														"cue": "",
 														"systems": [{
 																"level": 1,
 																"query": [{"address": 2}],
@@ -203,7 +203,7 @@ func TestState(t *testing.T) {
 												"cues": [],
 												"live": {
 														"level": 1,
-														"cue": null,
+														"cue": "",
 														"systems": [{
 																"level": 1,
 																"query": [{"address": 1}],
