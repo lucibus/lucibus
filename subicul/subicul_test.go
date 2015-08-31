@@ -123,7 +123,7 @@ func TestServer(t *testing.T) {
 
 			Convey("output should be blank", func() {
 				So(ResetState(), ShouldBeNil)
-				time.Sleep(time.Millisecond * 50)
+				time.Sleep(time.Millisecond * 200)
 				So(a.GetLastOutput(), ShouldResemble, map[int]byte{})
 			})
 		})
