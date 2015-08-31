@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Container} from 'cerebral-react'
 import classNames from 'classnames'
 import {assign, capitalize} from 'lodash'
+import Mousetrap from 'mousetrap'
 
 import {cerebralPropTypes, Cerebral} from '../utils'
 
@@ -23,6 +24,23 @@ class App extends Component {
 
   createOnClick (page) {
     return () => {this.props.signals.clickedNav({page})}
+  }
+
+  componentDidMount () {
+    Object.keys(pages).map((page, i) => {
+      Mousetrap.bind(
+        `command+option+${i + 1}`,
+        this.createOnClick(page)
+      )
+    })
+  }
+
+  componentWillUnmount () {
+    Object.keys(pages).map((_, i) => {
+      Mousetrap.unbind(
+        `command+option+${i + 1}`
+      )
+    })
   }
 
   render () {

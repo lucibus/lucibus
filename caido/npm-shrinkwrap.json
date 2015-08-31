@@ -5016,6 +5016,10 @@
       "version": "0.6.0",
       "resolved": "https://registry.npmjs.org/mock-socket/-/mock-socket-0.6.0.tgz"
     },
+    "mousetrap": {
+      "version": "1.5.3",
+      "resolved": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.5.3.tgz"
+    },
     "must": {
       "version": "0.13.0-beta2",
       "resolved": "https://registry.npmjs.org/must/-/must-0.13.0-beta2.tgz",
@@ -5717,6 +5721,10 @@
           "resolved": "https://registry.npmjs.org/string-template/-/string-template-0.2.1.tgz"
         }
       }
+    },
+    "octicons": {
+      "version": "2.4.1",
+      "resolved": "https://registry.npmjs.org/octicons/-/octicons-2.4.1.tgz"
     },
     "parallelshell": {
       "version": "2.0.0",
