@@ -1,7 +1,9 @@
 import 'must'
 import webdriverio from 'webdriverio'
-import booleanFromEnv from '../caido/config/booleanFromEnv'
 
+function booleanFromEnv (key, defaultValue) {
+  return JSON.parse(process.env[key] || defaultValue)
+}
 var config
 
 if (booleanFromEnv('CI', false)) {

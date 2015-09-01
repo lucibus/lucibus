@@ -32,15 +32,15 @@ deploy:
   file: dist/*
   file_glob: true
   skip_cleanup: true
-  condition: $TESTFOLDER = .
+  condition: $TESTFOLDER = binary
   on:
     tags: true
-    condition: $TESTFOLDER = .
+    condition: $TESTFOLDER = binary
 - provider: bintray
   key:
     secure: TPVDI+5speVYv2zqhjhjwBES3d1RFPvBJzUvdMqbBwUl/cdP0/X2I93rxNso6G6JguEPkKIkdZfc+F2fKutsW1xt33fN61KfVi1fLaBTW+pjF8vshb53GMmuOdyfDrpcFHSEC9DjhXVP6TEqrshFwlxF4byGKBZGwbuuI4lzjXGIld7HxCf+UC7zngiOpdijcN0s3U/N2RAM7tg4FEwOZWQFvOd9DvFs4sfbayWZZZu3WB6xbTG4Hk3DWpPcu4+aPaoh2EKWm3QlmvXHRnrwaOp4Ug4gkaXYppOq3WnO4uUfKGqzzs8s/vJfTtvQAtvv4QPsiGIa6EmiqqHY9cuHahlQJc49XD9tBgxFin0xfXqg2rsluMq6aqzkrAYv2vIlNJU6QjqE7paCeyKXla7wtxS1BlzDJQiFH6vfezAn97olMkpOym1dyr+r0xG8dW4x3f997WEMzXVvNwimK/R9qLEPJv9yAjAegghPiOdlpmHin6K4Iafo+wnm6vNgJwHzBYWWTfT8oLeSu7xcaCb+bdEO89AS5oHVCT260F3cxaWWYwQ28NBaZqH1rCuBiJSBDx0b4VnK4Hd0y28Yi27cnG6qFJOHU/iw4zP+ANuXykYn41f3ba7zs7nPNLkGopLGjqSeCeoiTB3QY3fBxtNw1CS0Ek5xBYx7JZtcBYogxmc=
   on:
-    condition: $TESTFOLDER = .
+    condition: $TESTFOLDER = binary
   file: bintray.json
   user: saulshanabrook
 notifications:
@@ -51,7 +51,7 @@ env:
   matrix:
   - TESTFOLDER=subicul
   - TESTFOLDER=caido
-  - TESTFOLDER=.
+  - TESTFOLDER=binary
   global:
   - GOPATH=~/gopath/
   - GO15VENDOREXPERIMENT=1

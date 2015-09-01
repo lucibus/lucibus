@@ -1,4 +1,6 @@
-var booleanFromEnv = require('./caido/config/booleanFromEnv')
+function booleanFromEnv (key, defaultValue) {
+  return JSON.parse(process.env[key] || defaultValue)
+}
 
 require('babel/register')({
   experimental: true,

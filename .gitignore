@@ -13,3 +13,7 @@ node_modules
 npm-debug.log.*
 npm-debug.log
 .idea
+BrowserStackLocal-linux-x64.zip
+binary/binary
+BrowserStackLocal
+*BrowserStackLocal-linux-x64.zip*

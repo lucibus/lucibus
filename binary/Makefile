@@ -1,13 +1,13 @@
-default: travis
+default: lucibus
 
-caido/dist/index.html: $(wildcard caido/app/*)
-	cd caido; npm run build
+../caido/dist/index.html: $(wildcard ../caido/app/*)
+	cd ../caido; npm run build
 
-bindata_assetfs.go: api/schema.json caido/dist/index.html
-	go run vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go api/schema.json caido/dist
+bindata_assetfs.go: ../api/schema.json ../caido/dist/index.html
+	go run vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go ../api/schema.json ../caido/dist
 
 lucibus: bindata_assetfs.go main.go $(wildcard subicul/**/*)
-	go build
+	go build -o lucibus
 
 bintray.json: bintray.json.tmpl
 	sed "s/{date}/$(shell date +%F)/g; s/{name}/travis-build-$(TRAVIS_BUILD_NUMBER)/; s/{desc}/from commit $(TRAVIS_COMMIT)/" bintray.json.tmpl > bintray.json
@@ -17,8 +17,8 @@ travis_install:
 	unzip BrowserStackLocal-linux-x64.zip
 	go get github.com/Masterminds/glide
 	glide up
-	cd subicul; make travis_install
-	cd caido; make travis_install
+	cd ../subicul; make travis_install
+	cd ../caido; make travis_install
 	make lucibus
 	npm install
 	# go get github.com/alexanderGugel/wsd
