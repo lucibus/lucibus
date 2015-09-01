@@ -1,6 +1,0 @@
-.hidden-input {
-  composes: hiddenInput from "common.css";
-  width: 100%;
-  padding-top: 0.5em;
-  box-shadow: 0px 1px 0px 0px #2a9fd6;
-}

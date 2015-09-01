@@ -12,3 +12,4 @@ bindata.go
 node_modules
 npm-debug.log.*
 npm-debug.log
+.idea

@@ -99,7 +99,7 @@ var config = {
     new webpack.PrefetchPlugin('babel-runtime/helpers/inherits.js'),
     new webpack.PrefetchPlugin('babel-runtime/helpers/get.js'),
     new webpack.PrefetchPlugin('belle'),
-    new webpack.PrefetchPlugin('./app/containers/App.less'),
+    new webpack.PrefetchPlugin('app/components/App.less'),
     new webpack.NoErrorsPlugin()
   ],
   devServer: {
