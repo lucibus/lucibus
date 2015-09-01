@@ -1,5 +1,7 @@
 import controller from 'controller'
 import 'must'
+import invalid from '../../../api/invalid/empty.json'
+import valid from '../../../api/valid/sample.json'
 
 function setSyncedAction ({synced}, state) {
   state.set('synced', synced)
@@ -10,13 +12,11 @@ describe('controller', function () {
     controller.signal('testSetSynced', setSyncedAction)
   })
   it('must accept a valid state', function () {
-    var synced = {patch: {}, cues: [], live: {systems: [], level: 0.7, cue: ''}}
-    controller.signals.testSetSynced(true, {synced})
-    controller.get('synced').must.eql(synced)
+    controller.signals.testSetSynced(true, {synced: valid})
+    controller.get('synced').must.eql(valid)
   })
   it('must not accept an invalid system', function () {
-    var synced = {}
-    controller.signals.testSetSynced(true, {synced})
-    controller.get('synced').must.not.eql(synced)
+    controller.signals.testSetSynced(true, {synced: invalid})
+    controller.get('synced').must.not.eql(invalid)
   })
 })

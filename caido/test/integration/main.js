@@ -1,4 +1,9 @@
 import 'must'
+import grandmaster50 from '../../../api/valid/grandmaster-50.json'
+import grandmaster99 from '../../../api/valid/grandmaster-99.json'
+import address1 from '../../../api/valid/address-one.json'
+import address2 from '../../../api/valid/address-two.json'
+import address2Reversed from '../../../api/valid/address-two-reversed.json'
 
 const DELETE = '\uE003'
 const TAB = '\uE004'
@@ -12,16 +17,20 @@ function removeUUID (system) {
   }
 }
 
+function cleanState (state) {
+  removeUUID(state.live)
+  return state
+}
+
 function stateEquals (state) {
   return browser.pause(50).execute(function () {
     return window.caidoConfig.lastMessage
   }).then(response => {
     var {value} = response
     var state = JSON.parse(value)
-    removeUUID(state.live)
-    return state
+    return cleanState(state)
   })
-  .must.eventually.eql(state)
+  .must.eventually.eql(cleanState(state))
 }
 
 describe('App', function () {
@@ -68,12 +77,12 @@ describe('App', function () {
         it('clicking on it and typing must change value', clickAndType)
         it('typing must update state', function *() {
           yield* clickAndType()
-          yield stateEquals({cues: [], patch: {}, live: {level: 0.5, cue: '', systems: []}})
+          yield (grandmaster50)
         })
         it('using arrow keys must update', function *() {
           yield* click()
           yield browser.keys(DOWN_ARROW)
-          yield stateEquals({cues: [], patch: {}, live: {level: 0.99, cue: '', systems: []}})
+          yield stateEquals(grandmaster99)
         })
       })
     })
@@ -88,36 +97,22 @@ describe('App', function () {
         yield browser.isVisible('#new-system').must.eventually.equal(true)
       })
       it('must be able to add', function *() {
-        yield* addSystem('1', '40')
-        yield stateEquals({patch: {}, cues: [], live: {level: 1, cue: '', systems: [{query: [{address: 1}], level: 0.4}]}})
+        yield* addSystem('1', '100')
+        yield stateEquals(address1)
       })
     })
     describe.skip('Systems', function () {
       beforeEach('add two systems', function *() {
-        yield* addSystem('1', '40')
-        yield* addSystem('2', '50')
-        yield stateEquals({patch: {}, live: {level: 1, systems: [{address: 2, level: 0.5}, {address: 1, level: 0.4}]}})
+        yield* addSystem('1', '100')
+        yield* addSystem('2', '100')
+        yield stateEquals(address2)
       })
       it('must exist', function *() {
         yield browser.isVisible('.system-li .drag-handle:nth-Child(1)').must.eventually.equal(true)
       })
       it('must be able to drag', function *() {
         yield browser.dragAndDrop('.system-li .drag-handle:nth-Child(1)', '.system-li .drag-handle:nth-Child(2)')
-        yield stateEquals({
-          patch: {},
-          cues: [],
-          live: {
-            level: 1,
-            cue: [],
-            systems: [{
-              address: 1,
-              level: 0.4
-            }, {
-              address: 2,
-              level: 0.5
-            }]
-          }
-        })
+        yield stateEquals(address2Reversed)
       })
     })
   })

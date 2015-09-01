@@ -1,0 +1,19 @@
+{
+  "patch": {},
+  "cues": [],
+  "live": {
+    "level": 1,
+    "cue": "",
+    "systems": [
+      {
+        "level": 1,
+        "query": [
+          {
+            "address": 1
+          }
+        ],
+        "uuid": "first"
+      }
+    ]
+  }
+}

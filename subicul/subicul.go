@@ -68,6 +68,7 @@ var handleFunc func(http.ResponseWriter, *http.Request)
 func HandleFunc() func(http.ResponseWriter, *http.Request) {
 	if handleFunc == nil {
 		m := melody.New()
+		m.Config.MaxMessageSize = 1024 * 1000 // set this to 100KB = 1MB
 		m.HandleMessage(createOnMessage(m))
 		m.HandleConnect(createOnConnect(m))
 		m.Upgrader.CheckOrigin = func(r *http.Request) bool { return true }

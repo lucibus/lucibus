@@ -1,0 +1,40 @@
+{
+  "patch": {
+    "1": [
+      "blue",
+      "green"
+    ]
+  },
+  "cues": [
+    {
+      "uuid": "second",
+      "name": "first",
+      "systems": [
+        {
+          "level": 0.7,
+          "query": [
+            {
+              "address": 1
+            }
+          ],
+          "uuid": "dsfsdfd"
+        }
+      ]
+    }
+  ],
+  "live": {
+    "level": 0.89,
+    "cue": "second",
+    "systems": [
+      {
+        "level": 0.5,
+        "query": [
+          {
+            "address": 1
+          }
+        ],
+        "uuid": "first"
+      }
+    ]
+  }
+}

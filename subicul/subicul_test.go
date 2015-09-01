@@ -1,6 +1,7 @@
 package subicul
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -64,7 +65,7 @@ func TestServer(t *testing.T) {
 	a, url, stopServer := setupTestServer()
 	defer stopServer()
 
-	log.SetLevel(log.WarnLevel)
+	// log.SetLevel(log.WarnLevel)
 
 	Convey("when i start the server", t, func() {
 		So(ResetState(), ShouldBeNil)
@@ -73,14 +74,20 @@ func TestServer(t *testing.T) {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
 			Convey("it should return a default state", func() {
-				shouldGet(conn, parse.InitialBytes)
+				shouldGet(conn, parse.Fixture("initial"))
 
 				Convey("it shouldnt crash on an invalid state", func() {
 					shouldSend(conn, []byte{})
+					Convey("and should still take messages", func() {
+						newState := parse.Fixture("address-one")
+						shouldSend(conn, newState)
+						time.Sleep(time.Millisecond * 50)
+						So(a.GetLastOutput(), ShouldResemble, map[int]byte{1: 255})
+					})
 				})
 
 				Convey("it should take an updated state", func() {
-					newState := parse.OneSystemStateBytes
+					newState := parse.Fixture("address-one")
 					shouldSend(conn, newState)
 
 					Convey("and it should output the new state", func() {
@@ -105,13 +112,15 @@ func TestServer(t *testing.T) {
 						Convey("it should initally recieve the state set by the first", func() {
 							shouldGet(conn2, newState)
 							Convey("and then when the first changes the state, it should get it", func() {
-								secondNewState := parse.TwoSystemStateBytes
+								secondNewState := parse.Fixture("sample-2")
 								shouldSend(conn, secondNewState)
 								shouldGet(conn2, secondNewState)
 								Convey("and vice versa", func() {
-									thirdNewState := parse.ThreeSystemStateBytes
+									thirdNewState := parse.Fixture("sample-3")
 									shouldSend(conn2, thirdNewState)
+									fmt.Println("after sending")
 									shouldGet(conn, thirdNewState)
+									fmt.Println("after getting")
 								})
 
 							})
@@ -145,14 +154,17 @@ func BenchmarkServer(b *testing.B) {
 
 	toggleSendOneDimmer := true
 	var message []byte
+
+	var init = parse.Fixture("initial")
+	var sample = parse.Fixture("sample")
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
 		prevLength := len(a.GetLastOutput())
 		if toggleSendOneDimmer {
-			message = parse.OneSystemStateBytes
+			message = init
 		} else {
-			message = parse.InitialBytes
+			message = sample
 		}
 		toggleSendOneDimmer = !toggleSendOneDimmer
 		b.StartTimer()

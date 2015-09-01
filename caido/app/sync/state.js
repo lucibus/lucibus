@@ -1,11 +1,2 @@
-export default {
-  'synced': {
-    'patch': {},
-    'cues': [],
-    'live': {
-      'level': 1,
-      'cue': '',
-      'systems': []
-    }
-  }
-}
+import synced from '../../../api/valid/initial.json'
+export default {synced}

@@ -42,7 +42,7 @@ func Parse(b []byte) (*State, error) {
 
 // MakeState returns the inital state from the `InitialBytes`
 func MakeState() (*State, error) {
-	return Parse(InitialBytes)
+	return Parse(Fixture("initial"))
 }
 
 // ParseAndOutput will simply combines Output() with Parse().
