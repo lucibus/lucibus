@@ -1,6 +1,6 @@
 import React from 'react'
 
-import App from './containers/App'
+import App from 'app/components/App'
 
 var rootInstance = React.render(
   App(),

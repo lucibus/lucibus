@@ -1,0 +1,4 @@
+.hidden-input {
+  composes: hiddenInput from "common/hiddenInput.css";
+  display: inline;
+}
