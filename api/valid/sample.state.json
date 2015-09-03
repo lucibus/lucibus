@@ -5,6 +5,7 @@
   "cues": [{
     "uuid": "second",
     "name": "first",
+    "duration": 0,
     "systems": [{
       "level": 0.7,
       "query": [{"address": 1}],
@@ -13,7 +14,7 @@
   }],
   "live": {
     "level": 0.89,
-    "cue": "second",
+    "cue": {"uuid": "second", "percent": 0},
     "systems": [{
       "level": 0.5,
       "query": [{"address": 1}],

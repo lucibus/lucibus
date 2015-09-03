@@ -3,7 +3,7 @@
   "cues": [],
   "live": {
     "level": 0.2,
-    "cue": "",
+    "cue": {},
     "systems": [
       {
         "level": 1,

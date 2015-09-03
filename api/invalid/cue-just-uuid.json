@@ -20,17 +20,9 @@
   ],
   "live": {
     "level": 1,
-    "cue": {"uuid": "first", "percent": 0},
-    "systems": [
-      {
-        "level": 0.2,
-        "query": [
-          {
-            "address": 1
-          }
-        ],
-        "uuid": "otherf"
-      }
-    ]
+    "cue": {
+      "uuid": "first"
+    },
+    "systems": []
   }
 }
