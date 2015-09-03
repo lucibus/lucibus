@@ -4,7 +4,7 @@
     {
       "name": "hi",
       "uuid": "first",
-      "duration": 0,
+      "duration": 5000,
       "systems": [
         {
           "level": 0,
@@ -20,7 +20,7 @@
     {
       "name": "hi2",
       "uuid": "second",
-      "duration": 0,
+      "duration": 1,
       "systems": [
         {
           "level": 1,
@@ -29,7 +29,7 @@
               "address": 1
             }
           ],
-          "uuid": "other2"
+          "uuid": "other"
         }
       ]
     }
@@ -38,7 +38,7 @@
     "level": 1,
     "cue": {
       "uuid": "second",
-      "percent": 0.2
+      "time": "time.Now()"
     },
     "systems": []
   }

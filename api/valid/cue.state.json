@@ -20,7 +20,7 @@
   ],
   "live": {
     "level": 1,
-    "cue": {"uuid": "first", "percent": 0},
+    "cue": {"uuid": "first", "percent": 1},
     "systems": []
   }
 }

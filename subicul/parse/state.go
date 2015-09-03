@@ -2,6 +2,7 @@ package parse
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -14,8 +15,8 @@ type State struct {
 }
 
 // Output gives the DMX address to value mapping of the current state
-func (s *State) Output() (o Output, e error) {
-	return s.Live.Output(s)
+func (s *State) Output(n time.Time) (o Output, e error) {
+	return s.Live.Output(s, n)
 }
 
 // ToJSON returns the JSON representation of the state
@@ -50,10 +51,10 @@ func MakeState() (*State, error) {
 }
 
 // ParseAndOutput will simply combines Output() with Parse().
-func ParseAndOutput(b []byte) (Output, error) {
+func ParseAndOutput(b []byte, t time.Time) (Output, error) {
 	s, err := Parse(b)
 	if err != nil {
 		return nil, err
 	}
-	return s.Output()
+	return s.Output(t)
 }

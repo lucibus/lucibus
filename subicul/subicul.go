@@ -1,8 +1,10 @@
 package subicul
 
 import (
+	"bytes"
 	"net/http"
 	"sync"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/lucibus/lucibus/subicul/parse"
@@ -12,6 +14,8 @@ import (
 // state is the current global state
 var state *parse.State
 var stateMutex = &sync.RWMutex{}
+
+const nowReplacement = "time.Now()"
 
 func createOnConnect(m *melody.Melody) func(*melody.Session) {
 	return func(s *melody.Session) {
@@ -35,6 +39,8 @@ func createOnConnect(m *melody.Melody) func(*melody.Session) {
 
 func createOnMessage(m *melody.Melody) func(*melody.Session, []byte) {
 	return func(s *melody.Session, msg []byte) {
+		shouldReplace := bytes.Contains(msg, []byte(nowReplacement))
+		msg = bytes.Replace(msg, []byte(nowReplacement), []byte(parse.TimeMarshall(time.Now())), -1)
 		tmpState, err := parse.Parse(msg)
 		if err != nil {
 			log.WithFields(log.Fields{
@@ -59,7 +65,11 @@ func createOnMessage(m *melody.Melody) func(*melody.Session, []byte) {
 		stateMutex.Lock()
 		state = tmpState
 		stateMutex.Unlock()
-		m.BroadcastOthers(msg, s)
+		if shouldReplace {
+			m.Broadcast(msg)
+		} else {
+			m.BroadcastOthers(msg, s)
+		}
 	}
 }
 

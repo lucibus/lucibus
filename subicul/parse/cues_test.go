@@ -8,17 +8,29 @@ import (
 
 func TestCues(t *testing.T) {
 	Convey("Find should", t, func() {
-		Convey("return a cue when one exists", func() {
+		Convey("return a cue and the prev one", func() {
 			cFirst := Cue{Name: "hi", UUID: "first", Systems: Systems{}}
 			cSecond := Cue{Name: "there", UUID: "second", Systems: Systems{}}
 			cs := Cues{cFirst, cSecond}
-			So(cs.Find("first").Name, ShouldEqual, "hi")
-			So(cs.Find("second").Name, ShouldEqual, "there")
+			c, p := cs.Find("second")
+
+			So(c.Name, ShouldEqual, "there")
+			So(p.Name, ShouldEqual, "hi")
+		})
+		Convey("return no prev cue when there isnt one", func() {
+			cFirst := Cue{Name: "hi", UUID: "first", Systems: Systems{}}
+			cSecond := Cue{Name: "there", UUID: "second", Systems: Systems{}}
+			cs := Cues{cFirst, cSecond}
+			c, p := cs.Find("first")
+			So(c.Name, ShouldEqual, "hi")
+			So(p, ShouldBeNil)
 		})
 		Convey("return nil when one doesnt", func() {
 			c := Cue{Name: "hi", UUID: "first", Systems: Systems{}}
 			cs := Cues{c}
-			So(cs.Find("other"), ShouldBeNil)
+			cur, p := cs.Find("other")
+			So(cur, ShouldBeNil)
+			So(p, ShouldBeNil)
 		})
 	})
 	Convey("Ouput should", t, func() {

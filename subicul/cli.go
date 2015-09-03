@@ -64,6 +64,9 @@ func MakeCliApp(ctx context.Context) *cli.App {
 		if c.String("path") == "" {
 			a = dmx.NewDebugAdaptor()
 		} else {
+			log.WithFields(log.Fields{
+				"path": c.String("path"),
+			}).Info("Using USB ENTTEC Pro Adaptor")
 			a = dmx.NewUSBEnttecProAdaptor(
 				"dmx",
 				c.String("path"),

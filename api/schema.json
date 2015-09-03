@@ -47,7 +47,7 @@
           }, {
             "properties": {
               "uuid": {"type":  "string"},
-              "time": {"type": "number", "minimum": 0}
+              "time": {"type": "string"}
             },
             "additionalProperties": false,
             "required": ["uuid", "time"]
