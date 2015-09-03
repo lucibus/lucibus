@@ -24,10 +24,10 @@ func main() {
 	go app.Run([]string{"<executable path>", "--port", strconv.Itoa(subiculPort), "--path", path})
 	staticPort := 8081
 	http.Handle("/", http.FileServer(
-		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "caido/dist"},
+		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "../caido/dist"},
 	))
 	http.Handle("/schema.json", http.FileServer(
-		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "api/"},
+		&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, Prefix: "../api/"},
 	))
 	err := http.ListenAndServe(":"+strconv.Itoa(staticPort), nil)
 	fmt.Println(err)
