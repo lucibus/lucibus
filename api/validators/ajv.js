@@ -1,11 +1,11 @@
 var Ajv = require('ajv')
 var schema = require('./schema.json')
-var sample = require('./sample.json')
+var fs = require('fs')
 
 var ajv = Ajv()
 
 var validate = ajv.compile(schema)
-var valid = validate(sample)
+var valid = validate(JSON.parse(fs.readFileSync('/dev/stdin').toString()))
 
 if (valid) {
   console.log('Valid.')

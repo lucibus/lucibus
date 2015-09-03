@@ -1,70 +1,17 @@
 package parse
 
-// InitialBytes is the json the server sends to the client when it first
-// starts up
-var InitialBytes = []byte(`
-{
-	"cues": [],
-	"patch": {},
-	"live": {
-		"level": 1,
-		"cue": "",
-		"systems": []
+import (
+	"path"
+
+	"github.com/lucibus/lucibus/subicul/parse/api"
+)
+
+// Fixture returns a valid schema from `../api/valid`
+func Fixture(name string) []byte {
+	path := path.Join("valid", name+".json")
+	b, err := api.Asset(path)
+	if err != nil {
+		panic(err)
 	}
-}`)
-
-var OneSystemStateBytes = []byte(`
-	{
-		"patch": {},
-		"cues": [],
-		"live": {
-			"level": 1,
-			"cue": "",
-			"systems": [{
-				"level": 1,
-				"query": [{"address": 1}],
-				"uuid": "first"
-			}]
-		}
-	}`)
-
-var TwoSystemStateBytes = []byte(`
-	{
-		"patch": {},
-		"cues": [],
-		"live": {
-			"level": 1,
-			"cue": "",
-			"systems": [{
-				"level": 1,
-				"query": [{"address": 1}],
-				"uuid": "first"
-			}, {
-				"level": 1,
-				"query": [{"address": 2}],
-				"uuid": "second"
-			}]
-		}
-	}`)
-var ThreeSystemStateBytes = []byte(`
-	{
-		"patch": {},
-		"cues": [],
-		"live": {
-			"level": 1,
-			"cue": "",
-			"systems": [{
-				"level": 1,
-				"query": [{"address": 1}],
-				"uuid": "first"
-			}, {
-				"level": 1,
-				"query": [{"address": 2}],
-				"uuid": "second"
-			}, {
-				"level": 1,
-				"query": [{"address": 3}],
-				"uuid": "third"
-			}]
-		}
-	}`)
+	return b
+}

@@ -3,6 +3,7 @@ package parse
 import (
 	"fmt"
 
+	"github.com/lucibus/lucibus/subicul/parse/api"
 	"github.com/xeipuuv/gojsonschema"
 )
 
@@ -12,7 +13,7 @@ func getSchema() (gojsonschema.JSONLoader, error) {
 	if schema != nil {
 		return schema, nil
 	}
-	b, err := Asset("schema.json")
+	b, err := api.Asset("schema.json")
 	if err != nil {
 		return nil, err
 	}

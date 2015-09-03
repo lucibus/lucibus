@@ -30,7 +30,7 @@ func ShouldNotBeRunningGoroutines(actual interface{}, _ ...interface{}) string {
 	for scanner.Scan() {
 		t := scanner.Text()
 		// now we wanna check when this line we are looking at shows a goroutine
-		// that is running a file in this module that is not a test
+		// that is running a file in this module that is not a test or a dep
 		runningInModule := strings.Contains(t, module)
 		runningTest := strings.Contains(t, "test")
 		runningExternal := strings.Contains(t, "Godeps") || strings.Contains(t, "vendor")

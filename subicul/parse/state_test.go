@@ -19,44 +19,13 @@ func TestState(t *testing.T) {
 		})
 
 		Convey("an address", func() {
-			b := []byte(`
-                    {
-												"patch": {},
-												"cues": [],
-												"cues": [],
-                        "live": {
-                            "level": 1,
-														"cue": "",
-                            "systems": [{
-                                "level": 1,
-                                "query": [{"address": 1}],
-																"uuid": "first"
-                            }]
-                        }
-                    }`)
+			b := Fixture("address-one")
 			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 255})
 
 			Convey("two addresses", func() {
-				b := []byte(`
-                    {
-											"patch": {},
-											"cues": [],
-                      "live": {
-                          "level": 1,
-													"cue": "",
-                          "systems": [{
-                              "level": 1,
-															"query": [{"address": 2}],
-															"uuid": "first"
-                          }, {
-                              "level": 1,
-															"query": [{"address": 1}],
-															"uuid": "second"
-                          }]
-                      }
-                    }`)
+				b := Fixture("address-two")
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
@@ -64,86 +33,26 @@ func TestState(t *testing.T) {
 		})
 
 		Convey("a tag", func() {
-			b := []byte(`
-                    {
-												"patch": {"1": ["hi"]},
-												"cues": [],
-                        "live": {
-                            "level": 1,
-														"cue": "",
-                            "systems": [{
-                                "level": 1,
-                                "query": [{"tag": "hi"}],
-																"uuid": "first"
-                            }]
-                        }
-                    }`)
+			b := Fixture("tag-one")
 			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 255})
 
 			Convey("two tags", func() {
-				b := []byte(`
-                    {
-											"patch": {"1": ["hi", "there"], "2": ["hi"]},
-											"cues": [],
-                      "live": {
-                          "level": 1,
-													"cue": "",
-                          "systems": [{
-                              "level": 1,
-															"query": [{"tag": "hi"}, {"tag": "there"}],
-															"uuid": "first"
-                          }, {
-                              "level": 0.2,
-															"query": [{"tag": "hi"}],
-															"uuid": "second"
-                          }]
-                      }
-                    }`)
+				b := Fixture("tag-two")
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 51})
 			})
 		})
 		Convey("a cue", func() {
-			b := []byte(`
-                  {
-											"patch": {},
-											"cues": [{
-												"name": "hi",
-												"uuid": "first",
-												"systems": [{"level": 1, "query": [{"address": 1}], "uuid": "other"}]
-											}],
-                      "live": {
-                          "level": 1,
-													"cue": "first",
-                          "systems": []
-                      }
-                  }`)
+			b := Fixture("cue")
 			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 255})
 
 			Convey("a cue should be overriden by systems", func() {
-				b := []byte(`
-                    {
-											"patch": {},
-											"cues": [{
-												"name": "hi",
-												"uuid": "first",
-												"systems": [{"level": 1, "query": [{"address": 1}], "uuid": "other"}]
-											}],
-                      "live": {
-                          "level": 1,
-													"cue": "first",
-                          "systems": [{
-                              "level": 0.2,
-															"query": [{"address": 1}],
-															"uuid": "otherf"
-                          }]
-                      }
-                    }`)
+				b := Fixture("cue-overriden")
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 51})
@@ -151,90 +60,61 @@ func TestState(t *testing.T) {
 		})
 
 		Convey("a different grandmaster level", func() {
-			b := []byte(`
-                	{
-										"patch": {},
-										"cues": [],
-                    "live": {
-                        "level": 0.2,
-												"cue": "",
-                        "systems": [{
-                            "level": 1,
-														"query": [{"address": 1}],
-														"uuid": "first"
-                        }]
-                    }
-                	}`)
+			b := Fixture("grandmaster")
 			o, e := ParseAndOutput(b)
 			So(e, ShouldBeNil)
 			So(o, ShouldResemble, Output{1: 51})
 		})
 
-		Convey("two addresses", func() {
+		Convey("two systems", func() {
 
 			Convey("combine", func() {
-				b := []byte(`
-										{
-												"patch": {},
-												"cues": [],
-												"live": {
-														"level": 1,
-														"cue": "",
-														"systems": [{
-																"level": 1,
-																"query": [{"address": 2}],
-																"uuid": "first"
-														}, {
-																"level": 1,
-																"query": [{"address": 1}],
-																"uuid": "second"
-														}]
-												}
-										}`)
+				b := Fixture("system-combine")
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255, 2: 255})
 			})
 
 			Convey("override", func() {
-				b := []byte(`
-										{
-												"patch": {},
-												"cues": [],
-												"live": {
-														"level": 1,
-														"cue": "",
-														"systems": [{
-																"level": 1,
-																"query": [{"address": 1}],
-																"uuid": "first"
-														}, {
-																"level": 0,
-																"query": [{"address": 1}],
-																"uuid": "second"
-														}]
-												}
-										}`)
+				b := Fixture("system-override")
 				o, e := ParseAndOutput(b)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, Output{1: 255})
 			})
 
 		})
+		Convey("sample", func() {
+			o, e := ParseAndOutput(Fixture("sample"))
+			So(e, ShouldBeNil)
+			So(o, ShouldNotResemble, Output{})
+		})
+		Convey("sample-2", func() {
+			o, e := ParseAndOutput(Fixture("sample-2"))
+			So(e, ShouldBeNil)
+			So(o, ShouldNotResemble, Output{})
+		})
+		Convey("sample-3", func() {
+			o, e := ParseAndOutput(Fixture("sample-3"))
+			So(e, ShouldBeNil)
+			So(o, ShouldNotResemble, Output{})
+		})
 	})
 
 }
 
 func BenchmarkParse(b *testing.B) {
+	by := Fixture("sample")
+	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
-		Parse(OneSystemStateBytes)
+		Parse(by)
 	}
 }
 
 func BenchmarkUnmarshal(b *testing.B) {
 	var s State
+	by := Fixture("sample")
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		json.Unmarshal(OneSystemStateBytes, &s)
+		json.Unmarshal(by, &s)
 	}
 }

@@ -1,8 +1,8 @@
 var tv4 = require('tv4')
 var schema = require('./schema.json')
-var sample = require('./sample.json')
+var fs = require('fs')
 
-var valid = tv4.validate(sample, schema)
+var valid = tv4.validate(JSON.parse(fs.readFileSync('/dev/stdin').toString()), schema)
 
 if (valid) {
   console.log('Valid.')

@@ -1,18 +1,30 @@
-parse/schema_file.go: ../api/schema.json
-	go run vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go -o parse/schema_file.go -pkg parse -prefix "../api/"  ../api/schema.json
+SHELL = /bin/sh
 
-travis_install:
-	go get github.com/Masterminds/glide
-	glide up
-	make parse/schema_file.go
+VALIDATORS := $(basename $(notdir $(wildcard validators/*.Dockerfile)))
 
-travis_script:
-	go test -coverprofile=parse.coverprofile -v -race ./parse
-	go test -coverprofile=main.coverprofile -v -race
+build: ${VALIDATORS}
+
+${VALIDATORS}:
+	docker build -t lucibus/api-$@ -f validators/$@.Dockerfile .
+
+VALID := $(wildcard valid/*)
+INVALID := $(wildcard invalid/*)
+
+JOINER := ~
+
+VALID_TESTS := $(foreach valid,$(VALID),$(foreach validator,$(VALIDATORS),$(valid)$(JOINER)$(validator)))
+INVALID_TESTS := $(foreach invalid,$(INVALID),$(foreach validator,$(VALIDATORS),$(invalid)$(JOINER)$(validator)))
+
+${VALID_TESTS}:
+	cat $(firstword $(subst $(JOINER), ,$@)) | docker run --rm -i lucibus/api-$(lastword $(subst $(JOINER), ,$@))
+
+${INVALID_TESTS}:
+	cat $(firstword $(subst $(JOINER), ,$@)) | docker run --rm -i lucibus/api-$(lastword $(subst $(JOINER), ,$@)); test $$? != 0
 
 
-travis_after_success:
-	gover
-	goveralls -coverprofile=gover.coverprofile -service=travis-ci
+valid: ${VALID_TESTS}
+invalid: ${INVALID_TESTS}
 
-.PHONY: travis_install travis_script travis_after_success
+test: valid invalid
+
+.PHONY: build ${VALIDATORS} ${VALID_TESTS} ${INVALID_TESTS} valid invalid test
