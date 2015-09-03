@@ -1,7 +1,9 @@
 package parse
 
 import (
+	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/imdario/mergo"
 )
@@ -32,4 +34,24 @@ func (o Output) MultiplyBy(p Level) error {
 // merging the two
 func (o Output) AddOnTop(higherPriority Output) error {
 	return mergo.MergeWithOverwrite(&o, higherPriority)
+}
+
+// OutputFromJSON takes a JSON mapping of strings to numbers and returns an output
+func OutputFromJSON(b []byte) (o *Output, err error) {
+	var oj map[string]int
+	err = json.Unmarshal(b, &oj)
+	if err != nil {
+		return
+	}
+	o = &(Output{})
+	for addressString, levelInt := range oj {
+		var address int
+		address, err = strconv.Atoi(addressString)
+		if err != nil {
+			return
+		}
+		level := byte(levelInt)
+		(*o)[address] = level
+	}
+	return
 }

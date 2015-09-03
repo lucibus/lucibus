@@ -8,4 +8,6 @@ machine:
     - docker
 test:
   override:
-    - make test
+    - make DOCKER_FLAGS= test:
+        pwd:
+          api

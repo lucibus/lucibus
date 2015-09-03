@@ -1,7 +1,6 @@
 package subicul
 
 import (
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -10,7 +9,6 @@ import (
 
 	"golang.org/x/net/context"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
 	"github.com/lucibus/dmx"
 	"github.com/lucibus/lucibus/subicul/parse"
@@ -60,6 +58,14 @@ func setupTestServer() (*dmx.DebugAdaptor, string, func()) {
 	return a, url, stopServer
 }
 
+func OutputFromMap(m map[int]uint8) parse.Output {
+	o := parse.Output{}
+	for address, levelInt := range m {
+		o[address] = byte(levelInt)
+	}
+	return o
+}
+
 func TestServer(t *testing.T) {
 	ResetState()
 	a, url, stopServer := setupTestServer()
@@ -74,25 +80,28 @@ func TestServer(t *testing.T) {
 			conn, _, err := d.Dial(url, http.Header{})
 			So(err, ShouldBeNil)
 			Convey("it should return a default state", func() {
-				shouldGet(conn, parse.Fixture("initial"))
+				f, err := parse.GetFixture("initial")
+				So(err, ShouldBeNil)
+				shouldGet(conn, f.State)
 
 				Convey("it shouldnt crash on an invalid state", func() {
 					shouldSend(conn, []byte{})
 					Convey("and should still take messages", func() {
-						newState := parse.Fixture("address-one")
-						shouldSend(conn, newState)
+						f, err := parse.GetFixture("address-one")
+						So(err, ShouldBeNil)
+						shouldSend(conn, f.State)
 						time.Sleep(time.Millisecond * 50)
-						So(a.GetLastOutput(), ShouldResemble, map[int]byte{1: 255})
+						So(OutputFromMap(a.GetLastOutput()), ShouldResemble, *f.Output)
 					})
 				})
 
 				Convey("it should take an updated state", func() {
-					newState := parse.Fixture("address-one")
-					shouldSend(conn, newState)
-
+					f, err := parse.GetFixture("address-one")
+					So(err, ShouldBeNil)
+					shouldSend(conn, f.State)
 					Convey("and it should output the new state", func() {
 						time.Sleep(time.Millisecond * 50)
-						So(a.GetLastOutput(), ShouldResemble, map[int]byte{1: 255})
+						So(OutputFromMap(a.GetLastOutput()), ShouldResemble, *f.Output)
 					})
 
 					Convey("and reconnect", func() {
@@ -102,38 +111,38 @@ func TestServer(t *testing.T) {
 						So(err, ShouldBeNil)
 
 						Convey("it should return the same state", func() {
-							shouldGet(conn, newState)
+							shouldGet(conn, f.State)
 						})
 					})
 					Convey("and connect with another client", func() {
 						time.Sleep(time.Millisecond * 50)
 						conn2, _, err := d.Dial(url, http.Header{})
 						So(err, ShouldBeNil)
-						Convey("it should initally recieve the state set by the first", func() {
-							shouldGet(conn2, newState)
+						Convey("it should initially recieve the state set by the first", func() {
+							shouldGet(conn2, f.State)
 							Convey("and then when the first changes the state, it should get it", func() {
-								secondNewState := parse.Fixture("sample-2")
-								shouldSend(conn, secondNewState)
-								shouldGet(conn2, secondNewState)
+								s2, err := parse.ValidState("sample-2")
+								So(err, ShouldBeNil)
+								shouldSend(conn, s2)
+								shouldGet(conn2, s2)
 								Convey("and vice versa", func() {
-									thirdNewState := parse.Fixture("sample-3")
-									shouldSend(conn2, thirdNewState)
-									fmt.Println("after sending")
-									shouldGet(conn, thirdNewState)
-									fmt.Println("after getting")
+									s3, err := parse.ValidState("sample-3")
+									So(err, ShouldBeNil)
+									shouldSend(conn2, s3)
+									shouldGet(conn, s3)
 								})
-
 							})
-							conn.WriteMessage(websocket.TextMessage, newState)
 						})
 					})
 				})
 			})
 
-			Convey("output should be blank", func() {
+			Convey("output should be for initial", func() {
 				So(ResetState(), ShouldBeNil)
 				time.Sleep(time.Millisecond * 200)
-				So(a.GetLastOutput(), ShouldResemble, map[int]byte{})
+				f, err := parse.GetFixture("initial")
+				So(err, ShouldBeNil)
+				So(OutputFromMap(a.GetLastOutput()), ShouldResemble, *f.Output)
 			})
 		})
 		Reset(func() {
@@ -148,15 +157,20 @@ func BenchmarkServer(b *testing.B) {
 	d := websocket.Dialer{}
 	conn, _, err := d.Dial(url, http.Header{})
 	if err != nil {
-		log.Panicln("error in dial", err)
+		b.Error(err)
 	}
 	conn.ReadMessage()
 
 	toggleSendOneDimmer := true
-	var message []byte
-
-	var init = parse.Fixture("initial")
-	var sample = parse.Fixture("sample")
+	var init, sample, message []byte
+	init, err = parse.ValidState("initial")
+	if err != nil {
+		b.Error(err)
+	}
+	sample, err = parse.ValidState("sample")
+	if err != nil {
+		b.Error(err)
+	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		b.StopTimer()
