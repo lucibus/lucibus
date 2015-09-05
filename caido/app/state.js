@@ -7,6 +7,7 @@ import cues from 'cues/state'
 import patch from 'patch/state'
 import sync from 'sync/state'
 import systems from 'systems/state'
+import time from 'time/state'
 
 const modules = [
   app,
@@ -15,6 +16,7 @@ const modules = [
   // live,
   patch,
   sync,
-  systems
+  systems,
+  time
 ]
 export default merge({}, ...modules)

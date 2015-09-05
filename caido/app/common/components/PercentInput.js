@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {round} from 'lodash'
+// import {round} from 'lodash'
 
 import styles from './PercentInput.css'
 
@@ -22,14 +22,17 @@ class PercentInput extends Component {
   }
 
   render () {
+    var {float, onChange, ...other} = this.props
     return (
       <input
         className={styles['hidden-input']}
-        type='number'
-        value={round(this.props.float * 100, 0)}
+        type={this.props.type}
+        disabled={this.props.disabled}
+        value={float ? float * 100 : float}
         onChange={this.onChange.bind(this)}
         max='100'
         min='0'
+        {...other}
       />
     )
   }
@@ -37,6 +40,8 @@ class PercentInput extends Component {
 
 PercentInput.propTypes = {
   float: React.PropTypes.number,
+  type: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
   onChange: React.PropTypes.func.isRequired
 }
 

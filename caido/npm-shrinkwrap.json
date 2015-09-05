@@ -1131,8 +1131,8 @@
       "resolved": "https://registry.npmjs.org/bootswatch/-/bootswatch-3.3.5.tgz"
     },
     "cerebral": {
-      "version": "0.17.7",
-      "resolved": "https://registry.npmjs.org/cerebral/-/cerebral-0.17.7.tgz"
+      "version": "0.18.0",
+      "resolved": "https://registry.npmjs.org/cerebral/-/cerebral-0.18.0.tgz"
     },
     "cerebral-baobab": {
       "version": "0.1.2",
@@ -5239,6 +5239,10 @@
     "mock-socket": {
       "version": "0.7.0",
       "resolved": "https://registry.npmjs.org/mock-socket/-/mock-socket-0.7.0.tgz"
+    },
+    "moment": {
+      "version": "2.10.6",
+      "resolved": "https://registry.npmjs.org/moment/-/moment-2.10.6.tgz"
     },
     "mousetrap": {
       "version": "1.5.3",

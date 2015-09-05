@@ -1,16 +1,20 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import classNames from 'classnames'
 import 'octicons/octicons/octicons.css'
 
 import CueName from './CueName'
 import CueSystems from './CueSystems'
+import CueDuration from './CueDuration'
 import styles from './Cue.css'
 import {getCueExpandedPath} from '../utils'
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 
-@Cerebral(props => ({
+export default @Cerebral(props => ({
   expanded: getCueExpandedPath(props.cuePath)
-}))
+}), {
+  expanded: React.PropTypes.bool
+})
 class Cue extends Component {
   handleCollapseClick () {
     this.props.signals.clickedToggleExpandCue({expandedCuePath: getCueExpandedPath(this.props.cuePath)})
@@ -24,20 +28,10 @@ class Cue extends Component {
           <span className={classNames('octicon', expanded ? 'octicon-chevron-down' : 'octicon-chevron-right')}></span>
         </div>
         <CueName cuePath={this.props.cuePath}/>
+        <CueDuration cuePath={this.props.cuePath}/>
         {this.props.children}
         {expanded ? <CueSystems cuePath={this.props.cuePath}/> : ''}
       </div>
     )
   }
 }
-
-Cue.propTypes = Object.assign(
-  {},
-  {
-    cuePath: React.PropTypes.array.isRequired,
-    expanded: React.PropTypes.bool.isRequired
-  },
-  cerebralPropTypes
-)
-
-export default Cue

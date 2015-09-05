@@ -9,7 +9,7 @@ const baobabOptions = {
   validate: (previousState, newState, affectedPaths) => {
     var valid = schema(newState.synced)
     if (!valid) {
-      console.error('Invalid schema', newState, schema.errors)
+      console.error('Invalid schema', {newState, affectedPaths, errors: schema.errors})
       return new Error(schema.errors)
     }
     return true

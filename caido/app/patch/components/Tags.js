@@ -1,3 +1,4 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 
 import {Cerebral} from 'common/utils'
@@ -11,9 +12,11 @@ function optionsToTags (options) {
   return options.map(o => o.value)
 }
 
-@Cerebral(props => ({
+@Cerebral({
   allTags: ['local', '$allTags']
-}))
+}, {
+  allTags: React.PropTypes.array
+})
 class PatchItem extends Component {
 
   get currentOptions () {
@@ -44,7 +47,6 @@ class PatchItem extends Component {
 
 PatchItem.propTypes = {
   tags: React.PropTypes.array,
-  allTags: React.PropTypes.array,
   onChange: React.PropTypes.func
 }
 export default PatchItem

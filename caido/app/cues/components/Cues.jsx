@@ -1,15 +1,19 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {assign} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 import Cue from './Cue'
 import Add from 'common/components/Add'
 import Remove from 'common/components/Remove'
 
-@Cerebral({
+export default @Cerebral({
   cues: ['synced', 'cues'],
-  newCueUuid: ['local', 'newItem', 'uuid'],
-  newCueValid: ['local', '$newCueValid']
+  newCueUuid: ['local', 'cues', 'new', 'uuid'],
+  newCueValid: ['local', 'cues', '$newValid']
+}, {
+  cues: React.PropTypes.array.isRequired,
+  newCueUuid: React.PropTypes.string.isRequired,
+  newCueValid: React.PropTypes.bool.isRequired
 })
 class Cues extends Component {
 
@@ -31,7 +35,7 @@ class Cues extends Component {
             )
           })}
           <li key={this.props.newCueUuid}>
-            <Cue cuePath={['local', 'newCue']}>
+            <Cue cuePath={['local', 'cues', 'new']}>
               <Add
                 disabled={!this.props.newCueValid}
                 onClick={this.props.signals.clickedAddNewCue}
@@ -43,15 +47,3 @@ class Cues extends Component {
     )
   }
 }
-
-Cues.propTypes = assign(
-  {},
-  {
-    cues: React.PropTypes.array.isRequired,
-    newCueUuid: React.PropTypes.string.isRequired,
-    newCueValid: React.PropTypes.bool.isRequired
-  },
-  cerebralPropTypes
-)
-
-export default Cues

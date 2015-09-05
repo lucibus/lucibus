@@ -1,16 +1,20 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {assign} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 import Add from 'common/components/Add'
 import Remove from 'common/components/Remove'
 import Address from './Address'
 import Tags from './Tags'
 
-@Cerebral({
+export default @Cerebral({
   patch: ['synced', 'patch'],
   newPatchItem: ['local', 'newPatchItem'],
   newPatchItemValid: ['local', '$newPatchItemValid']
+}, {
+  patch: React.PropTypes.object.isRequired,
+  newPatchItem: React.PropTypes.object.isRequired,
+  newPatchItemValid: React.PropTypes.bool.isRequired
 })
 class Patch extends Component {
 
@@ -79,15 +83,3 @@ class Patch extends Component {
     )
   }
 }
-
-Patch.propTypes = assign(
-  {},
-  {
-    patch: React.PropTypes.object.isRequired,
-    newPatchItem: React.PropTypes.object.isRequired,
-    newPatchItemValid: React.PropTypes.bool.isRequired
-  },
-  cerebralPropTypes
-)
-
-export default Patch
