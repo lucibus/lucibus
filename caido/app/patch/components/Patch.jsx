@@ -31,7 +31,7 @@ class Patch extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr key='new'>
               <td>
                 <Address
                   address={this.props.newPatchItem.address}
@@ -54,13 +54,14 @@ class Patch extends Component {
 
             {Object.keys(this.props.patch).map(address => {
               var tags = this.props.patch[address]
+              address = parseInt(address, 10)
               return (
-                <tr>
+                <tr key={address}>
 
                   <td>
                     <Address
                       address={address}
-                      onChange={address => this.props.signals.changedPatchItemAddress(true, {oldAddress: address, newAddress: address})}
+                      onChange={newAddress => this.props.signals.changedPatchItemAddress(true, {oldAddress: address, newAddress: newAddress})}
                     />
                   </td>
                   <td>
