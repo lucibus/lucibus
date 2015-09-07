@@ -14,7 +14,7 @@ func TestState(t *testing.T) {
 		So(err, ShouldBeNil)
 		for _, f := range fs {
 			Convey(f.Name, func() {
-				o, e := ParseAndOutput(f.State)
+				o, e := ParseAndOutput(f.State, f.Time)
 				So(e, ShouldBeNil)
 				So(o, ShouldResemble, *f.Output)
 			})

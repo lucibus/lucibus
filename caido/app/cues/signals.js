@@ -5,8 +5,10 @@ export default {
   clickedAddNewCue: [a.addNewCue, [outputSynced]],
   clickedRemoveCue: [a.removeCue, [outputSynced]],
   changedCueName: [a.setCueName, [outputSynced]],
+  changedCueDuration: [a.setCueDuration, [outputSynced]],
 
   liveCueChanged: [a.setLiveCue, [outputSynced]],
   clickedToggleExpandCue: [a.invertExpandCue],
-  clickedGoButton: [a.advanceCue, [outputSynced]]
+  clickedGoButton: [a.advanceCue, [outputSynced]],
+  changedLiveCuePercent: [a.setLiveCuePercent, [outputSynced]]
 }

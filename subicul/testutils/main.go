@@ -64,3 +64,14 @@ func ShouldMatchJSON(actual interface{}, expected ...interface{}) string {
 	}
 	return ""
 }
+
+// ShouldNotMatchJSON checks if actual and expected[0] are strings that
+// hold different JSON representations
+// logic copied from https://github.com/onsi/gomega/blob/d6c945f9fdbf6cad99e85b0feff591caa268e0db/matchers/match_json_matcher.go#L15-L29
+func ShouldNotMatchJSON(actual interface{}, expected ...interface{}) string {
+	matchError := ShouldMatchJSON(actual, expected[0])
+	if matchError == "" {
+		return fmt.Sprintf("JSON's matched: %s", actual)
+	}
+	return ""
+}

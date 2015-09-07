@@ -1,7 +1,7 @@
 import controller from 'controller'
 import 'must'
 import invalid from '../../../api/invalid/empty.json'
-import valid from '../../../api/valid/sample.json'
+import valid from '../../../api/valid/sample.state.json'
 
 function setSyncedAction ({synced}, state) {
   state.set('synced', synced)

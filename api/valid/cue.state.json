@@ -4,6 +4,7 @@
     {
       "name": "hi",
       "uuid": "first",
+      "duration": 0,
       "systems": [
         {
           "level": 1,
@@ -19,7 +20,7 @@
   ],
   "live": {
     "level": 1,
-    "cue": "first",
+    "cue": {"uuid": "first", "percent": 1},
     "systems": []
   }
 }

@@ -1,12 +1,14 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
-import {assign} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 import styles from './CueName.css'
 
-@Cerebral(props => ({
+export default @Cerebral(props => ({
   cue: props.cuePath
-}))
+}), {
+  cue: React.PropTypes.object.isRequired
+})
 class CueName extends Component {
   onChange (event) {
     var name = event.target.value
@@ -25,14 +27,3 @@ class CueName extends Component {
     )
   }
 }
-
-CueName.propTypes = assign(
-  {},
-  {
-    cuePath: React.PropTypes.array.isRequired,
-    cue: React.PropTypes.object.isRequired
-  },
-  cerebralPropTypes
-)
-
-export default CueName

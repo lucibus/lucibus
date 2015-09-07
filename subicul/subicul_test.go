@@ -95,6 +95,20 @@ func TestServer(t *testing.T) {
 					})
 				})
 
+				Convey("it should update a new time.now() cue", func() {
+					s, err := parse.ValidState("cue-time-now")
+					So(err, ShouldBeNil)
+					shouldSend(conn, s)
+					time.Sleep(time.Millisecond * 100)
+					So(OutputFromMap(a.GetLastOutput()), ShouldResemble, parse.Output{1: 255})
+					Convey("and return the updates state", func() {
+						messageType, p, err := conn.ReadMessage()
+						So(err, ShouldBeNil)
+						So(messageType, ShouldEqual, websocket.TextMessage)
+						So(p, testutils.ShouldNotMatchJSON, s)
+					})
+				})
+
 				Convey("it should take an updated state", func() {
 					f, err := parse.GetFixture("address-one")
 					So(err, ShouldBeNil)
@@ -121,12 +135,12 @@ func TestServer(t *testing.T) {
 						Convey("it should initially recieve the state set by the first", func() {
 							shouldGet(conn2, f.State)
 							Convey("and then when the first changes the state, it should get it", func() {
-								s2, err := parse.ValidState("sample-2")
+								s2, err := parse.ValidState("address-two")
 								So(err, ShouldBeNil)
 								shouldSend(conn, s2)
 								shouldGet(conn2, s2)
 								Convey("and vice versa", func() {
-									s3, err := parse.ValidState("sample-3")
+									s3, err := parse.ValidState("address-two-reversed")
 									So(err, ShouldBeNil)
 									shouldSend(conn2, s3)
 									shouldGet(conn, s3)

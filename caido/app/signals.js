@@ -5,6 +5,7 @@ import cues from 'cues/signals'
 import patch from 'patch/signals'
 import sync from 'sync/signals'
 import systems from 'systems/signals'
+import time from 'time/signals'
 
 const modules = [
   app,
@@ -13,7 +14,8 @@ const modules = [
   // live,
   patch,
   sync,
-  systems
+  systems,
+  time
 ]
 
 export default function registerSignals (controller) {

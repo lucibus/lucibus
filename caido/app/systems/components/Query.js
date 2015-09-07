@@ -1,8 +1,9 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import classNames from 'classnames'
-import {map, range, assign} from 'lodash'
+import {map, range} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {pathPropType, Cerebral} from 'common/utils'
 import AutoFillInputReactSelect from 'common/components/AutoFillInputReactSelect'
 
 function optionsToQuery (options) {
@@ -22,7 +23,17 @@ function queryToOptions (query) {
 @Cerebral(props => ({
   query: props.systemPath.concat(['query']),
   allTags: ['local', '$allTags']
-}))
+}), {
+  query: React.PropTypes.arrayOf(React.PropTypes.oneOf([
+    React.PropTypes.shape({
+      'address': React.PropTypes.number
+    }),
+    React.PropTypes.shape({
+      'tag': React.PropTypes.string
+    })
+  ])),
+  allTags: React.PropTypes.arrayOf(React.PropTypes.string)
+})
 class Query extends Component {
   constructor () {
     super()
@@ -79,16 +90,8 @@ class Query extends Component {
   }
 }
 
-Query.propTypes = assign({}, cerebralPropTypes, {
-  allTags: React.PropTypes.arrayOf(React.PropTypes.string),
-  query: React.PropTypes.arrayOf(React.PropTypes.oneOf([
-    React.PropTypes.shape({
-      'address': React.PropTypes.number
-    }),
-    React.PropTypes.shape({
-      'tag': React.PropTypes.string
-    })
-  ]))
-})
+Query.propTypes = {
+  systemPath: pathPropType
+}
 
 export default Query

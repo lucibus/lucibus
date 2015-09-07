@@ -1,4 +1,5 @@
 SHELL = /bin/sh
+default: build test
 
 VALIDATORS := $(basename $(notdir $(wildcard validators/*.Dockerfile)))
 

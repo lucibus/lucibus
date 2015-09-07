@@ -4,10 +4,11 @@ export function newCue () {
   return {
     uuid: uuid(),
     name: '',
+    duration: 0,
     systems: []
   }
 }
 
 export function getCueExpandedPath (cuePath) {
-  return ['local', 'cueExpanded', JSON.stringify(cuePath)]
+  return ['local', 'cues', 'expanded', JSON.stringify(cuePath)]
 }

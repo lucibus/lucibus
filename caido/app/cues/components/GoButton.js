@@ -1,30 +1,24 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import classNames from 'classnames'
-import {assign} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 
-@Cerebral({
-  hasNextCue: ['local', '$hasNextCue']
+export default @Cerebral({
+  nextAvailable: ['local', 'cues', 'live', 'next', '$available']
+}, {
+  nextAvailable: React.PropTypes.bool.isRequired
 })
 class GoButton extends Component {
   handleClick () {
-    this.props.signals.clickedGoButton()
+    if (this.props.nextAvailable) {
+      this.props.signals.clickedGoButton()
+    }
   }
   render () {
     return (
-      <button onClick={this.handleClick.bind(this)} className={classNames('btn', 'btn-primary', {disabled: !this.props.hasNextCue})}>Next Cue</button>
+      <button onClick={this.handleClick.bind(this)} className={classNames('btn', 'btn-primary', {disabled: !this.props.nextAvailable})}>Next Cue</button>
     )
 
   }
 }
-
-GoButton.propTypes = assign(
-  {},
-  {
-    hasNextCue: React.PropTypes.bool.isRequired
-  },
-  cerebralPropTypes
-)
-
-export default GoButton

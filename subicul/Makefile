@@ -1,4 +1,4 @@
-parse/api/main.go: ../api/schema.json $(wildcard ../api/valid/*) $(wildcard ../api/invalid/*)
+parse/api/main.go: ../api/schema.json ../api/valid/ ../api/invalid/
 	go run vendor/github.com/jteeuwen/go-bindata/go-bindata/*.go -o parse/api/main.go -pkg api -prefix "../api/"  ../api/schema.json ../api/valid/ ../api/invalid/
 
 travis_install:

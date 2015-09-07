@@ -1,10 +1,10 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import dragula from 'react-dragula'
 import 'react-dragula/dist/dragula.css'
 import classNames from 'classnames'
-import {assign} from 'lodash'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 import Add from 'common/components/Add'
 import Remove from 'common/components/Remove'
 import {systemPropType, getNewSystemPath, systemValid} from '../utils'
@@ -14,7 +14,10 @@ import styles from './Systems.css'
 @Cerebral(props => ({
   systems: props.systemsPath,
   newSystem: getNewSystemPath(props.systemsPath)
-}))
+}), {
+  systems: React.PropTypes.arrayOf(systemPropType).isRequired,
+  newSystem: systemPropType
+})
 class Systems extends Component {
   get listNode () {
     return React.findDOMNode(this.refs.list)
@@ -103,14 +106,8 @@ class Systems extends Component {
   }
 }
 
-Systems.propTypes = assign(
-  {},
-  {
-    systemsPath: React.PropTypes.array.isRequired,
-    systems: React.PropTypes.arrayOf(systemPropType).isRequired,
-    newSystem: systemPropType
-  },
-  cerebralPropTypes
-)
+Systems.propTypes = {
+  systemsPath: React.PropTypes.array.isRequired
+}
 
 export default Systems

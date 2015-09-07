@@ -1,10 +1,11 @@
+/*eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {Container} from 'cerebral-react'
 import classNames from 'classnames'
-import {assign, capitalize} from 'lodash'
+import {capitalize} from 'lodash'
 import Mousetrap from 'mousetrap'
 
-import {cerebralPropTypes, Cerebral} from 'common/utils'
+import {Cerebral} from 'common/utils'
 
 import Live from 'live/components/Live'
 import Patch from 'patch/components/Patch'
@@ -21,11 +22,15 @@ const pages = {
 
 @Cerebral({
   page: ['local', 'page']
+}, {
+  page: React.PropTypes.string.isRequired
 })
 class App extends Component {
 
   createOnClick (page) {
-    return () => {this.props.signals.clickedNav({page})}
+    return () => {
+      this.props.signals.clickedNav({page})
+    }
   }
 
   componentDidMount () {
@@ -47,6 +52,7 @@ class App extends Component {
 
   render () {
     var Page = pages[this.props.page]
+
     return (
       <div>
         <nav className='navbar navbar-default navbar-static-top'>
@@ -76,14 +82,6 @@ class App extends Component {
     )
   }
 }
-
-App.propTypes = assign(
-  {},
-  {
-    page: React.PropTypes.string.isRequired
-  },
-  cerebralPropTypes
-)
 
 export default (config) => {
   window.caidoConfig = config || {}

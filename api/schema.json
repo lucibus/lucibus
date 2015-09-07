@@ -22,20 +22,37 @@
         "properties": {
           "name": {"type": "string"},
           "systems": {"$ref":  "#/definitions/systems"},
-          "uuid": {"type": "string"}
+          "uuid": {"type": "string"},
+          "duration": {"type": "number", "minimum": 0}
         },
-        "required": ["name", "systems", "uuid"]
+        "required": ["name", "systems", "uuid", "duration"]
       }
     },
     "live": {
       "type": "object",
       "properties": {
-        "level": {
-          "type": "number",
-          "maximum": 1,
-          "minimum": 0
+        "level": {"$ref":  "#/definitions/percent"},
+        "cue": {
+          "type": "object",
+          "oneOf": [{
+            "properties": {},
+            "additionalProperties": false
+          }, {
+            "properties": {
+              "uuid": {"type":  "string"},
+              "percent": {"$ref":  "#/definitions/percent"}
+            },
+            "additionalProperties": false,
+            "required": ["uuid", "percent"]
+          }, {
+            "properties": {
+              "uuid": {"type":  "string"},
+              "time": {"type": "string"}
+            },
+            "additionalProperties": false,
+            "required": ["uuid", "time"]
+          }]
         },
-        "cue": {"type": "string"},
         "systems": {"$ref":  "#/definitions/systems"}
       },
       "required": [
@@ -55,17 +72,18 @@
       "maximum": 255,
       "minimum": 1
     },
+    "percent": {
+      "type": "number",
+      "maximum": 1,
+      "minimum": 0
+    },
     "systems": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "level": {
-            "type": "number",
-            "maximum": 1,
-            "minimum": 0
-          },
+          "level": {"$ref":  "#/definitions/percent"},
           "query": {
             "type": "array",
             "uniqueItems": true,
