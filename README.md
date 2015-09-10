@@ -21,19 +21,19 @@ We welcome all contributions, both of ideas and of code.
 Hop on the [the chat](https://gitter.im/lucibus/lucibus?utm_source=share-link&utm_medium=link&utm_campaign=share-link) to ask any questions or [open an issue](https://github.com/lucibus/lucibus/issues/new).
 
 ## Structure
-Lucibus is built with web technologies. This frontend (called caido) is mostly Javascript and backend (called subicul) is Go. It is broken up into these two pieces to solve a few goals:
+
+Lucibus is built with web technologies. The [client side code (called **caido**)](./caido) is mostly Javascript and [the server (called **subicul**)](./subicul) is Go.
+
+Using a client-server model is unconventional for lighting control systems. Traditionally, advantages have not been large enough to offset the cost of the added latency. The web has been improving rapidly, however, and so we chose to make use of these features:
 
 1. Access from remote devices, like mobile phones or laptops.
 2. Multiple simultaneous users.
-3. Use as much existing work as possible to reduce development time.
-
+3. Use as much existing work as possible to reduce development time. The collective mindshare working on creating open source solutions for applications on the web is much larger than that on any native platform.
+4. Can use any operating system as server (as long as it has drivers for the output device)
 
 This project is separated into four distinct apps. They exist right now in one repository for ease of deployment and synchronization of commits.
 
-*`subicul`* is the backend. It is written in Go and serves up a websocket connection.
+Currently, the data is serialized as one large JSON tree to send it between client and server. The [**api** subfolder](./api) holds the schema that defines the format, as well as many examples of valid states.
 
-*`caido`* is the frontend.
+The application is distributed as a binary file, that will start up subicul and statically serve caido. This is built in the [**binary** subdirectory](./binary).
 
-*`api`*  just has the JSON schmea that defines the structure of the websocket messages sent between the fontend and the backend.
-
-*`binary`* builds a single binary to serve `caido` as well as `subicul`
