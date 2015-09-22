@@ -19,7 +19,7 @@ const customLaunchers = {
     base: 'SauceLabs',
     browserName: 'chrome',
     platform: 'OS X 10.10',
-    version: 'dev'
+    version: '44.0'
   }
 }
 
