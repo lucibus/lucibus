@@ -23,7 +23,7 @@ function cleanState (state) {
 }
 
 function stateEquals (state) {
-  return browser.pause(50).execute(function () {
+  return browser.pause(100).execute(function () {
     return window.caidoConfig.lastMessage
   }).then(response => {
     var {value} = response
@@ -77,7 +77,7 @@ describe('App', function () {
         it('clicking on it and typing must change value', clickAndType)
         it('typing must update state', function *() {
           yield* clickAndType()
-          yield (grandmaster50)
+          yield stateEquals(grandmaster50)
         })
         it('using arrow keys must update', function *() {
           yield* click()
