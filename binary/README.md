@@ -31,7 +31,7 @@ glide up
 ### Building
 
 To build run `make`. This will build the `./subicul` executable. Running
-this will start the HTML server on port 80 and the websocket server on port
+this will start the HTML server on port 8081 and the websocket server on port
 8080.
 
 ### Testing
