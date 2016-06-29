@@ -1,0 +1,54 @@
+hash: 620c550c2c9b0f7287262882e4ee684b7d5d68ef332b7ac054d56969e54943f5
+updated: 2016-06-28T20:54:02.492236922-04:00
+imports:
+- name: github.com/codegangsta/cli
+  version: 142e6cd241a4dfbf7f07a018f1f8225180018da4
+  repo: https://github.com/codegangsta/cli
+  vcs: git
+- name: github.com/elazarl/go-bindata-assetfs
+  version: d5cac425555ca5cf00694df246e04f05e6a55150
+  repo: https://github.com/elazarl/go-bindata-assetfs
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/gorilla/websocket
+  version: a68708917c6a4f06314ab4e52493cc61359c9d42
+- name: github.com/hybridgroup/gobot
+  version: 40afa84d77349f3d446739ad48b75aa695b9a708
+- name: github.com/imdario/mergo
+  version: 50d4dbd4eb0e84778abe37cefef140271d96fade
+- name: github.com/jteeuwen/go-bindata
+  version: bfe36d3254337b7cc18024805dfab2106613abdf
+  repo: https://github.com/jteeuwen/go-bindata
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/lucibus/dmx
+  version: 9491cfade92158a9e4faaa0e3f197ea93f3050a3
+- name: github.com/lucibus/lucibus
+  version: e5efe947e2cccdb09ba8f2ac3b06d36068992245
+  subpackages:
+  - subicul
+  - subicul/parse
+  - subicul/parse/api
+- name: github.com/olahol/melody
+  version: d1854c24f007c55b68192df6974311e9a076303d
+- name: github.com/Sirupsen/logrus
+  version: f3cfb454f4c209e6668c95216c4744b8fddb2356
+- name: github.com/tarm/goserial
+  version: b3440c3c63556c3fd67e915be3b92195bc70294a
+- name: github.com/xeipuuv/gojsonpointer
+  version: e0fe6f68307607d540ed8eac07a342c33fa1b54a
+- name: github.com/xeipuuv/gojsonreference
+  version: e02fc20de94c78484cd5ffb007f8af96be030a45
+- name: github.com/xeipuuv/gojsonschema
+  version: c539bca196be50ccdd1f0bcd9076de95f9081831
+- name: golang.org/x/net
+  version: 66f0418ca41253f8d1a024eb9754e9441a8e79b9
+  subpackages:
+  - context
+- name: golang.org/x/sys
+  version: 62bee037599929a6e9146f29d10dd5208c43507d
+  subpackages:
+  - unix
+devImports: []
