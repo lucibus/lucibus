@@ -48,7 +48,7 @@ And the integration tests:
 
 ```bash
 npm run test:integration:selenium
-nom run test:integration:server
+npm run test:integration:server
 npm run test:integration
 ```
 
