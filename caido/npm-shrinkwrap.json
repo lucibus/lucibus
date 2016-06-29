@@ -8297,8 +8297,8 @@
       "resolved": "https://registry.npmjs.org/wait.for/-/wait.for-0.6.6.tgz",
       "dependencies": {
         "fibers": {
-          "version": "1.0.6",
-          "resolved": "https://registry.npmjs.org/fibers/-/fibers-1.0.6.tgz"
+          "version": "1.0.6-b",
+          "resolved": "https://registry.npmjs.org/fibers/-/fibers-1.0.6-b.tgz"
         }
       }
     },
