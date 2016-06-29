@@ -1,0 +1,92 @@
+hash: 138930383d4a8471198f5db592a9c4b85edb8a917f8e42953a835a69d1a42146
+updated: 2016-06-28T20:55:08.071634292-04:00
+imports:
+- name: github.com/axw/gocov
+  version: 7680dd3a4cdcd085af87cad319460b289da30024
+  repo: https://github.com/axw/gocov
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/codegangsta/cli
+  version: 142e6cd241a4dfbf7f07a018f1f8225180018da4
+  repo: https://github.com/codegangsta/cli
+  vcs: git
+- name: github.com/gorilla/websocket
+  version: b6ab76f1fe9803ee1d59e7e5b2a797c1fe897ce5
+  repo: https://github.com/gorilla/websocket
+  vcs: git
+- name: github.com/guregu/null
+  version: 41fe781af5dd0b14980914a13e7921643517d00f
+  repo: https://github.com/guregu/null
+  vcs: git
+- name: github.com/hybridgroup/gobot
+  version: 79c9657807f23862c9a4f0fe0b99005378d47bba
+  repo: https://github.com/hybridgroup/gobot
+  vcs: git
+- name: github.com/imdario/mergo
+  version: 61a52852277811e93e06d28e0d0c396284a7730b
+  repo: https://github.com/imdario/mergo
+  vcs: git
+- name: github.com/jteeuwen/go-bindata
+  version: bfe36d3254337b7cc18024805dfab2106613abdf
+  repo: https://github.com/jteeuwen/go-bindata
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/jtolds/gls
+  version: 9a4a02dbe491bef4bab3c24fd9f3087d6c4c6690
+  repo: https://github.com/jtolds/gls
+  vcs: git
+- name: github.com/lucibus/dmx
+  version: 9491cfade92158a9e4faaa0e3f197ea93f3050a3
+  repo: https://github.com/lucibus/dmx
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/mattn/goveralls
+  version: ab8899fb79c331c16aceb42cb85d38d999135f6b
+  repo: https://github.com/mattn/goveralls
+  vcs: git
+- name: github.com/modocache/gover
+  version: aa22dbc29cc3a3dd1b68362e8ab36c0472636bf6
+  repo: https://github.com/modocache/gover
+  vcs: git
+- name: github.com/olahol/melody
+  version: b558902a00435e2ccf1289eb017031809cb889ed
+  repo: https://github.com/olahol/melody
+  vcs: git
+- name: github.com/Sirupsen/logrus
+  version: 27b713cfd2742876645e3692a488c5e3fd65361d
+  repo: https://github.com/Sirupsen/logrus
+  vcs: git
+- name: github.com/smartystreets/assertions
+  version: ac6b6f68ca3d6ac00a360d0fad0c844859ad131b
+  repo: https://github.com/smartystreets/assertions
+  vcs: git
+- name: github.com/smartystreets/goconvey
+  version: bf05a3a16dad006e63e899124a2c6125028f6b31
+  repo: https://github.com/smartystreets/goconvey
+  vcs: git
+  subpackages:
+  - '...'
+- name: github.com/tarm/goserial
+  version: 8e7ad0efbead3dec997247de0e0cba47c10bfcab
+  repo: https://github.com/tarm/goserial
+  vcs: git
+- name: github.com/xeipuuv/gojsonpointer
+  version: 636edb2500d21f2ed09ea96a00deb36bbd07cf70
+  repo: https://github.com/xeipuuv/gojsonpointer
+  vcs: git
+- name: github.com/xeipuuv/gojsonreference
+  version: e02fc20de94c78484cd5ffb007f8af96be030a45
+  repo: https://github.com/xeipuuv/gojsonreference
+  vcs: git
+- name: github.com/xeipuuv/gojsonschema
+  version: 987b638051a365f087b9e7120eb92bb1b1df341b
+  repo: https://github.com/xeipuuv/gojsonschema
+  vcs: git
+- name: golang.org/x/net
+  version: 66f0418ca41253f8d1a024eb9754e9441a8e79b9
+  subpackages:
+  - context
+devImports: []
