@@ -1,4 +1,4 @@
-package: github.com/lucibus/lucibus/binary
+package: github.com/lucibus/lucibus
 import:
   - package: github.com/elazarl/go-bindata-assetfs
     ref:     d5cac425555ca5cf00694df246e04f05e6a55150
